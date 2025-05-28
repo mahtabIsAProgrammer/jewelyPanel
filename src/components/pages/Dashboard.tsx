@@ -1,5 +1,11 @@
 import type { FC } from "react";
 
+import { HeaderPage } from "../common/HeaderPage";
+
 export const Dashboard: FC = () => {
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <HeaderPage title="dashboard" breadcrumbData={[]} justHelmet />
+    </>
+  );
 };

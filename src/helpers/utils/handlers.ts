@@ -56,3 +56,8 @@ export const useMutationWithAlert = <
     { ...alert, close: () => setAlert((prev) => ({ ...prev, open: false })) },
   ];
 };
+
+export const localNavigateHandler = (path: string) => {
+  if (!path.startsWith("/")) location.pathname = location.pathname + "/" + path;
+  else location.assign(path);
+};

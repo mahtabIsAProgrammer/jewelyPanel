@@ -40,3 +40,12 @@ interface IProverbForm {
   onSubmit: (values: Proverbs) => void;
   categoriesData: string[];
 }
+
+type TBreadcrumbsType = "list" | "add" | "edit" | "view" | "detail" | "none";
+
+interface IBreadcrumbsItems {
+  name: string;
+  link: string;
+  localNavigate?: boolean;
+  type: TBreadcrumbsType;
+}

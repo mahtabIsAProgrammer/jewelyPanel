@@ -10,6 +10,7 @@ import {
   ThemeProvider as MaterialCssVarsProvider,
   THEME_ID as MATERIAL_THEME_ID,
 } from "@mui/material/styles";
+import { HelmetProvider } from "react-helmet-async";
 
 import { routes } from "../../routes";
 import { Navbar } from "../common/Navbar";
@@ -47,45 +48,49 @@ const MainLayout: FC = () => {
   return (
     <ThemeProvider theme={themeMUI}>
       <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
-        <SnackbarProvider
-          iconVariant={{
-            success: (
-              <IconButton className="alert-icon">
-                {successAlertICON()}
-              </IconButton>
-            ),
+        <HelmetProvider>
+          <SnackbarProvider
+            iconVariant={{
+              success: (
+                <IconButton className="alert-icon">
+                  {successAlertICON()}
+                </IconButton>
+              ),
 
-            error: (
-              <IconButton className="alert-icon">{errorAlertICON()}</IconButton>
-            ),
-          }}
-          style={{
-            direction: "ltr",
-            backgroundColor: "#000",
-            color: "#fff",
-            fontSize: "14px",
-            fontStyle: "normal",
-            fontWeight: "700",
-            lineHeight: "normal",
-            borderRadius: "12px",
-            boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
-          }}
-        >
-          <Suspense fallback={<Loading />}>
-            <Grid sx={mainLayoutSX(theme, sidebarSize)}>
-              {isLoadingSidebar ? <LoadingSideBar /> : <Sidebar />}
-              <Grid className="content-box">
-                <Navbar />
-                <Grid className="pages-box">
-                  <Grid className="items">
-                    <Suspense fallback={<Loading />}>{children}</Suspense>
+              error: (
+                <IconButton className="alert-icon">
+                  {errorAlertICON()}
+                </IconButton>
+              ),
+            }}
+            style={{
+              direction: "ltr",
+              backgroundColor: "#000",
+              color: "#fff",
+              fontSize: "14px",
+              fontStyle: "normal",
+              fontWeight: "700",
+              lineHeight: "normal",
+              borderRadius: "12px",
+              boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
+            }}
+          >
+            <Suspense fallback={<Loading />}>
+              <Grid sx={mainLayoutSX(theme, sidebarSize)}>
+                {isLoadingSidebar ? <LoadingSideBar /> : <Sidebar />}
+                <Grid className="content-box">
+                  <Navbar />
+                  <Grid className="pages-box">
+                    <Grid className="items">
+                      <Suspense fallback={<Loading />}>{children}</Suspense>
+                    </Grid>
                   </Grid>
+                  m
                 </Grid>
-                m
               </Grid>
-            </Grid>
-          </Suspense>
-        </SnackbarProvider>
+            </Suspense>
+          </SnackbarProvider>
+        </HelmetProvider>
       </MaterialCssVarsProvider>
     </ThemeProvider>
   );
