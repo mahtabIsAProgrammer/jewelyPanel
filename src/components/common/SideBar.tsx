@@ -1,5 +1,63 @@
 import type { FC } from "react";
+import { map } from "lodash";
+import { Grid, Typography } from "@mui/material";
+import { NavLink, useLocation } from "react-router-dom";
 
-export const SideBar: FC = () => {
-  return <div>SideBar</div>;
+import {
+  faqICON,
+  blogICON,
+  userIcon,
+  productICON,
+  commentICON,
+  categoryICON,
+  dashboardICON,
+} from "../others/SvgComponents";
+import { COLOR_WHITE } from "../../helpers/constants/colors";
+import { sidebarSX } from "../../helpers/styles/common/sidebar";
+import { CustomAvatar, CustomIcon } from "../controllers/CustomImage";
+
+export const Sidebar: FC = () => {
+  const location = useLocation();
+  return (
+    <Grid sx={sidebarSX}>
+      <Grid className="profile-info">
+        <CustomAvatar hasBorder src="" />
+        <Grid className="texts">
+          <Typography className="title">Mahtab Salari</Typography>
+          <Typography className="subtitle">Programmer</Typography>
+        </Grid>
+      </Grid>
+      <Grid className="lists">
+        {map(routes, ({ name, url, icon }) => (
+          <NavLink
+            className={location.pathname == url ? "links active" : "links"}
+            to={url}
+          >
+            <Typography className="text">{name}</Typography>
+            <CustomIcon
+              src={icon(location.pathname == url ? COLOR_WHITE : undefined)}
+            />
+          </NavLink>
+        ))}
+      </Grid>
+    </Grid>
+  );
 };
+
+const routes = [
+  {
+    name: "dashboard",
+    url: "/",
+    icon: dashboardICON,
+  },
+  {
+    name: "users",
+    url: "/users",
+    icon: userIcon,
+  },
+  { name: "products", url: "/products", icon: productICON },
+  { name: "comments", url: "/comments", icon: commentICON },
+  { name: "blogs", url: "/blogs", icon: blogICON },
+  { name: "categories", url: "/categories", icon: categoryICON },
+  { name: "faqs", url: "/faqs", icon: faqICON },
+];

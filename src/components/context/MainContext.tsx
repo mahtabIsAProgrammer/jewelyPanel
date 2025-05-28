@@ -1,19 +1,24 @@
 import {
   type FC,
-  type ProviderProps,
-  createContext,
   useMemo,
   useState,
+  useCallback,
+  type ProviderProps,
 } from "react";
 
-export const MainContext = createContext<IMainContext>({
-  theme: "light",
-  changeTheme: () => undefined,
-  toggleTheme: () => undefined,
-});
+import { MainContext } from "../../helpers/others/mainContext";
+import { DEFAULT_SIDE_BAR_SIZE } from "../../helpers/constants/static";
 
 export const MainContextProvider: FC<IMainContextProvider> = ({ children }) => {
   const [theme, setTheme] = useState<TTheme>("light");
+
+  const [sidebarSize, setSidebarSize] = useState<TSidebarSize>(
+    DEFAULT_SIDE_BAR_SIZE
+  );
+
+  const changeSidebarSize = useCallback((sidebarSize: TSidebarSize) => {
+    setSidebarSize(sidebarSize);
+  }, []);
 
   const toggleTheme = () => {
     setTheme((prevMode) => (prevMode === "light" ? "dark" : "light"));
@@ -29,8 +34,10 @@ export const MainContextProvider: FC<IMainContextProvider> = ({ children }) => {
       theme,
       toggleTheme,
       changeTheme,
+      sidebarSize,
+      changeSidebarSize,
     }),
-    [theme]
+    [changeSidebarSize, sidebarSize, theme]
   );
 
   return <MainContext.Provider value={value}>{children}</MainContext.Provider>;

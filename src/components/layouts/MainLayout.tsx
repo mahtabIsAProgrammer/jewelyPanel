@@ -1,4 +1,4 @@
-import { type FC, Suspense, useEffect } from "react";
+import { type FC, Suspense, useContext, useEffect } from "react";
 
 import { SnackbarProvider } from "notistack";
 import { useLocation, useRoutes } from "react-router-dom";
@@ -12,13 +12,15 @@ import {
 } from "@mui/material/styles";
 
 import { routes } from "../../routes";
+import { Navbar } from "../common/Navbar";
+import { Sidebar } from "../common/Sidebar";
 import { Loading, LoadingSideBar } from "../common/Loading";
 import { FONT_FAMILY } from "../../helpers/constants/static";
+import { MainContext } from "../../helpers/others/mainContext";
+import { mainLayoutSX } from "../../helpers/styles/common/main";
 import { FONT_WEIGHT_REGULAR } from "../../helpers/constants/fonts";
 import { COLOR_PRIMARY, COLOR_TEXT } from "../../helpers/constants/colors";
 import { errorAlertICON, successAlertICON } from "../others/SvgComponents";
-import { SideBar } from "../common/SideBar";
-import { Navbar } from "../common/Navbar";
 
 const MainLayout: FC = () => {
   const children = useRoutes(routes);
@@ -36,6 +38,7 @@ const MainLayout: FC = () => {
   });
 
   const materialTheme = materialExtendTheme(themeMUI);
+  const { theme, sidebarSize } = useContext(MainContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -69,10 +72,8 @@ const MainLayout: FC = () => {
           }}
         >
           <Suspense fallback={<Loading />}>
-            {" "}
-            <Grid // sx={DashboardLayoutSX(theme, sidebarSize)}
-            >
-              {isLoadingSidebar ? <LoadingSideBar /> : <SideBar />}
+            <Grid sx={mainLayoutSX(theme, sidebarSize)}>
+              {isLoadingSidebar ? <LoadingSideBar /> : <Sidebar />}
               <Grid className="content-box">
                 <Navbar />
                 <Grid className="pages-box">
@@ -80,6 +81,7 @@ const MainLayout: FC = () => {
                     <Suspense fallback={<Loading />}>{children}</Suspense>
                   </Grid>
                 </Grid>
+                m
               </Grid>
             </Grid>
           </Suspense>
