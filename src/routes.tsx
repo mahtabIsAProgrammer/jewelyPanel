@@ -64,7 +64,7 @@ export const routes: RouteObject[] = [
         ],
       },
       {
-        path: "/faq",
+        path: "/faqs",
         children: [
           { index: true, element: <Faqs /> },
           { path: "add", element: <FaqsAddEdit /> },

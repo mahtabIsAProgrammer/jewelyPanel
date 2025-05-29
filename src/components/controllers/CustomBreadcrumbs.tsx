@@ -28,20 +28,7 @@ export const CustomBreadCrumbs = memo<ICustomBreadcrumbs>(
     return (
       <Breadcrumbs
         className="breadcrumbs"
-        separator={
-          separator || (
-            <Box
-              component="div"
-              sx={{
-                width: "16px",
-                height: "16px",
-                "& svg": { width: "16px", height: "16px" },
-              }}
-            >
-              {arrowLeftICON()}
-            </Box>
-          )
-        }
+        separator={separator || <Box component="div">{arrowLeftICON()}</Box>}
         aria-label="breadcrumb"
         sx={breadcrumbsSX}
       >

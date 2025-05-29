@@ -415,14 +415,39 @@ export const dashboardICON = (color?: string) => (
 export const arrowLeftICON = (color?: string) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
+    width="12"
+    height="12"
     viewBox="0 0 24 24"
     fill="none"
   >
     <path
       d="M15 5L9 12L15 19"
       stroke={color || "#1C274C"}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const addICON = (color?: string) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6 12H18"
+      stroke={color || "#FFFFFF"}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12 18V6"
+      stroke={color || "#FFFFFF"}
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"

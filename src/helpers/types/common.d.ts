@@ -49,3 +49,9 @@ interface IBreadcrumbsItems {
   localNavigate?: boolean;
   type: TBreadcrumbsType;
 }
+
+interface IHeaderCell {
+  id: string;
+  label: string;
+  align?: "left" | "right" | "center";
+}
