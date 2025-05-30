@@ -17,14 +17,18 @@ import {
   FONT_WEIGHT_BLOD,
 } from "../../helpers/constants/fonts";
 import { SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
-import { COLOR_PRIMARY, COLOR_TEXT } from "../../helpers/constants/colors";
+import {
+  COLOR_BACKGROUND,
+  COLOR_PRIMARY,
+  COLOR_TEXT,
+} from "../../helpers/constants/colors";
 
 interface IOption {
   label: string;
   value: number | string;
 }
 
-interface ICustomAutoComplete
+export interface ICustomAutoComplete
   extends Omit<
     AutocompleteProps<
       IOption,
@@ -44,7 +48,7 @@ const filterOptions = (
 ) => {
   //const filtered = filter(options, params);
   const { inputValue } = params;
-  const filtered = filter(options, ({ label }: TAny) => {
+  const filtered = filter(options, ({ label }) => {
     return label?.toLowerCase()?.includes(inputValue);
   });
 
@@ -94,14 +98,13 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
         className="autocomplete-chip-wrapper"
       >
         <Autocomplete
-          multiple
           freeSolo
           {...props}
           id="tags-filled"
           options={options}
-          // getOptionLabel={(option) =>
-          //   typeof option === "string" ? option : option.label
-          // }
+          getOptionLabel={(option) =>
+            typeof option === "string" ? option : option.label
+          }
           // isOptionEqualToValue={(option, value) => option.value === value.value}
           slotProps={{ listbox: { sx: autocompleteOptionsSX } }}
           filterOptions={(options: IOption[], params) =>
@@ -137,7 +140,7 @@ const autocompleteOptionsSX: SxProps<Theme> = {
   gap: 0,
   display: "flex",
   flexDirection: "column",
-  backgroundColor: "#000",
+  backgroundColor: COLOR_BACKGROUND,
   borderRadius: "8px",
   border: "1px solid" + COLOR_PRIMARY,
   "& .MuiAutocomplete-option": {

@@ -29,9 +29,6 @@ export const CustomTextfield = memo<TCustomTextfield>(
     return (
       <Grid className="textfield-wrapper" sx={textfieldSX}>
         <TextField {...props} />
-        {!errorMessege?.text && (
-          <Typography sx={{ height: "18px" }}></Typography>
-        )}
         {errorMessege?.text && (
           <Typography className="error-messege">
             {errorIcon()}
