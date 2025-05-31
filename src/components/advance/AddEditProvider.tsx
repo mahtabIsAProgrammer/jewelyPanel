@@ -38,7 +38,7 @@ interface IAddEditProvider {
     form: {
       validations: TEmptyFunctionVoid;
       initialValues: Record<string, TAny>;
-      onSubmit: (values: Record<string, TAny>) => void;
+      onSubmit: (values: TAny) => void;
       onCancel?: () => void;
       loading?: boolean;
     };

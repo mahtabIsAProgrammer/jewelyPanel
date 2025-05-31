@@ -1,32 +1,21 @@
 import { type FC } from "react";
 import { PageProvider } from "../../advance/PageProvider";
+import { useUserSearch } from "../../../services/hooks/users";
 
-const index: FC = () => {
+const List: FC = () => {
+  const { data: userSearch, isLoading } = useUserSearch();
+
   return (
     <PageProvider
-      isLoading={false}
+      isLoading={isLoading}
       buttonLink="add"
       headerCells={[
         { id: "imageUrl", label: "image" },
-        { id: "firstName", label: "First Name" },
-        { id: "lastName", label: "Last Name" },
+        { id: "fullName", label: "Full Name" },
         { id: "email", label: "Email" },
+        { id: "gender", label: "gender" },
       ]}
-      data={[
-        {
-          id: 1,
-          firstName: "Alice",
-          email: "alice@example.com",
-          role: "Admin",
-        },
-        { id: 2, firstName: "Bob", email: "bob@example.com", role: "User" },
-        {
-          id: 3,
-          firstName: "Charlie",
-          email: "charlie@example.com",
-          role: "Moderator",
-        },
-      ]}
+      data={userSearch}
       title={"Users"}
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
@@ -37,4 +26,4 @@ const index: FC = () => {
   );
 };
 
-export default index;
+export default List;

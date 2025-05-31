@@ -1,13 +1,16 @@
 import type { FC } from "react";
 import { PageProvider } from "../../advance/PageProvider";
+import { useCategoriesSearch } from "../../../services/hooks/categories";
 
-const index: FC = () => {
+const List: FC = () => {
+  const { data: categoriesSearch, isLoading } = useCategoriesSearch();
+
   return (
     <PageProvider
-      isLoading={false}
+      isLoading={isLoading}
       buttonLink="add"
-      headerCells={[]}
-      data={[]}
+      headerCells={[{ id: "name", label: "name" }]}
+      data={categoriesSearch}
       title={"categories"}
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
@@ -18,4 +21,4 @@ const index: FC = () => {
   );
 };
 
-export default index;
+export default List;

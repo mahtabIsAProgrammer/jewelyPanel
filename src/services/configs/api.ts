@@ -2,16 +2,16 @@ import apiClient from "./apiClient";
 
 // users
 export const getAllUsers = (params?: { search?: string }) =>
-  apiClient.get("/user", { params }).then((res) => res.data);
+  apiClient.get("/users", { params }).then((res) => res.data);
 
-export const getUserById = (id: number) => apiClient.get(`user/${id}`);
+export const getUserById = (id: number) => apiClient.get(`users/${id}`);
 
-export const createUser = (data: Users) => apiClient.post("/user", data);
+export const createUser = (data: Users) => apiClient.post("/users", data);
 
 export const updateUser = (id: number, data: Users) =>
-  apiClient.put(`/user/${id}`, data);
+  apiClient.put(`/users/${id}`, data);
 
-export const deleteUser = (id: number) => apiClient.delete(`/user/${id}`);
+export const deleteUser = (id: number) => apiClient.delete(`/users/${id}`);
 
 // products
 export const getAllProducts = (params?: { search?: string }) =>

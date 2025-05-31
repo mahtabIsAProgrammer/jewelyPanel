@@ -1,13 +1,20 @@
 import type { FC } from "react";
 import { PageProvider } from "../../advance/PageProvider";
+import { useBlogSearch } from "../../../services/hooks/blogs";
 
-const index: FC = () => {
+const List: FC = () => {
+  const { data: blogSearch, isLoading } = useBlogSearch();
+
   return (
     <PageProvider
-      isLoading={false}
+      isLoading={isLoading}
       buttonLink="add"
-      headerCells={[]}
-      data={[]}
+      headerCells={[
+        { id: "thumbnail", label: "image" },
+        { id: "title", label: "title" },
+        { id: "authorName", label: "authorName" },
+      ]}
+      data={blogSearch}
       title={"blogs"}
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
@@ -18,4 +25,4 @@ const index: FC = () => {
   );
 };
 
-export default index;
+export default List;

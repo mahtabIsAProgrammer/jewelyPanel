@@ -24,7 +24,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
       title="User"
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
-        { name: "users", link: "", type: "list" },
+        { name: "users", link: "/users", type: "list" },
         { name: "users", link: "", type: "add" },
       ]}
       isEdit={isEdit}

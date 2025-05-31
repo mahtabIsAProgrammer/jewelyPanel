@@ -1,12 +1,20 @@
 import type { FC } from "react";
 import { PageProvider } from "../../advance/PageProvider";
-const index: FC = () => {
+import { useProductSearch } from "../../../services/hooks/products";
+const List: FC = () => {
+  const { data: productSearch, isLoading } = useProductSearch();
+
   return (
     <PageProvider
-      isLoading={false}
+      isLoading={isLoading}
       buttonLink="add"
-      headerCells={[]}
-      data={[]}
+      headerCells={[
+        { id: "image", label: "image" },
+        { id: "name", label: "name" },
+        { id: "price", label: "price" },
+        { id: "brand", label: "brand" },
+      ]}
+      data={productSearch}
       title={"products"}
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
@@ -17,4 +25,4 @@ const index: FC = () => {
   );
 };
 
-export default index;
+export default List;

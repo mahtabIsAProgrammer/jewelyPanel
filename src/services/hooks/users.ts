@@ -7,10 +7,7 @@ import {
   updateUser,
 } from "../configs/api";
 
-export const useUserSearch = (filters?: {
-  search?: string;
-  category?: string;
-}) => {
+export const useUserSearch = (filters?: { search?: string }) => {
   return useQuery({
     queryKey: ["users-search", filters],
     queryFn: () => getAllUsers(filters),
