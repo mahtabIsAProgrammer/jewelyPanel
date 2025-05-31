@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { addEditPrivderSX } from "../../helpers/styles/advance";
 import { HeaderPage } from "../common/HeaderPage";
 import { type FC } from "react";
@@ -13,41 +13,59 @@ import {
 import { useFormik } from "formik";
 import { CustomButton } from "../controllers/CustomButton";
 import { isArray } from "lodash";
+import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
+import { type IProfileUploader } from "../common/Uploader";
+
+interface IInputs {
+  columnGridSize: TColumnGridSize;
+  side?: {
+    profileUploader?: {
+      name: string;
+      props: IProfileUploader;
+    };
+    fileUploader?: {
+      name: string;
+      // props: IUploaderFile;
+    };
+    columnGridSize?: TColumnGridSize;
+  };
+  fields: Array<
+    | {
+        type: "textfield";
+        props: TCustomTextfield;
+        name: string;
+      }
+    | {
+        type: "autocomplete";
+        props: ICustomAutoComplete;
+        name: string;
+      }
+    | {
+        type: "select";
+        props: ICustomSelect;
+        name: string;
+      }
+  >;
+  form: {
+    validations: TEmptyFunctionVoid;
+    initialValues: Record<string, TAny>;
+    onSubmit: (values: TAny) => void;
+    onCancel?: () => void;
+    loading?: boolean;
+  };
+}
 
 interface IAddEditProvider {
   title: string;
   breadcrumbs: IBreadcrumbsItems[];
   isEdit?: boolean;
   isLoading: boolean;
-  inputs?: {
-    columnGridSize: TColumnGridSize;
-    fields: Array<
-      | {
-          type: "textfield";
-          props: TCustomTextfield;
-          name: string;
-        }
-      | {
-          type: "autocomplete";
-          props: ICustomAutoComplete;
-          name: string;
-        }
-    >;
-
-    side?: string;
-    form: {
-      validations: TEmptyFunctionVoid;
-      initialValues: Record<string, TAny>;
-      onSubmit: (values: TAny) => void;
-      onCancel?: () => void;
-      loading?: boolean;
-    };
-  };
+  inputs?: IInputs;
 }
 
 export const AddEditProvider: FC<IAddEditProvider> = ({
   breadcrumbs,
-  isLoading,
+  // isLoading,
   title,
   inputs,
   isEdit,
@@ -71,17 +89,14 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
         title={isEdit ? "Edit" : "Add " + title}
         breadcrumbData={breadcrumbs}
       />
-      <Box component={Paper} className="page-container">
-        {isLoading ? (
-          <Box>loading...</Box>
-        ) : inputs ? (
+      <Box className="page-container">
+        {inputs ? (
           <Box
-            className="form"
+            className="form-container"
             component="form"
             method="post"
             onSubmit={formIK.handleSubmit}
           >
-            {" "}
             <Grid className="grid-container">
               <Grid container className="inputs-wrapper">
                 {inputs.fields.map((field, index) => {
@@ -115,6 +130,42 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
                 )}
               </Box>
             </Grid>
+
+            {/* {inputs?.side?.profileUploader && (
+              <ProfileUploader
+                {...(sideData?.profileUploader.props ?? {})}
+                defaultValue={
+                  formIK.values[sideData?.profileUploader.name] ?? undefined
+                }
+                filesState={(value) =>
+                  sideData?.profileUploader &&
+                  sideData?.profileUploader.name &&
+                  formIK.values[sideData?.profileUploader.name] !== value &&
+                  formIK.setFieldValue(sideData?.profileUploader.name, value)
+                }
+                thumbnailsState={(value) =>
+                  sideData?.profileUploader &&
+                  sideData?.profileUploader?.thumbName &&
+                  formIK.values[sideData?.profileUploader?.thumbName] !==
+                    value &&
+                  formIK.setFieldValue(
+                    sideData?.profileUploader?.thumbName,
+                    value
+                  )
+                }
+                errorMessage={
+                  sideData?.profileUploader.name &&
+                  formIK.errors[sideData?.profileUploader.name]
+                    ? {
+                        message: formIK.errors[
+                          sideData?.profileUploader.name
+                        ] as string,
+                        type: "error",
+                      }
+                    : sideData?.profileUploader?.props?.errorMessage
+                }
+              />
+            )} */}
           </Box>
         ) : null}
       </Box>
@@ -122,7 +173,7 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
   );
 };
 
-const InputItems = ({ type, props, name, formIK, columnGridSize }) => {
+const InputItems = ({ type, props, name, formIK, columnGridSize }: TAny) => {
   let result;
 
   switch (type) {
@@ -131,7 +182,7 @@ const InputItems = ({ type, props, name, formIK, columnGridSize }) => {
         <CustomTextfield
           fullWidth
           name={name}
-          errorMessege={{ text: formIK && formIK.errors[name] }}
+          errorMessage={{ text: formIK && formIK.errors[name] }}
           onChange={formIK.handleChange}
           value={formIK.values[name]}
           {...props}
@@ -142,20 +193,45 @@ const InputItems = ({ type, props, name, formIK, columnGridSize }) => {
     case "autocomplete":
       result = (
         <CustomAutoComplete
-          errorMessege={{ text: formIK && formIK.errors[name] }}
-          {...props}
           onChange={(_, newValue) => {
             const values = isArray(newValue)
               ? newValue?.map((item: TAny) =>
                   typeof item === "string" ? item : item.value
                 )
               : newValue;
-            formIK.setFieldValue("categories", values);
+            formIK.setFieldValue(name, values);
           }}
           value={formIK.values[name]}
+          errorMessage={
+            formIK && formIK.errors[name]
+              ? {
+                  text: formIK && formIK.errors[name],
+                }
+              : props?.errorMessage
+          }
+          {...(props ?? { options: [] })}
         />
       );
       break;
+
+    case "select":
+      result = (
+        <CustomSelect
+          name={name}
+          value={(formIK && formIK.values[name]) ?? ""}
+          onChange={formIK && formIK.handleChange}
+          errorMessage={
+            formIK && formIK.errors[name]
+              ? {
+                  text: formIK && formIK.errors[name],
+                }
+              : props?.errorMessage
+          }
+          {...(props ?? { items: [] })}
+        />
+      );
+      break;
+
     default:
       break;
   }

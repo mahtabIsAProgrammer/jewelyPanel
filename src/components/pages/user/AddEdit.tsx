@@ -35,12 +35,31 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "fullName",
-            props: { label: "Full Name" },
+            props: { customLabel: "Full Name" },
           },
-          { type: "textfield", name: "email", props: { label: "Email" } },
-          { type: "textfield", name: "gender", props: { label: "Gender" } },
-          { type: "textfield", name: "password", props: { label: "Password" } },
-          { type: "textfield", name: "imageUrl", props: { label: "ImageUrl" } },
+          { type: "textfield", name: "email", props: { customLabel: "Email" } },
+          {
+            type: "select",
+            name: "gender",
+            props: {
+              customLabel: "Gender",
+              items: [
+                { label: "female", value: 1 },
+                { label: "male", value: 2 },
+                { label: "other", value: 3 },
+              ],
+            },
+          },
+          {
+            type: "textfield",
+            name: "password",
+            props: { customLabel: "Password", type: "password" },
+          },
+          {
+            type: "textfield",
+            name: "imageUrl",
+            props: { customLabel: "ImageUrl" },
+          },
         ],
         form: {
           initialValues: {

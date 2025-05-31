@@ -1,32 +1,33 @@
 import {
-  Chip,
   Grid,
   Autocomplete,
   type Theme,
   type SxProps,
   type AutocompleteProps,
   type FilterOptionsState,
+  Box,
 } from "@mui/material";
 import { memo } from "react";
 import { filter, isArray } from "lodash";
 
 import { CustomTextfield } from "./CustomTextfield";
 import {
-  FONT_CAPTION,
   FONT_SMALL_TEXT,
-  FONT_WEIGHT_BLOD,
+  FONT_WEIGHT_MEDUIM,
 } from "../../helpers/constants/fonts";
-import { SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
 import {
-  COLOR_BACKGROUND,
+  SPACE_LG,
+  SPACE_MD,
+  SPACE_SM,
+  SPACE_XS,
+} from "../../helpers/constants/spaces";
+import {
   COLOR_PRIMARY,
   COLOR_TEXT,
+  COLOR_WHITE,
 } from "../../helpers/constants/colors";
-
-interface IOption {
-  label: string;
-  value: number | string;
-}
+import { CustomChip } from "./CustomChip";
+import { STYLE_AUTOCOMPLETE_ITEMS } from "../../helpers/constants/material";
 
 export interface ICustomAutoComplete
   extends Omit<
@@ -38,10 +39,24 @@ export interface ICustomAutoComplete
     >,
     "renderInput"
   > {
-  loading?: boolean;
-  errorMessege?: { text: string };
   label: string;
+  loading?: boolean;
+  errorMessage?: IErrorMessage;
+  customLabel: string;
 }
+
+const EMPTY_VALUE = "nothing found!";
+const noOptionsText = (
+  <Box
+    sx={{
+      color: COLOR_PRIMARY,
+      textAlign: "center",
+      width: "100%",
+    }}
+  >
+    {EMPTY_VALUE}
+  </Box>
+);
 const filterOptions = (
   options: IOption[],
   params: FilterOptionsState<IOption>
@@ -65,18 +80,9 @@ const renderValue = (
     const { key, ...itemProps } = getItemProps({ index });
 
     return (
-      <Chip
-        variant="outlined"
-        sx={{
-          color: COLOR_TEXT,
-          "& .MuiChip-deleteIcon": {
-            color: COLOR_PRIMARY,
-            "&:hover": {
-              transition: "0.4s",
-              color: COLOR_PRIMARY + "80",
-            },
-          },
-        }}
+      <CustomChip
+        color="primary"
+        sx={{ marginRight: `${SPACE_XS} !important` }}
         label={
           typeof option === "object" && "label" in option
             ? option.label
@@ -90,7 +96,7 @@ const renderValue = (
 };
 
 export const CustomAutoComplete = memo<ICustomAutoComplete>(
-  ({ errorMessege, options, label, ...props }) => {
+  ({ errorMessage, options, customLabel, ...props }) => {
     return (
       <Grid
         sx={customAutoCompleteSX}
@@ -98,15 +104,14 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
         className="autocomplete-chip-wrapper"
       >
         <Autocomplete
-          freeSolo
           {...props}
+          noOptionsText={noOptionsText}
           id="tags-filled"
           options={options}
           getOptionLabel={(option) =>
             typeof option === "string" ? option : option.label
           }
-          // isOptionEqualToValue={(option, value) => option.value === value.value}
-          slotProps={{ listbox: { sx: autocompleteOptionsSX } }}
+          slotProps={{ listbox: { sx: STYLE_AUTOCOMPLETE_ITEMS } }}
           filterOptions={(options: IOption[], params) =>
             filterOptions(options, params)
           }
@@ -115,8 +120,8 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
             <CustomTextfield
               sx={{ textAlign: "right" }}
               {...params}
-              label={label}
-              errorMessege={errorMessege}
+              customLabel={customLabel}
+              errorMessage={errorMessage}
             />
           )}
         />
@@ -126,51 +131,56 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
 );
 
 const customAutoCompleteSX: SxProps<Theme> = {
-  width: "100%",
-  "& .MuiPaper-root": {
-    backgroundColor: "#000",
-    border: "1px solid" + COLOR_PRIMARY,
+  "& .MuiInputBase-root": {
+    borderRadius: "12px",
+    paddingRight: `${SPACE_MD} !important`,
+    "&.Mui-focused": {
+      backgroundColor: `${`${COLOR_PRIMARY}20`}10`,
+    },
   },
-};
-const autocompleteOptionsSX: SxProps<Theme> = {
-  p: 0,
-  overflowY: "auto",
-  maxHeight: "150px",
-  fontSize: FONT_SMALL_TEXT,
-  gap: 0,
-  display: "flex",
-  flexDirection: "column",
-  backgroundColor: COLOR_BACKGROUND,
-  borderRadius: "8px",
-  border: "1px solid" + COLOR_PRIMARY,
+  "& div.MuiAutocomplete-endAdornment": {
+    position: "absolute",
+    right: "12px !important",
+  },
+  "& .MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-endAdornment":
+    {
+      right: "0",
+    },
+  "& .MuiAutocomplete-popper": {
+    width: { xs: "100%", md: "450px" },
+    my: `${SPACE_SM} !important`,
+    boxShadow: "unset !important",
+    borderRadius: `12px`,
+    "& .MuiPaper-root ": {
+      py: SPACE_XS,
+      maxHeight: "340px",
+      minWidth: "100px !important",
+      overflowY: "hidden",
+      background: COLOR_WHITE,
+      pl: `${SPACE_LG} !important`,
+      pr: `${SPACE_MD} !important`,
+      borderRadius: "12px",
+    },
+  },
+  "& .MuiInputBase-input": {
+    color: `${COLOR_TEXT} !important`,
+    paddingRight: `${SPACE_XS} !important`,
+    fontSize: `${FONT_SMALL_TEXT} !important`,
+    fontWeight: `${FONT_WEIGHT_MEDUIM} !important`,
+    "::placeholder": {
+      color: "#919EAB",
+    },
+  },
   "& .MuiAutocomplete-option": {
-    mb: SPACE_XS,
-    border: "none",
     display: "flex",
-    textAlign: "left",
-    alignItems: "center",
-    height: "fit-content",
-    minHeight: "fit-content",
-    width: "97% !important",
     justifyContent: "flex-start",
-    borderRadius: "",
-    p: SPACE_SM,
-    "& p": {
-      height: "max-content",
-      color: COLOR_TEXT,
-      fontSize: FONT_CAPTION,
-      fontWeight: FONT_WEIGHT_BLOD,
-    },
-    "& .local-checkbox": {
-      width: "24px",
-      height: "24px",
-    },
+    mb: SPACE_XS,
+    height: "45px",
+    width: "97% !important",
+    borderRadius: "8px",
+    fontSize: `${FONT_SMALL_TEXT} !important`,
     "&:hover": {
-      backgroundColor: COLOR_PRIMARY + "30",
+      background: `${"#919EAB"}20`,
     },
-  },
-
-  "&::-webkit-scrollbar": {
-    width: "2px",
   },
 };

@@ -54,7 +54,7 @@ export const CustomTable: FC<ICustomTable> = ({
                 ))}
               </TableRow>
             ))
-          ) : valueRows.length === 0 ? (
+          ) : valueRows?.length === 0 ? (
             <TableRow>
               <TableCell colSpan={headerCells?.length} align="center">
                 <Box p={3}>
@@ -65,7 +65,7 @@ export const CustomTable: FC<ICustomTable> = ({
               </TableCell>
             </TableRow>
           ) : (
-            valueRows.map((row, rowIndex) => (
+            valueRows?.map((row, rowIndex) => (
               <TableRow key={rowIndex} hover>
                 {headerCells.map(({ id, ComponentRow, align }) => (
                   <CustomTableCell
@@ -108,7 +108,7 @@ const CustomTableCell = memo<ICustomTableCell>(
 
 const tableContainerSX: SxProps<Theme> = {
   width: "100%",
-  my: SPACE_LG,
+  mb: SPACE_LG,
   borderRadius: "12px",
   "& .MuiTable-root": {
     width: "100%",

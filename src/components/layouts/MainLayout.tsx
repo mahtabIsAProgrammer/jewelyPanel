@@ -19,8 +19,16 @@ import { Loading, LoadingSideBar } from "../common/Loading";
 import { FONT_FAMILY } from "../../helpers/constants/static";
 import { MainContext } from "../../helpers/others/mainContext";
 import { mainLayoutSX } from "../../helpers/styles/common/main";
-import { FONT_WEIGHT_REGULAR } from "../../helpers/constants/fonts";
-import { COLOR_PRIMARY, COLOR_TEXT } from "../../helpers/constants/colors";
+import {
+  FONT_SMALL_TEXT,
+  FONT_WEIGHT_BLOD,
+  FONT_WEIGHT_REGULAR,
+} from "../../helpers/constants/fonts";
+import {
+  COLOR_PRIMARY,
+  COLOR_TEXT,
+  COLOR_WHITE,
+} from "../../helpers/constants/colors";
 import { errorAlertICON, successAlertICON } from "../others/SvgComponents";
 
 const MainLayout: FC = () => {
@@ -65,11 +73,11 @@ const MainLayout: FC = () => {
             }}
             style={{
               direction: "ltr",
-              backgroundColor: "#000",
-              color: "#fff",
-              fontSize: "14px",
+              backgroundColor: COLOR_WHITE,
+              color: COLOR_TEXT,
+              fontSize: FONT_SMALL_TEXT,
               fontStyle: "normal",
-              fontWeight: "700",
+              fontWeight: FONT_WEIGHT_BLOD,
               lineHeight: "normal",
               borderRadius: "12px",
               boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",

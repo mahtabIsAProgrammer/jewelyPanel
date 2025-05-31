@@ -72,7 +72,7 @@ export const PageProvider: FC<IPageProvider> = ({
         }}
         otherComponent={otherComponentHeader}
       />
-      <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
+      <Box sx={{ display: "flex", gap: 2 }}>
         <CustomTextfield
           label="Search"
           variant="outlined"
