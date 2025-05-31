@@ -12,35 +12,6 @@ interface ICustomLabel {
   size?: TStandardSize;
 }
 
-interface IProverbCard {
-  id: string;
-  meaning?: string;
-  germanText: string;
-  persionText: string;
-  englishText: string;
-  isDetailPage?: boolean;
-  isRandomPage?: boolean;
-  categories: string | string[];
-  refetch?: TAny;
-  onEdit?: TEmptyFunctionVoid;
-  onDelete?: TEmptyFunctionVoid;
-}
-interface IProverbForm {
-  open: boolean;
-  onClose: TEmptyFunctionVoid;
-  title: string;
-  initialValues: {
-    persionText: string;
-    englishText: string;
-    germanText: string;
-    meaning: string;
-    categories: string[];
-  };
-  validationFunctions: () => object;
-  onSubmit: (values: Proverbs) => void;
-  categoriesData: string[];
-}
-
 type TBreadcrumbsType = "list" | "add" | "edit" | "view" | "detail" | "none";
 
 interface IBreadcrumbsItems {
@@ -50,8 +21,9 @@ interface IBreadcrumbsItems {
   type: TBreadcrumbsType;
 }
 
-interface IHeaderCell {
-  id: string;
+interface IHeaderCell<T = TAny> {
+  id: keyof T;
   label: string;
   align?: "left" | "right" | "center";
+  ComponentRow?: FC<{ row: T }>;
 }

@@ -9,7 +9,11 @@ import {
 import { type DOMAttributes, memo } from "react";
 
 import { FONT_BUTTON, FONT_WEIGHT_BLOD } from "../../helpers/constants/fonts";
-import { COLOR_PRIMARY, COLOR_TEXT } from "../../helpers/constants/colors";
+import {
+  COLOR_PRIMARY,
+  COLOR_TEXT,
+  COLOR_WHITE,
+} from "../../helpers/constants/colors";
 import { SPACE_LG, SPACE_SM } from "../../helpers/constants/spaces";
 
 export type TCustomButton = ButtonTypeMap<
@@ -39,21 +43,15 @@ const buttonSX: SxProps<Theme> = {
   fontWeight: FONT_WEIGHT_BLOD,
   lineHeight: "22px",
   boxShadow: "none",
-  borderRadius: "20px",
+  borderRadius: "10px",
   fontSize: FONT_BUTTON,
   textTransform: "capitalize",
   outline: "1px solid transparent",
   "&.MuiButton-contained": {
     transition: "0.3s",
-    color: COLOR_TEXT,
+    color: COLOR_WHITE,
     background: COLOR_PRIMARY,
     border: `1px solid transparent`,
-    "&:hover": {
-      boxShadow: "none",
-      color: COLOR_TEXT,
-      backgroundColor: "transparent",
-      outline: "1px solid " + COLOR_PRIMARY,
-    },
   },
   "&.MuiButton-outlined": {
     color: COLOR_TEXT,

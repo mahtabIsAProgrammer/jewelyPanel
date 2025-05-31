@@ -16,7 +16,11 @@ import {
   FONT_SMALL_TEXT,
   FONT_WEIGHT_REGULAR,
 } from "../../helpers/constants/fonts";
-import { COLOR_PRIMARY, COLOR_TEXT } from "../../helpers/constants/colors";
+import {
+  COLOR_PRIMARY,
+  COLOR_TEXT,
+  COLOR_WHITE,
+} from "../../helpers/constants/colors";
 
 export type TCustomTextfield =
   | {
@@ -57,6 +61,7 @@ const textfieldSX: SxProps<Theme> = {
         fontSize: FONT_SMALL_TEXT,
         fontWeight: FONT_WEIGHT_REGULAR,
         color: COLOR_TEXT,
+        backgroundColor: COLOR_WHITE,
       },
       "&.MuiInput-underline ": {
         "&:before": {

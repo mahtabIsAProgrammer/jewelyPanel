@@ -1,7 +1,7 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Paper } from "@mui/material";
 import { addEditPrivderSX } from "../../helpers/styles/advance";
 import { HeaderPage } from "../common/HeaderPage";
-import type { FC } from "react";
+import { type FC } from "react";
 import {
   CustomTextfield,
   type TCustomTextfield,
@@ -20,6 +20,7 @@ interface IAddEditProvider {
   isEdit?: boolean;
   isLoading: boolean;
   inputs?: {
+    columnGridSize: TColumnGridSize;
     fields: Array<
       | {
           type: "textfield";
@@ -70,57 +71,34 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
         title={isEdit ? "Edit" : "Add " + title}
         breadcrumbData={breadcrumbs}
       />
-      <Box p={4}>
+      <Box component={Paper} className="page-container">
         {isLoading ? (
-          <Box display="flex" justifyContent="center" py={5}>
-            loading...
-          </Box>
+          <Box>loading...</Box>
         ) : inputs ? (
-          <Box component="form" method="post" onSubmit={formIK.handleSubmit}>
+          <Box
+            className="form"
+            component="form"
+            method="post"
+            onSubmit={formIK.handleSubmit}
+          >
             {" "}
-            <Grid>
-              <Box display="flex" flexDirection="column" gap={3}>
+            <Grid className="grid-container">
+              <Grid container className="inputs-wrapper">
                 {inputs.fields.map((field, index) => {
-                  const error =
-                    formIK.touched[field.name] && formIK.errors[field.name];
-                  switch (field.type) {
-                    case "textfield":
-                      return (
-                        <CustomTextfield
-                          key={index}
-                          fullWidth
-                          name={field.name}
-                          error={Boolean(error)}
-                          errorMessege={{ text: error as string }}
-                          onChange={formIK.handleChange}
-                          value={formIK.values[field.name]}
-                          {...field.props}
-                        />
-                      );
-                    case "autocomplete":
-                      return (
-                        <CustomAutoComplete
-                          key={index}
-                          errorMessege={{ text: error as string }}
-                          {...field.props}
-                          onChange={(_, newValue) => {
-                            const values = isArray(newValue)
-                              ? newValue?.map((item: TAny) =>
-                                  typeof item === "string" ? item : item.value
-                                )
-                              : newValue;
-                            formIK.setFieldValue("categories", values);
-                          }}
-                          value={formIK.values[field.name]}
-                        />
-                      );
-                    default:
-                      return null;
-                  }
+                  return (
+                    <InputItems
+                      key={index}
+                      type={field.type}
+                      props={field.props}
+                      name={field.name}
+                      formIK={formIK}
+                      columnGridSize={inputs.columnGridSize}
+                    />
+                  );
                 })}
-              </Box>
+              </Grid>
 
-              <Box mt={4} display="flex" gap={2}>
+              <Box className="buttons-wrapper">
                 <CustomButton
                   type="submit"
                   variant="contained"
@@ -141,5 +119,58 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
         ) : null}
       </Box>
     </Grid>
+  );
+};
+
+const InputItems = ({ type, props, name, formIK, columnGridSize }) => {
+  let result;
+
+  switch (type) {
+    case "textfield":
+      result = (
+        <CustomTextfield
+          fullWidth
+          name={name}
+          errorMessege={{ text: formIK && formIK.errors[name] }}
+          onChange={formIK.handleChange}
+          value={formIK.values[name]}
+          {...props}
+        />
+      );
+      break;
+
+    case "autocomplete":
+      result = (
+        <CustomAutoComplete
+          errorMessege={{ text: formIK && formIK.errors[name] }}
+          {...props}
+          onChange={(_, newValue) => {
+            const values = isArray(newValue)
+              ? newValue?.map((item: TAny) =>
+                  typeof item === "string" ? item : item.value
+                )
+              : newValue;
+            formIK.setFieldValue("categories", values);
+          }}
+          value={formIK.values[name]}
+        />
+      );
+      break;
+    default:
+      break;
+  }
+  return (
+    <>
+      <Grid
+        size={{
+          md: columnGridSize ?? 5.9,
+          lg: columnGridSize ?? 5.9,
+          sm: 12,
+          xs: 12,
+        }}
+      >
+        {result}
+      </Grid>
+    </>
   );
 };

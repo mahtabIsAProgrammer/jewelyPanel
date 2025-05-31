@@ -97,7 +97,7 @@ export const PageProvider: FC<IPageProvider> = ({
       <CustomTable
         isLoading={isLoading}
         headerCells={headerCells}
-        bodyCells={data}
+        valueRows={data}
       />
     </Box>
   );

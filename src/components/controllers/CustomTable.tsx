@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { memo, useCallback, type FC } from "react";
 import {
   Table,
   TableBody,
@@ -10,31 +10,35 @@ import {
   Box,
   Typography,
   Skeleton,
+  type SxProps,
+  type Theme,
 } from "@mui/material";
+import { SPACE_LG } from "../../helpers/constants/spaces";
+import { FONT_BODY, FONT_WEIGHT_BLOD } from "../../helpers/constants/fonts";
 
-interface ICustomTable {
-  headerCells: IHeaderCell[];
-  bodyCells: Array<Record<string, TAny>>;
+interface ICustomTable<T = TAny> {
+  headerCells: IHeaderCell<T>[];
+  valueRows: T[];
   isLoading: boolean;
 }
 
 export const CustomTable: FC<ICustomTable> = ({
   headerCells,
-  bodyCells,
+  valueRows,
   isLoading,
 }) => {
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 500, borderRadius: 2 }}>
+    <TableContainer component={Paper} sx={tableContainerSX}>
       <Table stickyHeader>
         <TableHead>
           <TableRow>
-            {headerCells.map((headCell) => (
+            {headerCells.map(({ label, align }, index) => (
               <TableCell
-                key={headCell.id}
-                align={headCell.align || "left"}
+                key={index}
+                align={align || "left"}
                 sx={{ fontWeight: "bold" }}
               >
-                {headCell.label}
+                {label}
               </TableCell>
             ))}
           </TableRow>
@@ -43,19 +47,16 @@ export const CustomTable: FC<ICustomTable> = ({
           {isLoading ? (
             Array.from({ length: 5 }).map((_, i) => (
               <TableRow key={`skeleton-${i}`}>
-                {headerCells.map((cell, j) => (
-                  <TableCell
-                    key={`skeleton-cell-${j}`}
-                    align={cell.align || "left"}
-                  >
+                {headerCells.map(({ align }, j) => (
+                  <TableCell key={`skeleton-cell-${j}`} align={align || "left"}>
                     <Skeleton variant="text" />
                   </TableCell>
                 ))}
               </TableRow>
             ))
-          ) : bodyCells.length === 0 ? (
+          ) : valueRows.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={headerCells.length} align="center">
+              <TableCell colSpan={headerCells?.length} align="center">
                 <Box p={3}>
                   <Typography variant="subtitle1" color="text.secondary">
                     😕 No data to show right now.
@@ -64,12 +65,15 @@ export const CustomTable: FC<ICustomTable> = ({
               </TableCell>
             </TableRow>
           ) : (
-            bodyCells.map((row, rowIndex) => (
+            valueRows.map((row, rowIndex) => (
               <TableRow key={rowIndex} hover>
-                {headerCells.map((headCell) => (
-                  <TableCell key={headCell.id} align={headCell.align || "left"}>
-                    {row[headCell.id]}
-                  </TableCell>
+                {headerCells.map(({ id, ComponentRow, align }) => (
+                  <CustomTableCell
+                    id={id}
+                    row={row}
+                    align={align}
+                    ComponentRow={ComponentRow}
+                  />
                 ))}
               </TableRow>
             ))
@@ -78,4 +82,67 @@ export const CustomTable: FC<ICustomTable> = ({
       </Table>
     </TableContainer>
   );
+};
+
+interface ICustomTableCell {
+  row: TAny;
+  id: IHeaderCell["id"];
+  align: IHeaderCell["align"];
+  ComponentRow: IHeaderCell["ComponentRow"];
+}
+
+const CustomTableCell = memo<ICustomTableCell>(
+  ({ id, row, ComponentRow, align }) => {
+    const Component = useCallback(
+      () => ComponentRow && ComponentRow({ row: row }),
+      [ComponentRow, row]
+    );
+
+    return (
+      <TableCell align={align || "left"} key={id as number}>
+        {ComponentRow ? Component() : row?.[id] || "_______"}
+      </TableCell>
+    );
+  }
+);
+
+const tableContainerSX: SxProps<Theme> = {
+  width: "100%",
+  my: SPACE_LG,
+  borderRadius: "12px",
+  "& .MuiTable-root": {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    pb: SPACE_LG,
+    "& .MuiTableHead-root": {
+      width: "100%",
+      display: "flex",
+    },
+
+    "& .MuiTableBody-root": {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      "& .MuiTableCell-root": {
+        height: "auto",
+        maxHeight: "100px",
+        minWidth: "200px",
+      },
+    },
+    "& .MuiTableRow-root": {
+      width: "100%",
+      display: "flex",
+      "& .MuiTableCell-root": {
+        width: "100%",
+        display: "flex",
+        color: "#686868",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: FONT_BODY + "!important",
+        fontWeight: FONT_WEIGHT_BLOD,
+        minWidth: "200px",
+      },
+    },
+  },
 };

@@ -30,6 +30,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
       isEdit={isEdit}
       isLoading={false}
       inputs={{
+        columnGridSize: 5.9,
         fields: [
           {
             type: "textfield",
