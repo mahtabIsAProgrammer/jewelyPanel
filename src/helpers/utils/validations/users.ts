@@ -2,7 +2,8 @@ import { object, string } from "yup";
 
 export const validationUsers = () => {
   return object().shape({
-    fullName: string().trim().required("the input is required"),
     email: string().email().trim().required("the input is required"),
+    firstName: string().trim().required("the input is required"),
+    lastName: string().trim().required("the input is required"),
   });
 };

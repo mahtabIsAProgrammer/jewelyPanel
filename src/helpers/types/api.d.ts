@@ -1,58 +1,63 @@
 interface Users {
-  email: string;
-  gender: string;
-  password: string;
-  lastName: string;
-  userName: string[];
-  imageUrl: string[];
-  firstName: string[];
+  id?: string;
+  firstName?: string | null;
+  lastName: string | null;
+  userName?: string | null;
+  email?: string | null;
+  gender?: number | null;
+  imageUrl?: string | null;
 }
 
 interface Products {
-  name: string;
-  size: string;
-  price: string;
-  image: string;
-  color: string;
-  style: string;
-  brand: string;
-  detail: string;
-  length: string;
-  material: string;
-  isMaster: string;
-  categoryId: string;
+  id?: string;
+  name?: string | null;
+  size?: string | null;
+  price?: number | null;
+  image?: string | null;
+  color?: string | null;
+  style?: string | null;
+  brand?: string | null;
+  detail?: string | null;
+  length?: string | null;
+  material?: string | null;
+  isMaster?: boolean | null;
+  categoryId?: string | null;
 }
 
 interface Faqs {
-  title: string;
-  locale: string;
-  categoryId: string;
-  description: string;
+  title?: string | null;
+  locale?: string | null;
+  categoryId?: string | null;
+  description?: string | null;
 }
 
 interface Comments {
-  rate: string;
-  type: string;
-  title: string;
-  userId: string;
-  blogId: string;
-  comment: string;
-  userEmial: string;
-  productId: string;
-  isAccepted: string;
-  createOn: string;
-  productName: string;
+  id?: string;
+  userId?: string | null;
+  rate?: number | null;
+  type?: number | null;
+  title?: string | null;
+  blogId?: string | null;
+  comment?: string | null;
+  userEmial?: string | null;
+  productId?: string | null;
+  isAccepted?: boolean;
+  createOn?: string | null;
+  productName?: string | null;
 }
 
 interface Blogs {
-  authorId: string;
-  authorName: string;
-  title: string;
-  thumbnail: string;
-  published: string;
-  commentsCount: string;
+  authorId?: string | null;
+  authorName?: string | null;
+  title?: string | null;
+  thumbnail?: string | null;
+  published?: string | null;
+  commentsCount?: number | null;
 }
 
 interface Categories {
-  name: string;
+  name?: string | null;
+  imageUrl?: string | null;
+  description?: string | null;
+  shortDescription?: string | null;
 }

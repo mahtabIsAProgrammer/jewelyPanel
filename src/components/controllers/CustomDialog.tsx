@@ -23,7 +23,7 @@ import { SPACE_2XL, SPACE_LG, SPACE_MD } from "../../helpers/constants/spaces";
 interface ICustomDialog extends DialogProps {
   title: string;
   dialogContent: JSX.Element;
-  dialogAction?: JSX.Element;
+  dialogAction: JSX.Element;
   onClose: TEmptyFunctionVoid;
 }
 

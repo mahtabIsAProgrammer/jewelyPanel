@@ -30,7 +30,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
       isEdit={isEdit}
       isLoading={false}
       inputs={{
-        columnGridSize: 5.9,
+        // columnGridSize: 5.9,
         fields: [
           {
             type: "textfield",
@@ -55,12 +55,15 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
             name: "password",
             props: { customLabel: "Password", type: "password" },
           },
-          {
-            type: "textfield",
-            name: "imageUrl",
-            props: { customLabel: "ImageUrl" },
-          },
         ],
+        side: {
+          profileUploader: {
+            name: "imageUrl",
+            props: {
+              customLabel: "Upload Profile",
+            },
+          },
+        },
         form: {
           initialValues: {
             email: "",

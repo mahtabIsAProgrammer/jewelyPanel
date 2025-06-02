@@ -1,8 +1,8 @@
-import { type FC, Suspense, useContext, useEffect } from "react";
+import { type FC, Suspense, useEffect } from "react";
 
 import { SnackbarProvider } from "notistack";
 import { useLocation, useRoutes } from "react-router-dom";
-import { Grid, IconButton, ThemeProvider } from "@mui/material";
+import { IconButton, ThemeProvider } from "@mui/material";
 
 import {
   createTheme,
@@ -13,12 +13,8 @@ import {
 import { HelmetProvider } from "react-helmet-async";
 
 import { routes } from "../../routes";
-import { Navbar } from "../common/Navbar";
-import { Sidebar } from "../common/Sidebar";
-import { Loading, LoadingSideBar } from "../common/Loading";
+import { Loading } from "../common/Loading";
 import { FONT_FAMILY } from "../../helpers/constants/static";
-import { MainContext } from "../../helpers/others/mainContext";
-import { mainLayoutSX } from "../../helpers/styles/common/main";
 import {
   FONT_SMALL_TEXT,
   FONT_WEIGHT_BLOD,
@@ -36,8 +32,6 @@ const MainLayout: FC = () => {
 
   const { pathname } = useLocation();
 
-  const isLoadingSidebar = false;
-
   const themeMUI = createTheme({
     palette: { primary: { main: COLOR_PRIMARY } },
     typography: {
@@ -47,7 +41,6 @@ const MainLayout: FC = () => {
   });
 
   const materialTheme = materialExtendTheme(themeMUI);
-  const { theme, sidebarSize } = useContext(MainContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -83,20 +76,7 @@ const MainLayout: FC = () => {
               boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
             }}
           >
-            <Suspense fallback={<Loading />}>
-              <Grid sx={mainLayoutSX(theme, sidebarSize)}>
-                {isLoadingSidebar ? <LoadingSideBar /> : <Sidebar />}
-                <Grid className="content-box">
-                  <Navbar />
-                  <Grid className="pages-box">
-                    <Grid className="items">
-                      <Suspense fallback={<Loading />}>{children}</Suspense>
-                    </Grid>
-                  </Grid>
-                  m
-                </Grid>
-              </Grid>
-            </Suspense>
+            <Suspense fallback={<Loading />}>{children}</Suspense>
           </SnackbarProvider>
         </HelmetProvider>
       </MaterialCssVarsProvider>

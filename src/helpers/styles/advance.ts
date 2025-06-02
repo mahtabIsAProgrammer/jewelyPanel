@@ -13,15 +13,16 @@ export const pageProviderSX: SxProps<Theme> = {
 export const addEditPrivderSX: SxProps<Theme> = {
   "& .page-container": {
     "& .form-container": {
-      width: "100%",
       display: "flex",
+      gap: SPACE_LG,
+      padding: SPACE_LG,
+      borderRadius: "12px",
+      backgroundColor: COLOR_WHITE,
       "& .grid-container": {
         display: "flex",
-        flexDirection: "column",
+        width: "100%",
         rowGap: SPACE_LG,
-        padding: SPACE_LG,
-        borderRadius: "12px",
-        backgroundColor: COLOR_WHITE,
+        flexDirection: "column",
         "& .inputs-wrapper": {
           width: "100%",
           display: "flex",

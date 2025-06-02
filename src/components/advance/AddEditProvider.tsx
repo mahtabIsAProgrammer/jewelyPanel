@@ -14,10 +14,14 @@ import { useFormik } from "formik";
 import { CustomButton } from "../controllers/CustomButton";
 import { isArray } from "lodash";
 import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
-import { type IProfileUploader } from "../common/Uploader";
+import {
+  ProfileUploader,
+  type IFileUploader,
+  type IProfileUploader,
+} from "../common/Uploader";
 
 interface IInputs {
-  columnGridSize: TColumnGridSize;
+  columnGridSize?: TColumnGridSize;
   side?: {
     profileUploader?: {
       name: string;
@@ -25,7 +29,7 @@ interface IInputs {
     };
     fileUploader?: {
       name: string;
-      // props: IUploaderFile;
+      props: IFileUploader;
     };
     columnGridSize?: TColumnGridSize;
   };
@@ -97,7 +101,7 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
             method="post"
             onSubmit={formIK.handleSubmit}
           >
-            <Grid className="grid-container">
+            <Grid container className="grid-container">
               <Grid container className="inputs-wrapper">
                 {inputs.fields.map((field, index) => {
                   return (
@@ -131,41 +135,26 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
               </Box>
             </Grid>
 
-            {/* {inputs?.side?.profileUploader && (
+            {inputs?.side?.profileUploader && (
               <ProfileUploader
-                {...(sideData?.profileUploader.props ?? {})}
-                defaultValue={
-                  formIK.values[sideData?.profileUploader.name] ?? undefined
-                }
-                filesState={(value) =>
-                  sideData?.profileUploader &&
-                  sideData?.profileUploader.name &&
-                  formIK.values[sideData?.profileUploader.name] !== value &&
-                  formIK.setFieldValue(sideData?.profileUploader.name, value)
-                }
-                thumbnailsState={(value) =>
-                  sideData?.profileUploader &&
-                  sideData?.profileUploader?.thumbName &&
-                  formIK.values[sideData?.profileUploader?.thumbName] !==
-                    value &&
-                  formIK.setFieldValue(
-                    sideData?.profileUploader?.thumbName,
-                    value
-                  )
+                value={formIK.values[inputs?.side?.profileUploader.name]}
+                onChange={(file) =>
+                  formIK.setFieldValue(inputs?.side?.profileUploader.name, file)
                 }
                 errorMessage={
-                  sideData?.profileUploader.name &&
-                  formIK.errors[sideData?.profileUploader.name]
+                  inputs?.side?.profileUploader.name &&
+                  formIK.errors[inputs?.side?.profileUploader.name]
                     ? {
-                        message: formIK.errors[
-                          sideData?.profileUploader.name
+                        text: formIK.errors[
+                          inputs?.side?.profileUploader.name
                         ] as string,
                         type: "error",
                       }
-                    : sideData?.profileUploader?.props?.errorMessage
+                    : inputs?.side?.profileUploader?.props?.errorMessage
                 }
+                {...inputs?.side?.profileUploader["props"]}
               />
-            )} */}
+            )}
           </Box>
         ) : null}
       </Box>

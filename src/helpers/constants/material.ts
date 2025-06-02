@@ -40,3 +40,15 @@ export const STYLE_AUTOCOMPLETE_ITEMS: SxProps<Theme> = {
     borderRadius: "14px",
   },
 };
+
+export const ACTIONS_TABLE_STYLE: SxProps<Theme> = {
+  display: "flex",
+  gap: SPACE_XS,
+  "& .btn": {
+    cursor: "pointer",
+    "&:hover": {
+      scale: 1.2,
+      transition: "0.3s",
+    },
+  },
+};

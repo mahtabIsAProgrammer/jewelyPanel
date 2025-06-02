@@ -2,6 +2,7 @@ export const COLOR_PRIMARY = "#ABDDF0";
 export const COLOR_SECEONDRY = "#5D5D5D";
 export const COLOR_TEXT = "#616161";
 export const COLOR_MUTED_TEXT = "#7D7D7D";
+export const COLOR_RED = "#FF0033";
 export const COLOR_PLACEHOLDER = "#C4C4C4";
 export const COLOR_BACKGROUND = "#FAFAFB";
 export const COLOR_SURFACE = "#B38532";

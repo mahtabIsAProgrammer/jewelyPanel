@@ -12,5 +12,5 @@ interface IOption {
 interface IErrorMessage {
   text: string;
   type: "error" | "warning";
-  disabled: boolean;
+  disabled?: boolean;
 }

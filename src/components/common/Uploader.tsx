@@ -1,75 +1,78 @@
 import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
-import { useRef, useState, type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { CustomLabel } from "../controllers/CustomLabel";
-import { cameraIcon } from "../others/SvgComponents";
+import { cameraIcon, deleteIcon } from "../others/SvgComponents";
 import { ErrorMessage } from "../controllers/CustomTextfield";
+import { SPACE_LG } from "../../helpers/constants/spaces";
+import { COLOR_RED, COLOR_WHITE } from "../../helpers/constants/colors";
+import { CustomAvatar } from "../controllers/CustomImage";
 
 export interface IProfileUploader {
   customLabel: string;
   required?: boolean;
   errorMessage?: IErrorMessage;
+  onChange?: (file: File | null) => void;
+  value?: File | null;
+}
+export interface IFileUploader {
+  customLabel: string;
+  required?: boolean;
+  errorMessage?: IErrorMessage;
+  onChange?: (file: File | null) => void;
+  value?: File | null;
 }
 
 export const ProfileUploader: FC<IProfileUploader> = ({
   customLabel,
   required,
   errorMessage,
+  onChange,
+  value,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [preview, setPreview] = useState<string>("");
+
+  useEffect(() => {
+    if (value) {
+      const url = URL.createObjectURL(value);
+      setPreview(url);
+    } else {
+      setPreview("");
+    }
+  }, [value]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setImageUrl(url);
-    }
+    onChange?.(file || null);
+  };
+
+  const handleReset = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onChange?.(null);
   };
 
   return (
-    <Grid sx={profileUploaderSX}>
+    <Grid sx={UploaderSX}>
       <CustomLabel customLabel={customLabel} required={required} />
       <Grid className="uploader-container">
         <Box
           className="image-container"
           onClick={() => fileInputRef.current?.click()}
         >
-          <Box
-            component="img"
-            src={
-              imageUrl ||
-              "https://cdn-icons-png.flaticon.com/512/149/149071.png" // No profile image
-            }
-            alt="Profile"
-            sx={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
+          {preview ? (
+            <Box component="div" onClick={handleReset} className="reset-button">
+              {deleteIcon(COLOR_WHITE)}
+            </Box>
+          ) : (
+            ""
+          )}
+          <CustomAvatar src={preview} alt="Profile" className="image" />
 
-          <Box
-            className="hover-overlay"
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              bgcolor: "rgba(0, 0, 0, 0.4)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              opacity: 0,
-              transition: "opacity 0.3s ease",
-            }}
-          >
-            {cameraIcon()}
-          </Box>
+          <Box className="hover-overlay">{cameraIcon()}</Box>
         </Box>
 
         <Typography variant="body2" color="text.secondary" textAlign="center">
-          Please upload your image
+          {preview ? "Image Uploaded!" : "Please upload your image"}
         </Typography>
 
         <input
@@ -91,27 +94,126 @@ export const ProfileUploader: FC<IProfileUploader> = ({
   );
 };
 
-const profileUploaderSX: SxProps<Theme> = {
-  width: "300px",
-  p: 2,
-  borderRadius: 3,
-  border: "1px solid #ccc",
+export const FileUploader: FC<IFileUploader> = ({
+  customLabel,
+  required,
+  errorMessage,
+}) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [file, setFile] = useState<string>("");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setFile(url);
+    }
+  };
+
+  return (
+    <Grid sx={UploaderSX}>
+      <CustomLabel customLabel={customLabel} required={required} />
+      <Grid className="uploader-container">
+        <Box
+          className="image-container"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          {file ? (
+            <Box
+              component="div"
+              onClick={(e) => {
+                setFile("");
+                e.stopPropagation();
+              }}
+              className="reset-button"
+            >
+              {deleteIcon(COLOR_WHITE)}
+            </Box>
+          ) : (
+            ""
+          )}
+          <CustomAvatar src={file} alt="Profile" className="image" />
+
+          <Box className="hover-overlay">{cameraIcon()}</Box>
+        </Box>
+
+        <Typography variant="body2" color="text.secondary" textAlign="center">
+          {file ? "Image Uploaded!" : "Please upload your image"}
+        </Typography>
+
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          hidden
+          onChange={handleFileChange}
+        />
+      </Grid>
+      {errorMessage && (
+        <ErrorMessage
+          text={errorMessage?.text || ""}
+          type={errorMessage?.type || "error"}
+          disabled={false}
+        />
+      )}
+    </Grid>
+  );
+};
+const UploaderSX: SxProps<Theme> = {
+  minWidth: "300px",
   display: "flex",
+  height: "fit-content",
   flexDirection: "column",
-  alignItems: "center",
-  gap: 2,
-  boxShadow: 1,
-  backgroundColor: "#fff",
   "& .uploader-container": {
+    display: "flex",
+    height: "fit-content",
+    flexDirection: "column",
+    rowGap: SPACE_LG,
+    padding: SPACE_LG,
+    borderRadius: "12px",
+    border: "1px solid #c4c4c4",
+    alignItems: "center",
     "& .image-container": {
       position: "relative",
       width: 120,
       height: 120,
       borderRadius: "50%",
-      overflow: "hidden",
+      // overflow: "hidden",
       cursor: "pointer",
       "&:hover .hover-overlay": {
         opacity: 1,
+      },
+      "& .reset-button": {
+        width: "30px",
+        height: "30px",
+        backgroundColor: COLOR_RED,
+        borderRadius: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        zIndex: 1111,
+        top: "2px",
+        left: "4px",
+      },
+      "& .image": {
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+      },
+      "& .hover-overlay": {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        borderRadius: "50%",
+        bgcolor: "rgba(0, 0, 0, 0.4)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        opacity: 0,
+        transition: "opacity 0.3s ease",
       },
     },
   },

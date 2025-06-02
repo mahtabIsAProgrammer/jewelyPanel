@@ -13,6 +13,7 @@ export const useUserSearch = (filters?: { search?: string }) => {
     queryFn: () => getAllUsers(filters),
     placeholderData: (prev: TAny) => prev,
     enabled: true,
+    staleTime: 1000 * 60,
   });
 };
 

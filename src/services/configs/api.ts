@@ -1,5 +1,8 @@
 import apiClient from "./apiClient";
 
+export const loginUser = async ({ email, userName, password }: TAny) =>
+  apiClient.post("/login", { email, userName, password });
+
 // users
 export const getAllUsers = (params?: { search?: string }) =>
   apiClient.get("/users", { params }).then((res) => res.data);
