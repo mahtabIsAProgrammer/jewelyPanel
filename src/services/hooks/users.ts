@@ -18,7 +18,7 @@ export const useUserSearch = (filters?: { search?: string }) => {
 };
 
 // Get user by id
-export const useGetUserById = (id?: number) => {
+export const useGetUserById = (id?: string) => {
   return useQuery({
     queryKey: ["user-get", id],
     queryFn: async () => (id ? await getUserById(id!) : {}),
@@ -39,7 +39,7 @@ export const useCreateUser = () => {
 };
 
 // Update a user
-export const useUpdateUser = (id: number) => {
+export const useUpdateUser = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: Users) => updateUser(id, data),

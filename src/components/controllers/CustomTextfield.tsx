@@ -31,6 +31,7 @@ export type TCustomTextfield =
       errorMessage?: IErrorMessage;
       disabled?: boolean;
       icon?: ReactElement;
+      type?: "textarea" | "password" | "simple";
     } & Omit<TextFieldProps, "variant"> & {};
 
 export const CustomTextfield = memo<TCustomTextfield>(
@@ -40,11 +41,16 @@ export const CustomTextfield = memo<TCustomTextfield>(
     className,
     required,
     disabled,
+    type,
     icon,
     ...props
   }) => {
     return (
-      <Grid container className="textfield-wrapper" sx={textfieldSX(disabled)}>
+      <Grid
+        container
+        className="textfield-wrapper"
+        sx={textfieldSX(disabled, type)}
+      >
         <Grid className="label-box" sx={{ display: "flex", gap: SPACE_SM }}>
           {customLabel ? (
             <CustomLabel customLabel={customLabel} required={required} />
@@ -96,7 +102,8 @@ export const ErrorMessage: FC<IErrorMessage> = ({ text, type, disabled }) => {
 };
 
 const textfieldSX = (
-  disabled: TCustomTextfield["disabled"]
+  disabled: TCustomTextfield["disabled"],
+  type?: TCustomTextfield["type"]
 ): SxProps<Theme> => ({
   width: "100%",
   display: "flex",

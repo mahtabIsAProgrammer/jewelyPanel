@@ -1,61 +1,132 @@
 import { type FC } from "react";
-import { useCreateProduct } from "../../../services/hooks/products";
+import {
+  useCreateProduct,
+  useGetProductById,
+  useUpdateProduct,
+} from "../../../services/hooks/products";
 import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { AddEditProvider } from "../../advance/AddEditProvider";
 import { validationProducts } from "../../../helpers/utils/validations/products";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const { mutate: createProduct } = useCreateProduct();
+  const { mutate: UpdateProduct } = useUpdateProduct(id || "");
+
+  const { data: getProductById, isLoading } = useGetProductById(id);
+
+  const {
+    brand,
+    categoryId,
+    color,
+    image,
+    material,
+    name,
+    price,
+    size,
+    style,
+  } = (getProductById as unknown as { data: Products })?.data ?? {};
+
   const handleSubmit = (values: Products) => {
-    createProduct(values, {
-      onSuccess: () => {
-        successAlert({
-          title: "Successfully Added!",
-        });
-      },
-      onError: () => {
-        errorAlert({ title: "Problem has occurred on the server side!" });
-      },
-    });
+    const finalValues = { ...values };
+    finalValues.brand = finalValues.brand || "";
+    finalValues.categoryId = finalValues.categoryId || "";
+    finalValues.color = finalValues.color || "";
+    finalValues.image = finalValues.image || "";
+    finalValues.material = finalValues.material || "";
+    finalValues.name = finalValues.name || null;
+    finalValues.price = finalValues.price || null;
+    finalValues.size = finalValues.size || null;
+    finalValues.style = finalValues.style || null;
+
+    if (isEdit)
+      UpdateProduct(finalValues, {
+        onSuccess: () => {
+          successAlert({
+            title: "Successfully Updated!",
+          });
+        },
+        onError: () => {
+          errorAlert({
+            title: "Problem has occurred on the server side!",
+          });
+        },
+      });
+    else
+      createProduct(values, {
+        onSuccess: () => {
+          successAlert({
+            title: "Successfully Added!",
+          });
+        },
+        onError: () => {
+          errorAlert({ title: "Problem has occurred on the server side!" });
+        },
+      });
+    navigate("/products");
   };
+
   return (
     <AddEditProvider
       title="Product"
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
         { name: "products", link: "/products", type: "list" },
-        { name: "products", link: "", type: "add" },
+        { name: "product", link: "", type: "add" },
       ]}
       isEdit={isEdit}
-      isLoading={false}
+      isLoading={isLoading}
       inputs={{
         columnGridSize: 5.9,
         fields: [
           {
             type: "textfield",
             name: "name",
-            props: { label: "Name" },
+            props: { customLabel: "Name", required: true },
           },
-          { type: "textfield", name: "brand", props: { label: "Brand" } },
-          { type: "textfield", name: "price", props: { label: "price" } },
-          { type: "textfield", name: "color", props: { label: "color" } },
-          { type: "textfield", name: "style", props: { label: "style" } },
-          { type: "textfield", name: "size", props: { label: "size" } },
-          { type: "textfield", name: "detial", props: { label: "detial" } },
-          { type: "textfield", name: "material", props: { label: "material" } },
           {
             type: "textfield",
+            name: "price",
+            props: { customLabel: "price", required: true },
+          },
+          {
+            type: "autocomplete",
             name: "categoryId",
-            props: { label: "Categories" },
+            props: {
+              customLabel: "Categories",
+              options: [{ label: "His", value: 1 }],
+            },
+          },
+          { type: "textfield", name: "brand", props: { customLabel: "Brand" } },
+          { type: "textfield", name: "color", props: { customLabel: "color" } },
+          { type: "textfield", name: "style", props: { customLabel: "style" } },
+          { type: "textfield", name: "size", props: { customLabel: "size" } },
+          {
+            type: "textfield",
+            name: "material",
+            props: { customLabel: "material" },
           },
         ],
+        side: {
+          uploader: {
+            name: "image",
+            props: { type: "file", customLabel: "Image" },
+          },
+        },
         form: {
           initialValues: {
-            email: "",
-            gender: "",
-            password: "",
-            fullName: "",
-            imageUrl: "",
+            brand: brand || null,
+            categoryId: categoryId || null,
+            color: color || null,
+            image: image || null,
+            material: material || null,
+            name: name || null,
+            price: price || null,
+            size: size || null,
+            style: style || null,
           },
           validations: validationProducts,
           onSubmit: handleSubmit,

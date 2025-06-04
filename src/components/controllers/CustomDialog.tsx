@@ -19,6 +19,7 @@ import {
 } from "../../helpers/constants/fonts";
 import { closeIcon } from "../others/SvgComponents";
 import { SPACE_2XL, SPACE_LG, SPACE_MD } from "../../helpers/constants/spaces";
+import { COLOR_BACKGROUND } from "../../helpers/constants/colors";
 
 interface ICustomDialog extends DialogProps {
   title: string;
@@ -51,10 +52,10 @@ const dialogSX: SxProps<Theme> = {
   "& .MuiPaper-root": {
     py: SPACE_LG,
     px: { xs: SPACE_MD, md: SPACE_2XL },
-    minWidth: { xs: "390px", sm: "560px", md: "600px" },
-    minHeight: "400px",
+    minWidth: { xs: "360px" },
+    minHeight: "220px",
     borderRadius: "14px",
-    backgroundColor: "#000",
+    backgroundColor: COLOR_BACKGROUND,
     "& .MuiDialogContent-root": {
       p: 0,
       width: "100%",

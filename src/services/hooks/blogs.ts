@@ -20,7 +20,7 @@ export const useBlogSearch = (filters?: {
 };
 
 // Get blog by id
-export const useGetBlogById = (id?: number) => {
+export const useGetBlogById = (id?: string) => {
   return useQuery({
     queryKey: ["blog-get", id],
     queryFn: async () => (id ? await getBlogById(id!) : {}),
@@ -41,7 +41,7 @@ export const useCreateBlog = () => {
 };
 
 // Update a blog
-export const useUpdateBlog = (id: number) => {
+export const useUpdateBlog = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: Blogs) => updateBlog(id, data),
@@ -64,7 +64,7 @@ export const useUpdateBlog = (id: number) => {
 export const useDeleteBlog = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => deleteBlog(id),
+    mutationFn: (id: string) => deleteBlog(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["blogs-search"],

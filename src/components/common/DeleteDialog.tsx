@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import { CustomDialog } from "../controllers/CustomDialog";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { CustomButton } from "../controllers/CustomButton";
+import { SPACE_MD } from "../../helpers/constants/spaces";
 
 interface IDeleteDialog {
   title: string;
@@ -19,11 +20,11 @@ export const DeleteDialog: FC<IDeleteDialog> = ({
   return (
     <CustomDialog
       title={title}
-      dialogContent={<Grid>Are you sure to Delete this Item?</Grid>}
+      dialogContent={<Typography>Are you sure to Delete this Item?</Typography>}
       onClose={onClose}
       open={open}
       dialogAction={
-        <Grid>
+        <Grid sx={{ display: "flex", gap: SPACE_MD }}>
           <CustomButton text={"Cancel"} onClick={onClose} />
           <CustomButton text={"Submit"} onClick={onSubmit} />
         </Grid>

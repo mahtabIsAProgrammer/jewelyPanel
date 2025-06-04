@@ -1,20 +1,19 @@
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import { PageProvider } from "../../advance/PageProvider";
-import { useDeleteUser, useUserSearch } from "../../../services/hooks/users";
+import { useUserSearch } from "../../../services/hooks/users";
 import { CustomImageBox } from "../../controllers/CustomImage";
 import { Box, Grid } from "@mui/material";
-import { deleteIcon, editIcon } from "../../others/SvgComponents";
+import { editIcon } from "../../others/SvgComponents";
 import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
-import { COLOR_RED, COLOR_SECEONDRY } from "../../../helpers/constants/colors";
+import { COLOR_SECEONDRY } from "../../../helpers/constants/colors";
 import { useNavigate } from "react-router-dom";
-import { DeleteDialog } from "../../common/DeleteDialog";
 
 const List: FC = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState<boolean>(false);
+  // const [open, setOpen] = useState<boolean>(false);
   const { data: userSearch, isLoading } = useUserSearch();
 
-  const { data: deleteUser } = useDeleteUser();
+  // const { mutate: deleteUser } = useDeleteUser();
 
   return (
     <PageProvider
@@ -24,42 +23,54 @@ const List: FC = () => {
         {
           id: "imageUrl",
           label: "image",
-          ComponentRow: ({ row: { imageUrl } }) => (
-            <CustomImageBox src={imageUrl} />
-          ),
+          align: "center",
+          ComponentRow: () => {
+            return (
+              <CustomImageBox
+                sx={{ width: "60px", height: "60px" }}
+                src={"photo_2025-05-27_16-25-57.jpg"}
+              />
+            );
+          },
         },
-        { id: "fullName", label: "Full Name" },
+        { id: "firstName", label: "first Name" },
+        { id: "lastName", label: "last Name" },
         { id: "email", label: "Email" },
-        { id: "gender", label: "gender" },
         {
           id: "id",
           label: "actions",
-          ComponentRow: ({ row }) => (
-            <>
-              <Grid sx={ACTIONS_TABLE_STYLE}>
-                <Box
-                  component="div"
-                  className="btn"
-                  onClick={() => navigate(`edit/${row}`)}
-                >
-                  {editIcon(COLOR_SECEONDRY)}
-                </Box>
-                <Box
-                  component="div"
-                  className="btn"
-                  onClick={() => setOpen(true)}
-                >
-                  {deleteIcon(COLOR_RED)}
-                </Box>
-              </Grid>
-              <DeleteDialog
-                title={"Delete User"}
-                open={open}
-                onClose={() => setOpen(false)}
-                onSubmit={() => setOpen(false)}
-              />
-            </>
-          ),
+          ComponentRow: ({ row }: TAny) => {
+            return (
+              <>
+                <Grid sx={ACTIONS_TABLE_STYLE}>
+                  <Box
+                    component="div"
+                    className="btn"
+                    onClick={() => navigate(`edit/${row.id}`)}
+                  >
+                    {editIcon(COLOR_SECEONDRY)}
+                  </Box>
+                  {/* <Box
+                    component="div"
+                    className="btn"
+                    onClick={() => setOpen(true)}
+                  >
+                    {deleteIcon(COLOR_RED)}
+                  </Box> */}
+                </Grid>
+                {/* <DeleteDialog
+                  title={"Delete User"}
+                  open={open}
+                  onClose={() => setOpen(false)}
+                  onSubmit={() => {
+                    deleteUser(row.id);
+                    setOpen(false);
+                    successAlert({ title: "Successfully Deleted!" });
+                  }}
+                /> */}
+              </>
+            );
+          },
         },
       ]}
       data={userSearch}

@@ -20,7 +20,7 @@ export const useProductSearch = (filters?: {
 };
 
 // Get product by id
-export const useGetProductById = (id?: number) => {
+export const useGetProductById = (id?: string) => {
   return useQuery({
     queryKey: ["product-get", id],
     queryFn: async () => (id ? await getProductById(id!) : {}),
@@ -41,7 +41,7 @@ export const useCreateProduct = () => {
 };
 
 // Update a product
-export const useUpdateProduct = (id: number) => {
+export const useUpdateProduct = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: Products) => updateProduct(id, data),
@@ -64,7 +64,7 @@ export const useUpdateProduct = (id: number) => {
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => deleteProduct(id),
+    mutationFn: (id: string) => deleteProduct(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["products-search"],

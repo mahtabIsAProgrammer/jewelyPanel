@@ -48,8 +48,12 @@ export const CustomTable: FC<ICustomTable> = ({
             Array.from({ length: 5 }).map((_, i) => (
               <TableRow key={`skeleton-${i}`}>
                 {headerCells.map(({ align }, j) => (
-                  <TableCell key={`skeleton-cell-${j}`} align={align || "left"}>
-                    <Skeleton variant="text" />
+                  <TableCell
+                    sx={{ py: "0" }}
+                    key={`skeleton-cell-${j}`}
+                    align={align || "left"}
+                  >
+                    <Skeleton variant="text" width={"100%"} height={40} />
                   </TableCell>
                 ))}
               </TableRow>

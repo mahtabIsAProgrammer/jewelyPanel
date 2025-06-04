@@ -1,23 +1,58 @@
 import { type FC } from "react";
-import { useCreateFaq } from "../../../services/hooks/faq";
+import {
+  useCreateFaq,
+  useGetFaqById,
+  useUpdateFaq,
+} from "../../../services/hooks/faq";
 import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { AddEditProvider } from "../../advance/AddEditProvider";
 import { validationFaqs } from "../../../helpers/utils/validations/faqs";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const { mutate: createFaq } = useCreateFaq();
+  const { mutate: UpdateFaq } = useUpdateFaq(id || "");
+
+  const { data: getProductById, isLoading } = useGetFaqById(id);
+
+  const { description, title } =
+    (getProductById as unknown as { data: Faqs })?.data ?? {};
+
   const handleSubmit = (values: Faqs) => {
-    createFaq(values, {
-      onSuccess: () => {
-        successAlert({
-          title: "Successfully Added!",
-        });
-      },
-      onError: () => {
-        errorAlert({ title: "Problem has occurred on the server side!" });
-      },
-    });
+    const finalValues = { ...values };
+    finalValues.title = finalValues.title || "";
+    finalValues.description = finalValues.description || "";
+
+    if (isEdit)
+      UpdateFaq(finalValues, {
+        onSuccess: () => {
+          successAlert({
+            title: "Successfully Updated!",
+          });
+        },
+        onError: () => {
+          errorAlert({
+            title: "Problem has occurred on the server side!",
+          });
+        },
+      });
+    else
+      createFaq(values, {
+        onSuccess: () => {
+          successAlert({
+            title: "Successfully Added!",
+          });
+        },
+        onError: () => {
+          errorAlert({ title: "Problem has occurred on the server side!" });
+        },
+      });
+    navigate("/faqs");
   };
+
   return (
     <AddEditProvider
       title="Faq"
@@ -27,35 +62,25 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
         { name: "frequently question", link: "", type: "add" },
       ]}
       isEdit={isEdit}
-      isLoading={false}
+      isLoading={isLoading}
       inputs={{
-        columnGridSize: 5.9,
+        columnGridSize: 12,
         fields: [
           {
             type: "textfield",
-            name: "name",
-            props: { label: "Name" },
+            name: "title",
+            props: { customLabel: "title" },
           },
-          { type: "textfield", name: "brand", props: { label: "Brand" } },
-          { type: "textfield", name: "price", props: { label: "price" } },
-          { type: "textfield", name: "color", props: { label: "color" } },
-          { type: "textfield", name: "style", props: { label: "style" } },
-          { type: "textfield", name: "size", props: { label: "size" } },
-          { type: "textfield", name: "detial", props: { label: "detial" } },
-          { type: "textfield", name: "material", props: { label: "material" } },
           {
             type: "textfield",
-            name: "categoryId",
-            props: { label: "Categories" },
+            name: "description",
+            props: { customLabel: "description" },
           },
         ],
         form: {
           initialValues: {
-            email: "",
-            gender: "",
-            password: "",
-            fullName: "",
-            imageUrl: "",
+            description: description || null,
+            title: title || null,
           },
           validations: validationFaqs,
           onSubmit: handleSubmit,

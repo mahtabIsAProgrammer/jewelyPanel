@@ -20,7 +20,7 @@ export const useCommentSearch = (filters?: {
 };
 
 // Get comment by id
-export const useGetCommentById = (id?: number) => {
+export const useGetCommentById = (id?: string) => {
   return useQuery({
     queryKey: ["comment-get", id],
     queryFn: async () => (id ? await getCommentById(id!) : {}),
@@ -41,7 +41,7 @@ export const useCreateComment = () => {
 };
 
 // Update a comment
-export const useUpdateComment = (id: number) => {
+export const useUpdateComment = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: Comments) => updateComment(id, data),
@@ -64,7 +64,7 @@ export const useUpdateComment = (id: number) => {
 export const useDeleteComment = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => deleteComment(id),
+    mutationFn: (id: string) => deleteComment(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["comments-search"],

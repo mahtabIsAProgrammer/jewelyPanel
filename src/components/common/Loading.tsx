@@ -1,22 +1,29 @@
-import { Grid, Box, type SxProps, type Theme } from "@mui/material";
+import { Grid, Skeleton, Box } from "@mui/material";
+import { mainLayoutSX } from "../../helpers/styles/common/main";
+import { MainContext } from "../../helpers/others/mainContext";
+import { useContext } from "react";
 
 export const Loading = () => {
+  const { theme } = useContext(MainContext);
   return (
-    <Grid sx={laodingSX}>
-      <Box>Loading...</Box>
+    <Grid container sx={mainLayoutSX(theme, "none")}>
+      <Grid className="content-box">
+        <Grid className="pages-box">
+          <Grid className="items">
+            <Box>
+              <Skeleton variant="text" width="200px" height="40px" />
+              <Skeleton variant="text" width="400px" height="40px" />
+            </Box>
+            <Skeleton variant="rounded" width="100%px" height="70vh" />
+          </Grid>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
 
-const laodingSX: SxProps<Theme> = {
-  width: "100%",
-  height: "100vh",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  "& .img-loading": {
-    width: "600px",
-  },
+export const LoadingSidebar = () => {
+  return <></>;
 };
 
 export const LoadingSideBar = () => {

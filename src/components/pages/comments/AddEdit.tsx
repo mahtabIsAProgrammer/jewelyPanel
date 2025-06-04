@@ -1,23 +1,62 @@
 import type { FC } from "react";
 import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { AddEditProvider } from "../../advance/AddEditProvider";
-import { useCreateComment } from "../../../services/hooks/comments";
+import {
+  useCreateComment,
+  useGetCommentById,
+  useUpdateComment,
+} from "../../../services/hooks/comments";
 import { validationComments } from "../../../helpers/utils/validations/comments";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const { mutate: createComment } = useCreateComment();
+  const { mutate: UpdateComment } = useUpdateComment(id || "");
+
+  const { data: getCommentById, isLoading } = useGetCommentById(id);
+
+  const { comment, isAccepted, productId, title, userId, rate } =
+    (getCommentById as unknown as { data: Comments })?.data ?? {};
+
   const handleSubmit = (values: Comments) => {
-    createComment(values, {
-      onSuccess: () => {
-        successAlert({
-          title: "Successfully Added!",
-        });
-      },
-      onError: () => {
-        errorAlert({ title: "Problem has occurred on the server side!" });
-      },
-    });
+    const finalValues = { ...values };
+    finalValues.comment = finalValues.comment || "";
+    finalValues.isAccepted = finalValues.isAccepted || false;
+    finalValues.productId = finalValues.productId || "";
+    finalValues.title = finalValues.title || "";
+    finalValues.userId = finalValues.userId || "";
+    finalValues.rate = finalValues.rate || 0;
+
+    if (isEdit)
+      UpdateComment(finalValues, {
+        onSuccess: () => {
+          successAlert({
+            title: "Successfully Updated!",
+          });
+        },
+        onError: () => {
+          errorAlert({
+            title: "Problem has occurred on the server side!",
+          });
+        },
+      });
+    else
+      createComment(values, {
+        onSuccess: () => {
+          successAlert({
+            title: "Successfully Added!",
+          });
+        },
+        onError: () => {
+          errorAlert({ title: "Problem has occurred on the server side!" });
+        },
+      });
+    navigate("/comments");
   };
+
   return (
     <AddEditProvider
       title="Comment"
@@ -27,7 +66,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
         { name: "products", link: "", type: "add" },
       ]}
       isEdit={isEdit}
-      isLoading={false}
+      isLoading={isLoading}
       inputs={{
         columnGridSize: 5.9,
         fields: [
@@ -51,11 +90,12 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
         ],
         form: {
           initialValues: {
-            email: "",
-            gender: "",
-            password: "",
-            fullName: "",
-            imageUrl: "",
+            comment: comment || null,
+            isAccepted: isAccepted || null,
+            productId: productId || null,
+            title: title || null,
+            userId: userId || null,
+            rate: rate || null,
           },
           validations: validationComments,
           onSubmit: handleSubmit,

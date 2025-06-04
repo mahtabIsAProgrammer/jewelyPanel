@@ -20,7 +20,7 @@ export const useFaqSearch = (filters?: {
 };
 
 // Get faq by id
-export const useGetFaqById = (id?: number) => {
+export const useGetFaqById = (id?: string) => {
   return useQuery({
     queryKey: ["faq-get", id],
     queryFn: async () => (id ? await getFaqById(id!) : {}),
@@ -41,7 +41,7 @@ export const useCreateFaq = () => {
 };
 
 // Update a faq
-export const useUpdateFaq = (id: number) => {
+export const useUpdateFaq = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: Faqs) => updateFaq(id, data),
@@ -64,7 +64,7 @@ export const useUpdateFaq = (id: number) => {
 export const useDeleteFaq = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => deleteFaq(id),
+    mutationFn: (id: string) => deleteFaq(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["faqs-search"],

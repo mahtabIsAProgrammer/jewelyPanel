@@ -14,23 +14,16 @@ import { useFormik } from "formik";
 import { CustomButton } from "../controllers/CustomButton";
 import { isArray } from "lodash";
 import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
-import {
-  ProfileUploader,
-  type IFileUploader,
-  type IProfileUploader,
-} from "../common/Uploader";
+import { Uploader, type IUploader } from "../common/Uploader";
 
 interface IInputs {
   columnGridSize?: TColumnGridSize;
   side?: {
-    profileUploader?: {
+    uploader?: {
       name: string;
-      props: IProfileUploader;
+      props: IUploader;
     };
-    fileUploader?: {
-      name: string;
-      props: IFileUploader;
-    };
+
     columnGridSize?: TColumnGridSize;
   };
   fields: Array<
@@ -116,7 +109,6 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
                   );
                 })}
               </Grid>
-
               <Box className="buttons-wrapper">
                 <CustomButton
                   type="submit"
@@ -134,25 +126,27 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
                 )}
               </Box>
             </Grid>
-
-            {inputs?.side?.profileUploader && (
-              <ProfileUploader
-                value={formIK.values[inputs?.side?.profileUploader.name]}
+            {inputs?.side?.uploader && (
+              <Uploader
+                value={formIK.values[inputs?.side?.uploader.name]}
                 onChange={(file) =>
-                  formIK.setFieldValue(inputs?.side?.profileUploader.name, file)
+                  formIK.setFieldValue(
+                    (inputs?.side?.uploader as TAny).name,
+                    file?.name
+                  )
                 }
                 errorMessage={
-                  inputs?.side?.profileUploader.name &&
-                  formIK.errors[inputs?.side?.profileUploader.name]
+                  inputs?.side?.uploader.name &&
+                  formIK.errors[inputs?.side?.uploader.name]
                     ? {
                         text: formIK.errors[
-                          inputs?.side?.profileUploader.name
+                          inputs?.side?.uploader.name
                         ] as string,
                         type: "error",
                       }
-                    : inputs?.side?.profileUploader?.props?.errorMessage
+                    : inputs?.side?.uploader?.props?.errorMessage
                 }
-                {...inputs?.side?.profileUploader["props"]}
+                {...inputs?.side?.uploader["props"]}
               />
             )}
           </Box>

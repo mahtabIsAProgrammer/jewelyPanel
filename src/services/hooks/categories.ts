@@ -20,7 +20,7 @@ export const useCategoriesSearch = (filters?: {
 };
 
 // Get category by id
-export const useGetCategoryById = (id?: number) => {
+export const useGetCategoryById = (id?: string) => {
   return useQuery({
     queryKey: ["category-get", id],
     queryFn: async () => (id ? await getCategoryById(id!) : {}),
@@ -41,7 +41,7 @@ export const useCreateCategory = () => {
 };
 
 // Update a category
-export const useUpdateCategory = (id: number) => {
+export const useUpdateCategory = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: Categories) => updateCategory(id, data),
@@ -64,7 +64,7 @@ export const useUpdateCategory = (id: number) => {
 export const useDeleteCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => deleteCategory(id),
+    mutationFn: (id: string) => deleteCategory(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["categories-search"],

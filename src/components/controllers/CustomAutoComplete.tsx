@@ -39,10 +39,10 @@ export interface ICustomAutoComplete
     >,
     "renderInput"
   > {
-  label: string;
   loading?: boolean;
   errorMessage?: IErrorMessage;
-  customLabel: string;
+  customLabel?: string;
+  required?: boolean;
 }
 
 const EMPTY_VALUE = "nothing found!";
@@ -96,7 +96,7 @@ const renderValue = (
 };
 
 export const CustomAutoComplete = memo<ICustomAutoComplete>(
-  ({ errorMessage, options, customLabel, ...props }) => {
+  ({ errorMessage, options, customLabel, required, ...props }) => {
     return (
       <Grid
         sx={customAutoCompleteSX}
@@ -120,6 +120,7 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
             <CustomTextfield
               sx={{ textAlign: "right" }}
               {...params}
+              required={required}
               customLabel={customLabel}
               errorMessage={errorMessage}
             />
