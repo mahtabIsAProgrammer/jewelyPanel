@@ -1,12 +1,13 @@
 import { Suspense, useContext, type FC } from "react";
 import { MainContext } from "../../helpers/others/mainContext";
-import { DashboardRoutes } from "../others/Dashboardroutes";
+import { DashboardRoutes } from "../others/DashboardRoutes";
 import { useRoutes } from "react-router-dom";
 import { Grid } from "@mui/material";
 import { mainLayoutSX } from "../../helpers/styles/common/main";
 import { LoadingSideBar, Loading } from "../common/Loading";
 import { Navbar } from "../common/Navbar";
 import { Sidebar } from "../common/Sidebar";
+import { ProtectedLayout } from "./ProtectedLayout";
 
 export const DashboardLayout: FC = () => {
   const { theme, sidebarSize } = useContext(MainContext);
@@ -21,17 +22,19 @@ export const DashboardLayout: FC = () => {
   // }
 
   return (
-    <Grid sx={mainLayoutSX(theme, sidebarSize)}>
-      {isLoadingSidebar ? <LoadingSideBar /> : <Sidebar />}
-      <Grid className="content-box">
-        <Navbar />
-        <Grid className="pages-box">
-          <Grid className="items">
-            <Suspense fallback={<Loading />}>{content}</Suspense>
+    <ProtectedLayout>
+      <Grid sx={mainLayoutSX(theme, sidebarSize)}>
+        {isLoadingSidebar ? <LoadingSideBar /> : <Sidebar />}
+        <Grid className="content-box">
+          <Navbar />
+          <Grid className="pages-box">
+            <Grid className="items">
+              <Suspense fallback={<Loading />}>{content}</Suspense>
+            </Grid>
           </Grid>
+          m
         </Grid>
-        m
       </Grid>
-    </Grid>
+    </ProtectedLayout>
   );
 };

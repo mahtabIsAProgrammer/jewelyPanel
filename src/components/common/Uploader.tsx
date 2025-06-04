@@ -109,6 +109,7 @@ const UploaderSX = (type: IUploader["type"]): SxProps<Theme> => ({
   flexDirection: "column",
   "& .uploader-container": {
     display: "flex",
+    minHeight: "262px",
     height: "fit-content",
     flexDirection: "column",
     rowGap: SPACE_LG,

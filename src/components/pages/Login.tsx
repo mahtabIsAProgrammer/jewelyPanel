@@ -12,6 +12,7 @@ import { LoginValidation } from "../../helpers/utils/validations/login";
 
 const Login: FC = () => {
   const navigate = useNavigate();
+  console.log("login page loaded");
 
   const { mutateAsync: loginUser, isPending } = useLogin();
 
@@ -22,18 +23,24 @@ const Login: FC = () => {
     validateOnBlur: false,
     validationSchema: LoginValidation(),
     onSubmit: async (values) => {
-      loginUser(values, {
-        onSuccess: () => {
-          successAlert({
-            title: "Login was Successful",
-          });
-          console.log("Login successful, navigating...");
-          localStorage.setItem("isLoggedIn", "true");
-        },
-        onError: () => {
-          errorAlert({ title: "Problem has occurred on the server side!" });
-        },
-      });
+      try {
+        const { data } = await loginUser(values);
+        console.log("🚀 ~ onSubmit: ~ data:", data);
+
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+
+        successAlert({
+          title: "Login was Successful",
+        });
+        console.log("Login successful, navigating...");
+        navigate("/");
+      } catch (err) {
+        errorAlert({
+          title: "Problem has occurred on the server side!",
+        });
+        console.error("Login error:", err);
+      }
     },
   });
 

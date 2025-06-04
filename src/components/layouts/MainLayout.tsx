@@ -26,6 +26,7 @@ import {
   COLOR_WHITE,
 } from "../../helpers/constants/colors";
 import { errorAlertICON, successAlertICON } from "../others/SvgComponents";
+import { ProtectedLayout } from "./ProtectedLayout";
 
 const MainLayout: FC = () => {
   const children = useRoutes(routes);

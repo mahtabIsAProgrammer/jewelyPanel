@@ -2,7 +2,7 @@ import { object, string } from "yup";
 
 export const validationFaqs = () => {
   return object().shape({
-    fullName: string().trim().required("the input is required"),
-    email: string().email().trim().required("the input is required"),
+    title: string().trim().required("the input is required"),
+    description: string().trim().required("the input is required"),
   });
 };

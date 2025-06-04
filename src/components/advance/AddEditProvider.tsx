@@ -1,7 +1,8 @@
-import { Box, Grid } from "@mui/material";
-import { addEditPrivderSX } from "../../helpers/styles/advance";
-import { HeaderPage } from "../common/HeaderPage";
 import { type FC } from "react";
+import { isArray } from "lodash";
+import { useFormik } from "formik";
+import { Box, Grid } from "@mui/material";
+
 import {
   CustomTextfield,
   type TCustomTextfield,
@@ -10,11 +11,11 @@ import {
   CustomAutoComplete,
   type ICustomAutoComplete,
 } from "../controllers/CustomAutoComplete";
-import { useFormik } from "formik";
+import { HeaderPage } from "../common/HeaderPage";
 import { CustomButton } from "../controllers/CustomButton";
-import { isArray } from "lodash";
-import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
 import { Uploader, type IUploader } from "../common/Uploader";
+import { addEditPrivderSX } from "../../helpers/styles/advance";
+import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
 
 interface IInputs {
   columnGridSize?: TColumnGridSize;
@@ -28,16 +29,19 @@ interface IInputs {
   };
   fields: Array<
     | {
+        isFullWidth?: boolean;
         type: "textfield";
         props: TCustomTextfield;
         name: string;
       }
     | {
+        isFullWidth?: boolean;
         type: "autocomplete";
         props: ICustomAutoComplete;
         name: string;
       }
     | {
+        isFullWidth?: boolean;
         type: "select";
         props: ICustomSelect;
         name: string;
@@ -104,6 +108,7 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
                       props={field.props}
                       name={field.name}
                       formIK={formIK}
+                      isFullWidth={field.isFullWidth}
                       columnGridSize={inputs.columnGridSize}
                     />
                   );
@@ -156,7 +161,14 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
   );
 };
 
-const InputItems = ({ type, props, name, formIK, columnGridSize }: TAny) => {
+const InputItems = ({
+  type,
+  props,
+  name,
+  formIK,
+  columnGridSize,
+  isFullWidth,
+}: TAny) => {
   let result;
 
   switch (type) {
@@ -222,8 +234,8 @@ const InputItems = ({ type, props, name, formIK, columnGridSize }: TAny) => {
     <>
       <Grid
         size={{
-          md: columnGridSize ?? 5.9,
-          lg: columnGridSize ?? 5.9,
+          md: isFullWidth ? 12 : columnGridSize ?? 5.9,
+          lg: isFullWidth ? 12 : columnGridSize ?? 5.9,
           sm: 12,
           xs: 12,
         }}

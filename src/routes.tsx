@@ -2,7 +2,7 @@ import { Outlet, type RouteObject } from "react-router-dom";
 
 import Login from "./components/pages/Login";
 import { DashboardLayout } from "./components/layouts/DashboardLayout";
-import { DashboardRoutes } from "./components/others/Dashboardroutes";
+import { DashboardRoutes } from "./components/others/DashboardRoutes";
 
 export const routes: RouteObject[] = [
   {
@@ -13,8 +13,8 @@ export const routes: RouteObject[] = [
       </>
     ),
     children: [
+      { path: "/login", element: <Login /> },
       { path: "/", element: <DashboardLayout />, children: DashboardRoutes },
-      { path: "login", element: <Login /> },
     ],
   },
 ];

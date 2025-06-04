@@ -9,6 +9,9 @@ import { CustomSwitch } from "../controllers/CustomSwitch";
 export const Navbar: FC = () => {
   const { theme, changeTheme } = useContext(MainContext);
 
+  const user = localStorage.getItem("user");
+  console.log("🚀 ~ user:", user);
+
   return (
     <Grid sx={navbarSX(theme)}>
       <Grid className="content">

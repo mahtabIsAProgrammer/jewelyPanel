@@ -1,4 +1,4 @@
-import { memo, type FC, type ReactElement } from "react";
+import { memo, useCallback, useState, type FC, type ReactElement } from "react";
 
 import {
   Grid,
@@ -21,7 +21,13 @@ import { COLOR_PRIMARY, COLOR_TEXT } from "../../helpers/constants/colors";
 import { CustomLabel } from "./CustomLabel";
 import { SPACE_MD, SPACE_SM } from "../../helpers/constants/spaces";
 import { ERROR_MESSAGE_STYLE } from "../../helpers/constants/material";
-import { errorIcon, warningIcon } from "../others/SvgComponents";
+import {
+  dollarIcon,
+  errorIcon,
+  eyeIcon,
+  eyeSlashIcon,
+  warningIcon,
+} from "../others/SvgComponents";
 
 export type TCustomTextfield =
   | {
@@ -31,6 +37,9 @@ export type TCustomTextfield =
       errorMessage?: IErrorMessage;
       disabled?: boolean;
       icon?: ReactElement;
+      isTextarea?: boolean;
+      isPrice?: boolean;
+      isAutocomplete?: boolean;
     } & Omit<TextFieldProps, "variant"> & {};
 
 export const CustomTextfield = memo<TCustomTextfield>(
@@ -41,31 +50,57 @@ export const CustomTextfield = memo<TCustomTextfield>(
     required,
     disabled,
     type,
+    isPrice,
     icon,
+    isTextarea,
+    isAutocomplete,
     ...props
   }) => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const handlePasswordVisibility = useCallback(() => {
+      setShowPassword((prevState) => !prevState);
+    }, []);
+
     return (
-      <Grid
-        container
-        className="textfield-wrapper"
-        sx={textfieldSX(disabled, type)}
-      >
+      <Grid container className="textfield-wrapper" sx={textfieldSX(disabled)}>
         <Grid className="label-box" sx={{ display: "flex", gap: SPACE_SM }}>
           {customLabel ? (
             <CustomLabel customLabel={customLabel} required={required} />
           ) : undefined}
         </Grid>
         <TextField
-          type={type}
-          slotProps={{
-            input: {
-              endAdornment: icon && (
-                <InputAdornment position="end">
-                  {icon && <IconButton>{icon}</IconButton>}
-                </InputAdornment>
-              ),
-            },
-          }}
+          rows={isTextarea ? 5 : 0}
+          multiline={isTextarea}
+          type={
+            type !== "password" || showPassword
+              ? isPrice
+                ? "number"
+                : "text"
+              : "password"
+          }
+          slotProps={
+            isAutocomplete
+              ? {}
+              : {
+                  input: {
+                    endAdornment: (icon || type == "password" || isPrice) && (
+                      <InputAdornment position="end">
+                        {icon && <IconButton>{icon}</IconButton>}
+                        {isPrice && <IconButton>{dollarIcon()}</IconButton>}
+                        {type == "password" && (
+                          <IconButton
+                            disabled={disabled}
+                            onClick={handlePasswordVisibility}
+                          >
+                            {showPassword ? eyeIcon() : eyeSlashIcon()}
+                          </IconButton>
+                        )}
+                      </InputAdornment>
+                    ),
+                  },
+                }
+          }
           {...props}
           required={undefined}
           className={className && "custom-textfield"}
@@ -102,8 +137,7 @@ export const ErrorMessage: FC<IErrorMessage> = ({ text, type, disabled }) => {
 };
 
 const textfieldSX = (
-  disabled: TCustomTextfield["disabled"],
-  type?: TCustomTextfield["type"]
+  disabled: TCustomTextfield["disabled"]
 ): SxProps<Theme> => ({
   width: "100%",
   display: "flex",

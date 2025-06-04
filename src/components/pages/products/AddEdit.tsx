@@ -1,4 +1,5 @@
 import { type FC } from "react";
+import { map } from "lodash";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -7,6 +8,7 @@ import {
   useUpdateProduct,
 } from "../../../services/hooks/products";
 import { AddEditProvider } from "../../advance/AddEditProvider";
+import { useCategoriesSearch } from "../../../services/hooks/categories";
 import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { validationProducts } from "../../../helpers/utils/validations/products";
 
@@ -30,6 +32,8 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
     size,
     style,
   } = (getProductById as unknown as { data: Products })?.data ?? {};
+
+  const { data: categorySearch } = useCategoriesSearch();
 
   const handleSubmit = (values: Products) => {
     const finalValues = { ...values };
@@ -91,7 +95,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "price",
-            props: { customLabel: "price", required: true },
+            props: { customLabel: "price", required: true, isPrice: true },
           },
           {
             type: "autocomplete",
@@ -99,13 +103,20 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
             props: {
               required: true,
               customLabel: "Categories",
-              options: [{ label: "His", value: 1 }],
+              options: map(categorySearch, ({ id, name }) => ({
+                value: id,
+                label: name,
+              })),
             },
           },
           { type: "textfield", name: "brand", props: { customLabel: "Brand" } },
           { type: "textfield", name: "color", props: { customLabel: "color" } },
           { type: "textfield", name: "style", props: { customLabel: "style" } },
-          { type: "textfield", name: "size", props: { customLabel: "size" } },
+          {
+            type: "textfield",
+            name: "size",
+            props: { customLabel: "size", type: "number" },
+          },
           {
             type: "textfield",
             name: "material",

@@ -37,19 +37,23 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "firstName",
-            props: { customLabel: "First Name" },
+            props: { customLabel: "First Name", required: true },
           },
           {
             type: "textfield",
             name: "lastName",
-            props: { customLabel: "Last Name" },
+            props: { customLabel: "Last Name", required: true },
           },
           {
             type: "textfield",
             name: "userName",
-            props: { customLabel: "User Name" },
+            props: { customLabel: "User Name", required: true },
           },
-          { type: "textfield", name: "email", props: { customLabel: "Email" } },
+          {
+            type: "textfield",
+            name: "email",
+            props: { customLabel: "Email", required: true },
+          },
           {
             type: "select",
             name: "gender",
@@ -69,6 +73,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
               customLabel: "Password",
               type: "password",
               disabled: isEdit,
+              required: !isEdit,
             },
           },
         ],

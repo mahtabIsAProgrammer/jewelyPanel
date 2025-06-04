@@ -13,3 +13,5 @@ export const DEBOUNCE_SEARCH_TIME = 1000;
 export const HEADER_BAR_SIZE = "60px";
 
 export const API_URL = "https://jewlery-api.onrender.com";
+
+export const TOKEN_VALUE = localStorage.getItem("token") || null;

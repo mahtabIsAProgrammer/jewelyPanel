@@ -1,3 +1,4 @@
+import { map } from "lodash";
 import type { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -6,6 +7,7 @@ import {
   useGetBlogById,
   useUpdateBlog,
 } from "../../../services/hooks/blogs";
+import { useUserSearch } from "../../../services/hooks/users";
 import { AddEditProvider } from "../../advance/AddEditProvider";
 import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { validationBlogs } from "../../../helpers/utils/validations/blogs";
@@ -18,6 +20,8 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
   const { mutate: updateBlog } = useUpdateBlog(id || "");
 
   const { data: getBlogById, isLoading } = useGetBlogById(id);
+
+  const { data: userSearch } = useUserSearch();
 
   const { authorId, published, thumbnail, title, detials } =
     (getBlogById as unknown as { data: Blogs })?.data ?? {};
@@ -78,12 +82,19 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "autocomplete",
             name: "authorId",
-            props: { customLabel: "author", options: [] },
+            props: {
+              customLabel: "author",
+              options: map(userSearch, ({ firstName, lastName, id }) => ({
+                value: id,
+                label: firstName + " " + lastName,
+              })),
+            },
           },
           {
-            type: "autocomplete",
+            type: "textfield",
             name: "details",
-            props: { customLabel: "detials", options: [] },
+            isFullWidth: true,
+            props: { customLabel: "detials", isTextarea: true },
           },
         ],
         side: {

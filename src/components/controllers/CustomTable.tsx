@@ -108,6 +108,7 @@ const tableContainerSX: SxProps<Theme> = {
   width: "100%",
   mb: SPACE_LG,
   borderRadius: "12px",
+
   "& .MuiTable-root": {
     width: "100%",
     display: "flex",
@@ -122,6 +123,8 @@ const tableContainerSX: SxProps<Theme> = {
       width: "100%",
       display: "flex",
       flexDirection: "column",
+      overflowY: "scrol",
+      maxHeight: "310px",
       "& .MuiTableCell-root": {
         height: "auto",
         maxHeight: "100px",

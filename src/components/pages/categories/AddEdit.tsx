@@ -76,7 +76,8 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "descriptions",
-            props: { customLabel: "descriptions" },
+            isFullWidth: true,
+            props: { customLabel: "descriptions", isTextarea: true },
           },
         ],
         side: {

@@ -104,9 +104,7 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
         className="autocomplete-chip-wrapper"
       >
         <Autocomplete
-          {...props}
           noOptionsText={noOptionsText}
-          id="tags-filled"
           options={options}
           getOptionLabel={(option) =>
             typeof option === "string" ? option : option.label
@@ -116,15 +114,31 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
             filterOptions(options, params)
           }
           renderValue={(value, getTagProps) => renderValue(value, getTagProps)}
-          renderInput={(params) => (
+          renderInput={({
+            id,
+            size,
+            disabled,
+            fullWidth,
+            inputProps,
+            InputProps: { endAdornment, ref },
+          }) => (
             <CustomTextfield
-              sx={{ textAlign: "right" }}
-              {...params}
+              {...{
+                id,
+                size,
+                disabled,
+                fullWidth,
+                inputProps,
+                InputProps: { endAdornment, ref },
+                InputLabelProps: { required: false },
+              }}
+              isAutocomplete
               required={required}
               customLabel={customLabel}
               errorMessage={errorMessage}
             />
           )}
+          {...props}
         />
       </Grid>
     );

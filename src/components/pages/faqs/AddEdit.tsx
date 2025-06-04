@@ -17,15 +17,16 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
   const { mutate: createFaq } = useCreateFaq();
   const { mutate: UpdateFaq } = useUpdateFaq(id || "");
 
-  const { data: getProductById, isLoading } = useGetFaqById(id);
+  const { data: geFaqById, isLoading } = useGetFaqById(id);
 
   const { description, title } =
-    (getProductById as unknown as { data: Faqs })?.data ?? {};
+    (geFaqById as unknown as { data: Faqs })?.data ?? {};
 
   const handleSubmit = (values: Faqs) => {
     const finalValues = { ...values };
     finalValues.title = finalValues.title || "";
     finalValues.description = finalValues.description || "";
+    console.log("🚀 ~ handleSubmit ~ finalValues:", finalValues);
 
     if (isEdit)
       UpdateFaq(finalValues, {
@@ -70,12 +71,17 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "title",
-            props: { customLabel: "title" },
+            props: { customLabel: "title", required: true },
           },
           {
             type: "textfield",
             name: "description",
-            props: { customLabel: "description" },
+            isFullWidth: true,
+            props: {
+              customLabel: "description",
+              isTextarea: true,
+              required: true,
+            },
           },
         ],
         form: {

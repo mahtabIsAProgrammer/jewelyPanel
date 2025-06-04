@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { map } from "lodash";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -6,7 +7,9 @@ import {
   useUpdateComment,
   useGetCommentById,
 } from "../../../services/hooks/comments";
+import { useUserSearch } from "../../../services/hooks/users";
 import { AddEditProvider } from "../../advance/AddEditProvider";
+import { useProductSearch } from "../../../services/hooks/products";
 import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { validationComments } from "../../../helpers/utils/validations/comments";
 
@@ -21,6 +24,10 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
 
   const { comment, isAccepted, productId, title, userId, rate } =
     (getCommentById as unknown as { data: Comments })?.data ?? {};
+
+  const { data: userSearch } = useUserSearch();
+
+  const { data: productSearch } = useProductSearch();
 
   const handleSubmit = (values: Comments) => {
     const finalValues = { ...values };
@@ -73,28 +80,50 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
         fields: [
           {
             type: "textfield",
-            name: "userId",
-            props: { customLabel: "user" },
-          },
-          {
-            type: "textfield",
-            name: "productId",
-            props: { customLabel: "product" },
-          },
-          {
-            type: "textfield",
-            name: "rate",
-            props: { customLabel: "rate" },
-          },
-          {
-            type: "textfield",
             name: "title",
             props: { customLabel: "title" },
           },
           {
+            type: "select",
+            name: "rate",
+            props: {
+              customLabel: "rate",
+              items: [
+                { value: 1, label: "1" },
+                { value: 2, label: "2" },
+                { value: 3, label: "3" },
+                { value: 4, label: "4" },
+                { value: 5, label: "5" },
+              ],
+            },
+          },
+          {
+            type: "autocomplete",
+            name: "userId",
+            props: {
+              customLabel: "user",
+              options: map(userSearch, ({ firstName, lastName, id }) => ({
+                value: id,
+                label: firstName + " " + lastName,
+              })),
+            },
+          },
+          {
+            type: "autocomplete",
+            name: "productId",
+            props: {
+              customLabel: "product",
+              options: map(productSearch, ({ name, id }) => ({
+                value: id,
+                label: name,
+              })),
+            },
+          },
+          {
             type: "textfield",
             name: "comment",
-            props: { customLabel: "Text" },
+            isFullWidth: true,
+            props: { customLabel: "Text", isTextarea: true },
           },
         ],
         form: {
