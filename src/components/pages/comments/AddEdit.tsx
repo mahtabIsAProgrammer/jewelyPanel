@@ -1,13 +1,14 @@
 import type { FC } from "react";
-import { errorAlert, successAlert } from "../../../helpers/utils/messege";
-import { AddEditProvider } from "../../advance/AddEditProvider";
+import { useNavigate, useParams } from "react-router-dom";
+
 import {
   useCreateComment,
-  useGetCommentById,
   useUpdateComment,
+  useGetCommentById,
 } from "../../../services/hooks/comments";
+import { AddEditProvider } from "../../advance/AddEditProvider";
+import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { validationComments } from "../../../helpers/utils/validations/comments";
-import { useNavigate, useParams } from "react-router-dom";
 
 const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
   const navigate = useNavigate();
@@ -62,8 +63,8 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
       title="Comment"
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
-        { name: "products", link: "/products", type: "list" },
-        { name: "products", link: "", type: "add" },
+        { name: "comments", link: "/comments", type: "list" },
+        { name: "comment", link: "", type: "add" },
       ]}
       isEdit={isEdit}
       isLoading={isLoading}
@@ -72,20 +73,28 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
         fields: [
           {
             type: "textfield",
-            name: "name",
-            props: { label: "Name" },
+            name: "userId",
+            props: { customLabel: "user" },
           },
-          { type: "textfield", name: "brand", props: { label: "Brand" } },
-          { type: "textfield", name: "price", props: { label: "price" } },
-          { type: "textfield", name: "color", props: { label: "color" } },
-          { type: "textfield", name: "style", props: { label: "style" } },
-          { type: "textfield", name: "size", props: { label: "size" } },
-          { type: "textfield", name: "detial", props: { label: "detial" } },
-          { type: "textfield", name: "material", props: { label: "material" } },
           {
             type: "textfield",
-            name: "categoryId",
-            props: { label: "Categories" },
+            name: "productId",
+            props: { customLabel: "product" },
+          },
+          {
+            type: "textfield",
+            name: "rate",
+            props: { customLabel: "rate" },
+          },
+          {
+            type: "textfield",
+            name: "title",
+            props: { customLabel: "title" },
+          },
+          {
+            type: "textfield",
+            name: "comment",
+            props: { customLabel: "Text" },
           },
         ],
         form: {

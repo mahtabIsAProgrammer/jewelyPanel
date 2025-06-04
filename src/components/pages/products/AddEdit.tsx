@@ -1,13 +1,14 @@
 import { type FC } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import {
   useCreateProduct,
   useGetProductById,
   useUpdateProduct,
 } from "../../../services/hooks/products";
-import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { AddEditProvider } from "../../advance/AddEditProvider";
+import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { validationProducts } from "../../../helpers/utils/validations/products";
-import { useNavigate, useParams } from "react-router-dom";
 
 const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
   const navigate = useNavigate();
@@ -96,6 +97,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
             type: "autocomplete",
             name: "categoryId",
             props: {
+              required: true,
               customLabel: "Categories",
               options: [{ label: "His", value: 1 }],
             },

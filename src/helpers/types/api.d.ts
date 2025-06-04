@@ -52,6 +52,7 @@ interface Blogs {
   title?: string | null;
   thumbnail?: string | null;
   published?: string | null;
+  detials?: string | null;
   commentsCount?: number | null;
 }
 

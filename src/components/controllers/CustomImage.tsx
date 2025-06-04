@@ -2,7 +2,6 @@ import {
   Box,
   Grid,
   Avatar,
-  Skeleton,
   type Theme,
   type SxProps,
   type BoxProps,
@@ -11,8 +10,6 @@ import {
 import { assign, isString } from "lodash";
 import {
   memo,
-  useRef,
-  useCallback,
   type ReactNode,
   type SyntheticEvent,
   type ReactEventHandler,
@@ -53,56 +50,38 @@ export const CustomImageBox = memo<ICustomImageBox>(
   ({
     sx,
     alt,
-    onClick,
+    // onClick,
     variant,
     hasBorder,
     className,
-    withOutPreview,
+    // withOutPreview,
     ...props
   }) => {
-    const ref = useRef(null);
-
-    const handleImageLoad = useCallback(() => {
-      if (ref.current) (ref.current as TAny).classList.add("non-opacity");
-    }, []);
+    // const ref = useRef(null);
 
     return (
-      <Box
-        className="wrapper-custom-image-box"
+      <Grid
+        className="image-box"
         sx={{ position: "relative", height: "100%", width: "100%" }}
       >
         <Box
           alt={alt}
           component="img"
-          {...{
-            ...props,
-            sx: assign(customImageBoxSX(hasBorder || false, variant), sx ?? {}),
-          }}
-          onClick={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-            const srcImage = (e.target as unknown as { src: string }).src;
-            onClick && onClick(e);
-            if (!srcImage.includes("assets") && !withOutPreview)
-              window.open(srcImage, "__blank");
-          }}
-          onLoad={handleImageLoad}
-          onError={(e: SyntheticEvent<HTMLImageElement, Event>) => (
-            (e.currentTarget.src = emptyImage), handleImageLoad()
-          )}
+          {...props}
+          sx={assign(customImageBoxSX(hasBorder || false, variant), sx ?? {})}
+          // onClick={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+          //   const srcImage = (e.target as unknown as { src: string }).src;
+          //   onClick && onClick(e);
+          //   if (!srcImage.includes("assets") && !withOutPreview)
+          //     window.open(srcImage, "__blank");
+          // }}
+          // onLoad={handleImageLoad}
+          onError={(e: SyntheticEvent<HTMLImageElement, Event>) =>
+            (e.currentTarget.src = emptyImage)
+          }
           className={"image-box " + className}
         />
-        <Box
-          component="div"
-          className={"skeleton-custom-image " + className}
-          sx={customImageBoxSX(hasBorder || false, variant)}
-          ref={ref}
-        >
-          <Skeleton
-            variant={variant == "circular" ? "circular" : "rounded"}
-            width="100%"
-            height="100%"
-          />
-        </Box>
-      </Box>
+      </Grid>
     );
   }
 );

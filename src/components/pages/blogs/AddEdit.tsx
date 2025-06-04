@@ -1,13 +1,14 @@
 import type { FC } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import {
   useCreateBlog,
   useGetBlogById,
   useUpdateBlog,
 } from "../../../services/hooks/blogs";
-import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { AddEditProvider } from "../../advance/AddEditProvider";
+import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { validationBlogs } from "../../../helpers/utils/validations/blogs";
-import { useNavigate, useParams } from "react-router-dom";
 
 const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
   const navigate = useNavigate();
@@ -18,17 +19,16 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
 
   const { data: getBlogById, isLoading } = useGetBlogById(id);
 
-  const { authorId, authorName, commentsCount, published, thumbnail, title } =
+  const { authorId, published, thumbnail, title, detials } =
     (getBlogById as unknown as { data: Blogs })?.data ?? {};
 
   const handleSubmit = (values: Blogs) => {
     const finalValues = { ...values };
+    finalValues.title = finalValues.title || "";
+    finalValues.detials = finalValues.detials || "";
     finalValues.authorId = finalValues.authorId || "";
-    finalValues.authorName = finalValues.authorName || "";
-    finalValues.commentsCount = finalValues.commentsCount || 0;
     finalValues.published = finalValues.published || "";
     finalValues.thumbnail = finalValues.thumbnail || "";
-    finalValues.title = finalValues.title || "";
 
     if (isEdit)
       updateBlog(finalValues, {
@@ -62,8 +62,8 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
       title="Blog"
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
-        { name: "products", link: "/products", type: "list" },
-        { name: "products", link: "", type: "add" },
+        { name: "blogs", link: "/blogs", type: "list" },
+        { name: "blog", link: "", type: "add" },
       ]}
       isEdit={isEdit}
       isLoading={isLoading}
@@ -80,6 +80,11 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
             name: "authorId",
             props: { customLabel: "author", options: [] },
           },
+          {
+            type: "autocomplete",
+            name: "details",
+            props: { customLabel: "detials", options: [] },
+          },
         ],
         side: {
           uploader: {
@@ -90,9 +95,8 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
         form: {
           initialValues: {
             authorId: authorId || null,
-            authorName: authorName || null,
-            commentsCount: commentsCount || null,
             published: published || null,
+            detials: detials || null,
             thumbnail: thumbnail || null,
             title: title || null,
           },

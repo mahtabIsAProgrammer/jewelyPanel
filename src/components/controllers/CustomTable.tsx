@@ -1,18 +1,18 @@
-import { memo, useCallback, type FC } from "react";
 import {
   Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Paper,
-  Box,
-  Typography,
+  TableRow,
   Skeleton,
-  type SxProps,
+  TableCell,
+  TableHead,
+  TableBody,
   type Theme,
+  type SxProps,
+  TableContainer,
 } from "@mui/material";
+import { memo, useCallback, type FC } from "react";
+
+import { NoData } from "../common/NoOption";
 import { SPACE_LG } from "../../helpers/constants/spaces";
 import { FONT_BODY, FONT_WEIGHT_BLOD } from "../../helpers/constants/fonts";
 
@@ -30,59 +30,53 @@ export const CustomTable: FC<ICustomTable> = ({
   return (
     <TableContainer component={Paper} sx={tableContainerSX}>
       <Table stickyHeader>
-        <TableHead>
-          <TableRow>
-            {headerCells.map(({ label, align }, index) => (
-              <TableCell
-                key={index}
-                align={align || "left"}
-                sx={{ fontWeight: "bold" }}
-              >
-                {label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {isLoading ? (
-            Array.from({ length: 5 }).map((_, i) => (
-              <TableRow key={`skeleton-${i}`}>
-                {headerCells.map(({ align }, j) => (
+        {valueRows?.length === 0 ? (
+          <NoData />
+        ) : (
+          <>
+            <TableHead>
+              <TableRow>
+                {headerCells.map(({ label, align }, index) => (
                   <TableCell
-                    sx={{ py: "0" }}
-                    key={`skeleton-cell-${j}`}
+                    key={index}
                     align={align || "left"}
+                    sx={{ fontWeight: "bold" }}
                   >
-                    <Skeleton variant="text" width={"100%"} height={40} />
+                    {label}
                   </TableCell>
                 ))}
               </TableRow>
-            ))
-          ) : valueRows?.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={headerCells?.length} align="center">
-                <Box p={3}>
-                  <Typography variant="subtitle1" color="text.secondary">
-                    😕 No data to show right now.
-                  </Typography>
-                </Box>
-              </TableCell>
-            </TableRow>
-          ) : (
-            valueRows?.map((row, rowIndex) => (
-              <TableRow key={rowIndex} hover>
-                {headerCells.map(({ id, ComponentRow, align }) => (
-                  <CustomTableCell
-                    id={id}
-                    row={row}
-                    align={align}
-                    ComponentRow={ComponentRow}
-                  />
-                ))}
-              </TableRow>
-            ))
-          )}
-        </TableBody>
+            </TableHead>
+            <TableBody>
+              {isLoading
+                ? Array.from({ length: 5 }).map((_, i) => (
+                    <TableRow key={`skeleton-${i}`}>
+                      {headerCells.map(({ align }, j) => (
+                        <TableCell
+                          sx={{ py: "0" }}
+                          key={`skeleton-cell-${j}`}
+                          align={align || "left"}
+                        >
+                          <Skeleton variant="text" width={"100%"} height={40} />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                : valueRows?.map((row, rowIndex) => (
+                    <TableRow key={rowIndex} hover>
+                      {headerCells.map(({ id, ComponentRow, align }) => (
+                        <CustomTableCell
+                          id={id}
+                          row={row}
+                          align={align}
+                          ComponentRow={ComponentRow}
+                        />
+                      ))}
+                    </TableRow>
+                  ))}
+            </TableBody>
+          </>
+        )}
       </Table>
     </TableContainer>
   );

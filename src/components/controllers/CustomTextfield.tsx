@@ -31,7 +31,6 @@ export type TCustomTextfield =
       errorMessage?: IErrorMessage;
       disabled?: boolean;
       icon?: ReactElement;
-      type?: "textarea" | "password" | "simple";
     } & Omit<TextFieldProps, "variant"> & {};
 
 export const CustomTextfield = memo<TCustomTextfield>(
@@ -57,6 +56,7 @@ export const CustomTextfield = memo<TCustomTextfield>(
           ) : undefined}
         </Grid>
         <TextField
+          type={type}
           slotProps={{
             input: {
               endAdornment: icon && (
@@ -109,10 +109,10 @@ const textfieldSX = (
   display: "flex",
   pb: SPACE_MD,
   flexDirection: "column",
+  opacity: disabled ? 0.4 : 1,
   "& .custom-textfield": {
     width: "100%",
     borderRadius: "12px",
-    opacity: disabled ? 0.4 : 1,
   },
   "& .MuiInputBase-root": {
     outline: "none",

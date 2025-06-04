@@ -1,13 +1,14 @@
 import { type FC } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import {
   useCreateCategory,
-  useGetCategoryById,
   useUpdateCategory,
+  useGetCategoryById,
 } from "../../../services/hooks/categories";
-import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { AddEditProvider } from "../../advance/AddEditProvider";
+import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { validationCategories } from "../../../helpers/utils/validations/categories";
-import { useNavigate, useParams } from "react-router-dom";
 
 const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
   const navigate = useNavigate();
@@ -59,8 +60,8 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
       title="Category"
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
-        { name: "products", link: "/products", type: "list" },
-        { name: "product", link: "", type: "add" },
+        { name: "categories", link: "/categories", type: "list" },
+        { name: "category", link: "", type: "add" },
       ]}
       isEdit={isEdit}
       isLoading={isLoading}
@@ -70,12 +71,12 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "name",
-            props: { label: "Name" },
+            props: { customLabel: "Name" },
           },
           {
             type: "textfield",
             name: "descriptions",
-            props: { label: "descriptions" },
+            props: { customLabel: "descriptions" },
           },
         ],
         side: {

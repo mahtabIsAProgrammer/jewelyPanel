@@ -1,17 +1,19 @@
-import { type FC } from "react";
+import { useState, type FC } from "react";
+import { Box, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
+import { editIcon } from "../../others/SvgComponents";
 import { PageProvider } from "../../advance/PageProvider";
 import { useUserSearch } from "../../../services/hooks/users";
 import { CustomImageBox } from "../../controllers/CustomImage";
-import { Box, Grid } from "@mui/material";
-import { editIcon } from "../../others/SvgComponents";
-import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
 import { COLOR_SECEONDRY } from "../../../helpers/constants/colors";
-import { useNavigate } from "react-router-dom";
+import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
 
 const List: FC = () => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState<string>("");
   // const [open, setOpen] = useState<boolean>(false);
-  const { data: userSearch, isLoading } = useUserSearch();
+  const { data: userSearch, isLoading } = useUserSearch({ search });
 
   // const { mutate: deleteUser } = useDeleteUser();
 
@@ -19,6 +21,7 @@ const List: FC = () => {
     <PageProvider
       isLoading={isLoading}
       buttonLink="add"
+      onSearch={setSearch}
       headerCells={[
         {
           id: "imageUrl",

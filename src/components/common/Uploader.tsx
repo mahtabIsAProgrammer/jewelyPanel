@@ -26,7 +26,6 @@ export const Uploader: FC<IUploader> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string>("");
-  console.log("🚀 ~ preview:", preview);
 
   useEffect(() => {
     if (
@@ -55,7 +54,7 @@ export const Uploader: FC<IUploader> = ({
   };
 
   return (
-    <Grid sx={UploaderSX}>
+    <Grid sx={UploaderSX(type)}>
       <CustomLabel customLabel={customLabel} required={required} />
       <Grid className="uploader-container">
         <Box
@@ -103,7 +102,7 @@ export const Uploader: FC<IUploader> = ({
   );
 };
 
-const UploaderSX: SxProps<Theme> = {
+const UploaderSX = (type: IUploader["type"]): SxProps<Theme> => ({
   minWidth: "300px",
   display: "flex",
   height: "fit-content",
@@ -151,7 +150,7 @@ const UploaderSX: SxProps<Theme> = {
         left: 0,
         width: "100%",
         height: "100%",
-        borderRadius: "50%",
+        borderRadius: type == "profile" ? "50%" : "",
         bgcolor: "rgba(0, 0, 0, 0.4)",
         display: "flex",
         justifyContent: "center",
@@ -161,4 +160,4 @@ const UploaderSX: SxProps<Theme> = {
       },
     },
   },
-};
+});

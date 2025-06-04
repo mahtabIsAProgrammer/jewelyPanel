@@ -7,7 +7,7 @@ import { Box, Typography, type SxProps, type Theme } from "@mui/material";
 import { BreadCrumbs } from "./Breadcrumbs";
 import { COLOR_WHITE } from "../../helpers/constants/colors";
 import { localNavigateHandler } from "../../helpers/utils/handlers";
-import { SPACE_LG, SPACE_MD, SPACE_SM } from "../../helpers/constants/spaces";
+import { SPACE_MD, SPACE_SM } from "../../helpers/constants/spaces";
 import { CustomButton, type TCustomButton } from "../controllers/CustomButton";
 import { FONT_BODY, FONT_WEIGHT_REGULAR } from "../../helpers/constants/fonts";
 
@@ -77,16 +77,13 @@ export const HeaderPage: FC<IHeaderPage> = ({
 };
 
 const headerPageSX: SxProps<Theme> = {
-  // width: "100%",
-  px: SPACE_LG,
-  py: SPACE_MD,
+  pb: SPACE_MD,
   display: "flex",
   alignItems: "center",
   marginBottom: "20px",
   borderRadius: "12px",
   backgroundColor: COLOR_WHITE,
   justifyContent: "space-between",
-  boxShadow: "0px 4px 6px -2px #A3A3A308 , 0px 12px 16px -4px #A3A3A308",
   "& .title": {
     fontSize: FONT_BODY,
     fontWeight: FONT_WEIGHT_REGULAR,

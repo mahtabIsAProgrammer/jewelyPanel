@@ -15,7 +15,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
 
   const { data: userGetById, isLoading } = useGetUserById(id);
 
-  const { lastName, email, firstName, gender, imageUrl, userName } =
+  const { lastName, email, firstName, gender, imageUrl, userName, password } =
     (userGetById as unknown as { data: Users })?.data ?? {};
 
   const { mutate: createUser } = useCreateUser();
@@ -27,7 +27,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
         { name: "users", link: "/users", type: "list" },
-        { name: "users", link: "", type: "add" },
+        { name: "user", link: "", type: "add" },
       ]}
       isEdit={isEdit}
       isLoading={isLoading}
@@ -65,7 +65,11 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "password",
-            props: { customLabel: "Password", type: "password" },
+            props: {
+              customLabel: "Password",
+              type: "password",
+              disabled: isEdit,
+            },
           },
         ],
         side: {
@@ -79,7 +83,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
         },
         form: {
           initialValues: {
-            password: "",
+            password: password || "",
             userName: userName || null,
             email: email || null,
             gender: gender || null,

@@ -1,13 +1,14 @@
 import { useState, type FC } from "react";
-import { PageProvider } from "../../advance/PageProvider";
-import { useDeleteFaq, useFaqSearch } from "../../../services/hooks/faq";
 import { Grid, Box } from "@mui/material";
-import { COLOR_SECEONDRY, COLOR_RED } from "../../../helpers/constants/colors";
-import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
-import { successAlert } from "../../../helpers/utils/messege";
-import { DeleteDialog } from "../../common/DeleteDialog";
-import { editIcon, deleteIcon } from "../../others/SvgComponents";
 import { useNavigate } from "react-router-dom";
+
+import { DeleteDialog } from "../../common/DeleteDialog";
+import { PageProvider } from "../../advance/PageProvider";
+import { successAlert } from "../../../helpers/utils/messege";
+import { editIcon, deleteIcon } from "../../others/SvgComponents";
+import { useDeleteFaq, useFaqSearch } from "../../../services/hooks/faq";
+import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
+import { COLOR_SECEONDRY, COLOR_RED } from "../../../helpers/constants/colors";
 
 const List: FC = () => {
   const navigate = useNavigate();

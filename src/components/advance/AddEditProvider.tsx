@@ -83,7 +83,7 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
   return (
     <Grid sx={addEditPrivderSX}>
       <HeaderPage
-        title={isEdit ? "Edit" : "Add " + title}
+        title={isEdit ? "Edit " + title : "Add " + title}
         breadcrumbData={breadcrumbs}
       />
       <Box className="page-container">

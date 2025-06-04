@@ -2,10 +2,10 @@ import type { SxProps, Theme } from "@mui/material";
 
 import {
   FONT_BODY,
-  FONT_TITLE,
   FONT_SMALL_TEXT,
   FONT_WEIGHT_BLOD,
   FONT_WEIGHT_MEDUIM,
+  FONT_HEADING_MEDIUM,
 } from "../../constants/fonts";
 import {
   COLOR_WHITE,
@@ -24,21 +24,21 @@ export const sidebarSX: SxProps<Theme> = {
   display: "flex",
   flexDirection: "column",
   gap: SPACE_XS,
-  "& .profile-info": {
+  "& .logo": {
     mt: "10px",
     width: "100%",
     display: "flex",
     alignItems: "center",
     gap: SPACE_SM,
-    "& .custom-avatar": {
-      width: "60px",
-      height: "60px",
+    "& .image-box": {
+      width: "45px",
+      height: "45px",
     },
     "& .texts": {
       display: "flex",
       flexDirection: "column",
       "& .title": {
-        fontSize: FONT_TITLE,
+        fontSize: FONT_HEADING_MEDIUM,
         fontWeight: FONT_WEIGHT_BLOD,
       },
       "& .subtitle": {

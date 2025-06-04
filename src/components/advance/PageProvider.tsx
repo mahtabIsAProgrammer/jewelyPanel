@@ -6,6 +6,8 @@ import { CustomTable } from "../controllers/CustomTable";
 import { HeaderPage } from "../common/HeaderPage";
 import { addICON } from "../others/SvgComponents";
 import type { JSX } from "@emotion/react/jsx-runtime";
+import { debounce } from "lodash";
+import { DEBOUNCE_SEARCH_TIME } from "../../helpers/constants/static";
 
 interface IPageProvider {
   title: string;
@@ -41,17 +43,17 @@ export const PageProvider: FC<IPageProvider> = ({
   const [searchValue, setSearchValue] = useState("");
   const [filterValue, setFilterValue] = useState("");
 
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchValue(value);
     onSearch?.(value);
-  };
+  }, DEBOUNCE_SEARCH_TIME);
 
-  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setFilterValue(value);
     onFilterChange?.(value);
-  };
+  }, DEBOUNCE_SEARCH_TIME);
 
   return (
     <Box sx={pageProviderSX}>
@@ -72,7 +74,7 @@ export const PageProvider: FC<IPageProvider> = ({
         }}
         otherComponent={otherComponentHeader}
       />
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box className="filters">
         <CustomTextfield
           label="Search"
           variant="outlined"

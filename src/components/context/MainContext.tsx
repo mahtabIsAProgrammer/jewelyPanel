@@ -25,7 +25,6 @@ export const MainContextProvider: FC<IMainContextProvider> = ({ children }) => {
   };
 
   const changeTheme = (theme: TTheme) => {
-    console.log("🚀 ~ file: MainContext.tsx:39 ~ themeChange ~ theme:", theme);
     setTheme(theme);
   };
 

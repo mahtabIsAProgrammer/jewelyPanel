@@ -1,17 +1,19 @@
 import { useState, type FC } from "react";
-import { PageProvider } from "../../advance/PageProvider";
+import { Grid, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 import {
   useDeleteProduct,
   useProductSearch,
 } from "../../../services/hooks/products";
-import { Grid, Box } from "@mui/material";
-import { COLOR_RED, COLOR_SECEONDRY } from "../../../helpers/constants/colors";
-import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
-import { deleteIcon, editIcon } from "../../others/SvgComponents";
-import { successAlert } from "../../../helpers/utils/messege";
-import { useNavigate } from "react-router-dom";
 import { DeleteDialog } from "../../common/DeleteDialog";
+import { PageProvider } from "../../advance/PageProvider";
+import { successAlert } from "../../../helpers/utils/messege";
 import { CustomImageBox } from "../../controllers/CustomImage";
+import { deleteIcon, editIcon } from "../../others/SvgComponents";
+import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
+import { COLOR_RED, COLOR_SECEONDRY } from "../../../helpers/constants/colors";
+
 const List: FC = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);

@@ -1,13 +1,14 @@
 import { type FC } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import {
   useCreateFaq,
-  useGetFaqById,
   useUpdateFaq,
+  useGetFaqById,
 } from "../../../services/hooks/faq";
-import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { AddEditProvider } from "../../advance/AddEditProvider";
+import { errorAlert, successAlert } from "../../../helpers/utils/messege";
 import { validationFaqs } from "../../../helpers/utils/validations/faqs";
-import { useNavigate, useParams } from "react-router-dom";
 
 const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
   const navigate = useNavigate();
@@ -58,13 +59,13 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
       title="Faq"
       breadcrumbs={[
         { name: "dashboard", link: "/", type: "none" },
-        { name: "frequently questions", link: "/faqs", type: "list" },
-        { name: "frequently question", link: "", type: "add" },
+        { name: "faqs", link: "/faqs", type: "list" },
+        { name: "faq", link: "", type: "add" },
       ]}
       isEdit={isEdit}
       isLoading={isLoading}
       inputs={{
-        columnGridSize: 12,
+        columnGridSize: 5.9,
         fields: [
           {
             type: "textfield",

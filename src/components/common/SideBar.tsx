@@ -14,17 +14,16 @@ import {
 } from "../others/SvgComponents";
 import { COLOR_WHITE } from "../../helpers/constants/colors";
 import { sidebarSX } from "../../helpers/styles/common/sidebar";
-import { CustomAvatar, CustomIcon } from "../controllers/CustomImage";
+import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
 
 export const Sidebar: FC = () => {
   const location = useLocation();
   return (
     <Grid sx={sidebarSX}>
-      <Grid className="profile-info">
-        <CustomAvatar hasBorder src="" />
+      <Grid className="logo">
+        <CustomImageBox src="/fav.webp" />
         <Grid className="texts">
-          <Typography className="title">Mahtab Salari</Typography>
-          <Typography className="subtitle">Programmer</Typography>
+          <Typography className="title">Jelwery</Typography>
         </Grid>
       </Grid>
       <Grid className="lists">
