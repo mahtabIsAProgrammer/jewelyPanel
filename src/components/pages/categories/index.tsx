@@ -19,7 +19,9 @@ const List: FC = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
 
-  const { data: categorySearch, isLoading } = useCategoriesSearch();
+  const [search, setSearch] = useState<string>("");
+
+  const { data: categorySearch, isLoading } = useCategoriesSearch({ search });
 
   const { mutate: deleteCategory } = useDeleteCategory();
 
@@ -27,6 +29,7 @@ const List: FC = () => {
     <PageProvider
       isLoading={isLoading}
       buttonLink="add"
+      onSearch={setSearch}
       headerCells={[
         {
           id: "imageUrl",

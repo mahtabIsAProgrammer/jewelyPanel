@@ -18,7 +18,9 @@ const List: FC = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
 
-  const { data: commentsSearch, isLoading } = useCommentSearch();
+  const [search, setSearch] = useState<string>("");
+
+  const { data: commentsSearch, isLoading } = useCommentSearch({ search });
 
   const { mutate: deleteComment } = useDeleteComment();
 
@@ -26,6 +28,7 @@ const List: FC = () => {
     <PageProvider
       isLoading={isLoading}
       buttonLink="add"
+      onSearch={setSearch}
       headerCells={[
         { id: "title", label: "title" },
         {

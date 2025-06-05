@@ -18,13 +18,15 @@ import { COLOR_RED, COLOR_SECEONDRY } from "../../../helpers/constants/colors";
 const List: FC = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
 
-  const { data: productSearch, isLoading } = useProductSearch();
+  const { data: productSearch, isLoading } = useProductSearch({ search });
 
   const { mutate: deleteProduct } = useDeleteProduct();
 
   return (
     <PageProvider
+      onSearch={setSearch}
       isLoading={isLoading}
       buttonLink="add"
       headerCells={[

@@ -17,7 +17,9 @@ const List: FC = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
 
-  const { data: blogSearch, isLoading } = useBlogSearch();
+  const [search, setSearch] = useState<string>("");
+
+  const { data: blogSearch, isLoading } = useBlogSearch({ search });
 
   const { mutate: blogDelete } = useDeleteBlog();
 
@@ -25,6 +27,7 @@ const List: FC = () => {
     <PageProvider
       isLoading={isLoading}
       buttonLink="add"
+      onSearch={setSearch}
       headerCells={[
         {
           id: "imageUrl",

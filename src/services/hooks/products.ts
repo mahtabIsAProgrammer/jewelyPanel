@@ -15,7 +15,6 @@ export const useProductSearch = (filters?: {
     queryKey: ["products-search", filters],
     queryFn: () => getAllProducts(filters),
     placeholderData: (prev: TAny) => prev,
-    enabled: true,
   });
 };
 
