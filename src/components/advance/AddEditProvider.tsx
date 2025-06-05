@@ -17,6 +17,7 @@ import { Uploader, type IUploader } from "../common/Uploader";
 import { addEditPrivderSX } from "../../helpers/styles/advance";
 import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
 import { MainContext } from "../../helpers/others/mainContext";
+import { EditorQuill, type IEditorQuill } from "../common/EditorQuill";
 
 interface IInputs {
   columnGridSize?: TColumnGridSize;
@@ -45,6 +46,12 @@ interface IInputs {
         isFullWidth?: boolean;
         type: "select";
         props: ICustomSelect;
+        name: string;
+      }
+    | {
+        isFullWidth?: boolean;
+        type: "editorQuill";
+        props: IEditorQuill;
         name: string;
       }
   >;
@@ -220,6 +227,24 @@ const InputItems = memo(
                 : props?.errorMessage
             }
             {...(props ?? { items: [] })}
+          />
+        );
+        break;
+
+      case "editorQuill":
+        result = (
+          <EditorQuill
+            value={formIK && formIK.values[name]}
+            onChange={(value) => formIK && formIK.setFieldValue(name, value)}
+            errorMessage={
+              formIK && formIK.errors[name]
+                ? {
+                    message: formIK && formIK.errors[name],
+                    type: "error",
+                  }
+                : props?.["editorQuill"]?.errorMessage
+            }
+            {...(props?.["editorQuill"] ?? {})}
           />
         );
         break;

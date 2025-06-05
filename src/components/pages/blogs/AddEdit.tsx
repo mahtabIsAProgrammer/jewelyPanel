@@ -91,10 +91,10 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
             },
           },
           {
-            type: "textfield",
+            type: "editorQuill",
             name: "details",
             isFullWidth: true,
-            props: { customLabel: "detials", isTextarea: true },
+            props: { customLabel: "detials" },
           },
         ],
         side: {
