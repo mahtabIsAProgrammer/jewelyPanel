@@ -9,6 +9,7 @@ import {
 } from "../../../services/hooks/comments";
 import { DeleteDialog } from "../../common/DeleteDialog";
 import { successAlert } from "../../../helpers/utils/messege";
+import { useUserSearch } from "../../../services/hooks/users";
 import { editIcon, deleteIcon } from "../../others/SvgComponents";
 import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
 import { COLOR_SECEONDRY, COLOR_RED } from "../../../helpers/constants/colors";
@@ -27,7 +28,18 @@ const List: FC = () => {
       buttonLink="add"
       headerCells={[
         { id: "title", label: "title" },
-        { id: "userId", label: "userId" },
+        {
+          id: "userId",
+          label: "userId",
+          ComponentRow: ({ row }: TAny) => {
+            const { data: userSearch } = useUserSearch();
+
+            const { firstName, lastName } =
+              userSearch?.find((item: TAny) => item?.id == row?.authorId) ?? {};
+
+            return firstName + " " + lastName;
+          },
+        },
         { id: "comment", label: "comment" },
         {
           id: "id",

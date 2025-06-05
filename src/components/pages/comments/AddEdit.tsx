@@ -81,7 +81,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "title",
-            props: { customLabel: "title" },
+            props: { customLabel: "title", required: true },
           },
           {
             type: "select",
@@ -100,7 +100,9 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "autocomplete",
             name: "userId",
+
             props: {
+              required: true,
               customLabel: "user",
               options: map(userSearch, ({ firstName, lastName, id }) => ({
                 value: id,
@@ -112,6 +114,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
             type: "autocomplete",
             name: "productId",
             props: {
+              required: true,
               customLabel: "product",
               options: map(productSearch, ({ name, id }) => ({
                 value: id,
@@ -122,8 +125,9 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "comment",
+
             isFullWidth: true,
-            props: { customLabel: "Text", isTextarea: true },
+            props: { customLabel: "Text", isTextarea: true, required: true },
           },
         ],
         form: {

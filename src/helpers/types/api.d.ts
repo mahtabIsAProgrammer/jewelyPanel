@@ -13,7 +13,7 @@ interface Products {
   name?: string | null;
   size?: string | null;
   price?: number | null;
-  image?: string | null;
+  imageUrl?: string | null;
   color?: string | null;
   style?: string | null;
   brand?: string | null;
@@ -50,9 +50,9 @@ interface Blogs {
   authorId?: string | null;
   authorName?: string | null;
   title?: string | null;
-  thumbnail?: string | null;
+  imageUrl?: string | null;
   published?: string | null;
-  detials?: string | null;
+  details?: string | null;
   commentsCount?: number | null;
 }
 

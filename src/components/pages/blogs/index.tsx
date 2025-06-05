@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 import { DeleteDialog } from "../../common/DeleteDialog";
 import { PageProvider } from "../../advance/PageProvider";
+import { useUserSearch } from "../../../services/hooks/users";
 import { successAlert } from "../../../helpers/utils/messege";
 import { CustomImageBox } from "../../controllers/CustomImage";
+import { handleImageUrl } from "../../../helpers/utils/handlers";
 import { editIcon, deleteIcon } from "../../others/SvgComponents";
 import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
 import { useBlogSearch, useDeleteBlog } from "../../../services/hooks/blogs";
@@ -25,19 +27,31 @@ const List: FC = () => {
       buttonLink="add"
       headerCells={[
         {
-          id: "thumbnail",
+          id: "imageUrl",
           label: "image",
-          ComponentRow: () => {
+          align: "center",
+          ComponentRow: ({ row }: TAny) => {
             return (
               <CustomImageBox
                 sx={{ width: "60px", height: "60px" }}
-                src={"photo_2025-05-27_16-25-57.jpg"}
+                src={handleImageUrl(row?.imageUrl)}
               />
             );
           },
         },
         { id: "title", label: "title" },
-        { id: "authorName", label: "authorName" },
+        {
+          id: "authorId",
+          label: "author",
+          ComponentRow: ({ row }: TAny) => {
+            const { data: userSearch } = useUserSearch();
+
+            const { firstName, lastName } =
+              userSearch?.find((item: TAny) => item?.id == row?.authorId) ?? {};
+
+            return firstName + " " + lastName;
+          },
+        },
         {
           id: "id",
           label: "actions",

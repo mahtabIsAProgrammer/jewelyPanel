@@ -1,7 +1,7 @@
-import { memo, useContext, type FC } from "react";
 import { isArray } from "lodash";
 import { useFormik } from "formik";
 import { Box, Grid } from "@mui/material";
+import { memo, useContext, type FC } from "react";
 
 import {
   CustomTextfield,
@@ -14,10 +14,10 @@ import {
 import { HeaderPage } from "../common/HeaderPage";
 import { CustomButton } from "../controllers/CustomButton";
 import { Uploader, type IUploader } from "../common/Uploader";
-import { addEditPrivderSX } from "../../helpers/styles/advance";
-import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
 import { MainContext } from "../../helpers/others/mainContext";
+import { addEditPrivderSX } from "../../helpers/styles/advance";
 import { EditorQuill, type IEditorQuill } from "../common/EditorQuill";
+import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
 
 interface IInputs {
   columnGridSize?: TColumnGridSize;
@@ -192,15 +192,18 @@ const InputItems = memo(
       case "autocomplete":
         result = (
           <CustomAutoComplete
+            isOptionEqualToValue={({ label }, value) =>
+              label.toString() == value.toString()
+            }
             onChange={(_, newValue) => {
               const values = isArray(newValue)
                 ? newValue?.map((item: TAny) =>
                     typeof item === "string" ? item : item.value
                   )
                 : newValue;
-              formIK.setFieldValue(name, values);
+              formIK.setFieldValue(name, (values as IOption)?.value);
             }}
-            value={formIK.values[name]}
+            value={formIK.values[name] || ""}
             errorMessage={
               formIK && formIK.errors[name]
                 ? {

@@ -69,18 +69,10 @@ const filterOptions = (
   return filtered;
 };
 
-// const renderValue = (
-//   value: (string | IOption)[] | string | IOption,
-//   getItemProps: TAny
-// ) => {
-//   const safeArray = isArray(value) ? value : [value];
-
-//   return safeArray.map((option: IOption | string, index: number) => {
-//     const { key, ...itemProps } = getItemProps({ index });
-
-//     return option.label;
-//   });
-// };
+const renderValue = (value: string, options: IOption[]) => {
+  const label = options?.find((o) => o?.value == value)?.label;
+  return label;
+};
 
 export const CustomAutoComplete = memo<ICustomAutoComplete>(
   ({ errorMessage, options, customLabel, required, ...props }) => {
@@ -93,14 +85,13 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
         <Autocomplete
           noOptionsText={noOptionsText}
           options={options}
-          getOptionLabel={(option) =>
-            typeof option === "string" ? option : option.label
-          }
           slotProps={{ listbox: { sx: STYLE_AUTOCOMPLETE_ITEMS } }}
           filterOptions={(options: IOption[], params) =>
             filterOptions(options, params)
           }
-          // renderValue={(value, getTagProps) => renderValue(value, getTagProps)}
+          renderValue={(value) =>
+            renderValue(value as string, options as IOption[])
+          }
           renderInput={(params) => (
             <CustomTextfield
               {...params}

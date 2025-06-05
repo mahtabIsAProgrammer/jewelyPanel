@@ -1,18 +1,20 @@
-import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
+import axios from "axios";
 import { memo, useEffect, useRef, useState } from "react";
-import { CustomLabel } from "../controllers/CustomLabel";
-import { cameraIcon, deleteIcon } from "../others/SvgComponents";
-import { ErrorMessage } from "../controllers/CustomTextfield";
-import { SPACE_LG } from "../../helpers/constants/spaces";
+import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
+
 import {
   COLOR_BORDER,
   COLOR_RED,
   COLOR_WHITE,
 } from "../../helpers/constants/colors";
-import { CustomAvatar, CustomImageBox } from "../controllers/CustomImage";
-import { handleImageUrl } from "../../helpers/utils/handlers";
-import axios from "axios";
+import { CustomLabel } from "../controllers/CustomLabel";
 import { API_URL } from "../../helpers/constants/static";
+import { errorAlert } from "../../helpers/utils/messege";
+import { SPACE_LG } from "../../helpers/constants/spaces";
+import { handleImageUrl } from "../../helpers/utils/handlers";
+import { ErrorMessage } from "../controllers/CustomTextfield";
+import { cameraIcon, deleteIcon } from "../others/SvgComponents";
+import { CustomAvatar, CustomImageBox } from "../controllers/CustomImage";
 
 export interface IUploader {
   customLabel: string;
@@ -25,15 +27,14 @@ export interface IUploader {
 }
 
 export const Uploader = memo<IUploader>(
-  ({ customLabel, required, errorMessage, onChange, value, type, model }) => {
+  ({ customLabel, required, errorMessage, onChange, value, type }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [preview, setPreview] = useState<string>("");
-    console.log("🚀 ~ preview:", preview);
 
     useEffect(() => {
-      if (value instanceof File || value instanceof Blob) {
-        const objectUrl = URL.createObjectURL(value);
+      if (value instanceof File || (value as TAny) instanceof Blob) {
+        const objectUrl = URL.createObjectURL(value as TAny);
         setPreview(objectUrl);
         return () => URL.revokeObjectURL(objectUrl);
       }
@@ -51,30 +52,27 @@ export const Uploader = memo<IUploader>(
       setPreview(localUrl);
 
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("imageUrl", file);
 
       try {
-        const response = await axios.post(
-          `${API_URL}/data/${model}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const response = await axios.post(`${API_URL}/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         const uploadedUrl = response.data.imageUrl;
         onChange?.(uploadedUrl);
       } catch (error) {
         console.error("Image upload failed", error);
-        console.error("Upload failed 😢. Please try again.");
+        errorAlert({ title: "Upload failed 😢. Please try again." });
         onChange?.(null);
       }
     };
     const handleReset = (e: React.MouseEvent) => {
       e.stopPropagation();
       onChange?.(null);
+      setPreview("");
     };
 
     return (

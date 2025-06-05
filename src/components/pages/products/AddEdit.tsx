@@ -25,7 +25,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
     brand,
     categoryId,
     color,
-    image,
+    imageUrl,
     material,
     name,
     price,
@@ -40,7 +40,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
     finalValues.brand = finalValues.brand || "";
     finalValues.categoryId = finalValues.categoryId || "";
     finalValues.color = finalValues.color || "";
-    finalValues.image = finalValues.image || "";
+    finalValues.imageUrl = finalValues.imageUrl || "";
     finalValues.material = finalValues.material || "";
     finalValues.name = finalValues.name || null;
     finalValues.price = finalValues.price || null;
@@ -125,7 +125,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
         ],
         side: {
           uploader: {
-            name: "image",
+            name: "imageUrl",
             props: { type: "file", customLabel: "Image", model: "products" },
           },
         },
@@ -134,7 +134,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
             brand: brand || null,
             categoryId: categoryId || null,
             color: color || null,
-            image: image || null,
+            image: imageUrl || null,
             material: material || null,
             name: name || null,
             price: price || null,

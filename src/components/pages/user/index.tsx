@@ -6,9 +6,9 @@ import { editIcon } from "../../others/SvgComponents";
 import { PageProvider } from "../../advance/PageProvider";
 import { useUserSearch } from "../../../services/hooks/users";
 import { CustomImageBox } from "../../controllers/CustomImage";
+import { handleImageUrl } from "../../../helpers/utils/handlers";
 import { COLOR_SECEONDRY } from "../../../helpers/constants/colors";
 import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
-import { handleImageUrl } from "../../../helpers/utils/handlers";
 
 const List: FC = () => {
   const navigate = useNavigate();

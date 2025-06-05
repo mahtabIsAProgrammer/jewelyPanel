@@ -10,6 +10,7 @@ import { DeleteDialog } from "../../common/DeleteDialog";
 import { PageProvider } from "../../advance/PageProvider";
 import { successAlert } from "../../../helpers/utils/messege";
 import { CustomImageBox } from "../../controllers/CustomImage";
+import { handleImageUrl } from "../../../helpers/utils/handlers";
 import { deleteIcon, editIcon } from "../../others/SvgComponents";
 import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
 import { COLOR_RED, COLOR_SECEONDRY } from "../../../helpers/constants/colors";
@@ -28,14 +29,14 @@ const List: FC = () => {
       buttonLink="add"
       headerCells={[
         {
-          id: "image",
+          id: "imageUrl",
           label: "image",
           align: "center",
-          ComponentRow: () => {
+          ComponentRow: ({ row }: TAny) => {
             return (
               <CustomImageBox
                 sx={{ width: "60px", height: "60px" }}
-                src={"photo_2025-05-27_16-25-57.jpg"}
+                src={handleImageUrl(row?.imageUrl)}
               />
             );
           },

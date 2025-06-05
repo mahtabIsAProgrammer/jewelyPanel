@@ -9,6 +9,8 @@ import {
 import { DeleteDialog } from "../../common/DeleteDialog";
 import { PageProvider } from "../../advance/PageProvider";
 import { successAlert } from "../../../helpers/utils/messege";
+import { CustomImageBox } from "../../controllers/CustomImage";
+import { handleImageUrl } from "../../../helpers/utils/handlers";
 import { editIcon, deleteIcon } from "../../others/SvgComponents";
 import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
 import { COLOR_SECEONDRY, COLOR_RED } from "../../../helpers/constants/colors";
@@ -26,6 +28,19 @@ const List: FC = () => {
       isLoading={isLoading}
       buttonLink="add"
       headerCells={[
+        {
+          id: "imageUrl",
+          label: "image",
+          align: "center",
+          ComponentRow: ({ row }: TAny) => {
+            return (
+              <CustomImageBox
+                sx={{ width: "60px", height: "60px" }}
+                src={handleImageUrl(row?.imageUrl)}
+              />
+            );
+          },
+        },
         { id: "name", label: "name" },
         {
           id: "id",

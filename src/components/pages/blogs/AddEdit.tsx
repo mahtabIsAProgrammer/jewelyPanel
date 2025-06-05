@@ -23,16 +23,16 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
 
   const { data: userSearch } = useUserSearch();
 
-  const { authorId, published, thumbnail, title, detials } =
+  const { authorId, published, imageUrl, title, details } =
     (getBlogById as unknown as { data: Blogs })?.data ?? {};
 
   const handleSubmit = (values: Blogs) => {
     const finalValues = { ...values };
     finalValues.title = finalValues.title || "";
-    finalValues.detials = finalValues.detials || "";
+    finalValues.details = finalValues.details || "";
     finalValues.authorId = finalValues.authorId || "";
     finalValues.published = finalValues.published || "";
-    finalValues.thumbnail = finalValues.thumbnail || "";
+    finalValues.imageUrl = finalValues.imageUrl || "";
 
     if (isEdit)
       updateBlog(finalValues, {
@@ -94,12 +94,12 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
             type: "editorQuill",
             name: "details",
             isFullWidth: true,
-            props: { customLabel: "detials" },
+            props: { customLabel: "details" },
           },
         ],
         side: {
           uploader: {
-            name: "thumbnail",
+            name: "imageUrl",
             props: { customLabel: "image", type: "file", model: "blogs" },
           },
         },
@@ -107,8 +107,8 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           initialValues: {
             authorId: authorId || null,
             published: published || null,
-            detials: detials || null,
-            thumbnail: thumbnail || null,
+            details: details || null,
+            imageUrl: imageUrl || null,
             title: title || null,
           },
           validations: validationBlogs,
