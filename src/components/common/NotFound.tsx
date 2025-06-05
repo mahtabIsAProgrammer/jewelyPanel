@@ -1,8 +1,8 @@
 import { Grid, Typography } from "@mui/material";
-import type { FC } from "react";
+import { memo } from "react";
 import { HeaderPage } from "./HeaderPage";
 import { notFoundSX } from "../../helpers/styles/pages/notFound";
-export const NotFound: FC = () => {
+export const NotFound = memo(() => {
   return (
     <Grid container sx={notFoundSX}>
       <HeaderPage title="not_found" breadcrumbData={[]} justHelmet />
@@ -17,4 +17,4 @@ export const NotFound: FC = () => {
       </Typography>
     </Grid>
   );
-};
+});

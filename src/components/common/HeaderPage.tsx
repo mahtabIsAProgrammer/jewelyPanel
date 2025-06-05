@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { memo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import type { JSX } from "@emotion/react/jsx-runtime";
@@ -19,61 +19,66 @@ interface IHeaderPage {
   button?: { props: TCustomButton; link?: string };
 }
 
-export const HeaderPage: FC<IHeaderPage> = ({
-  title,
-  button,
-  justHelmet,
-  localNavigate,
-  breadcrumbData,
-  otherComponent,
-}) => {
-  const navigate = useNavigate();
-  return (
-    <>
-      <Helmet
-        title={"jewlery"}
-        htmlAttributes={{ lang: "en" }}
-        meta={[
-          {
-            name: "jewlery",
-            content: "jewlery",
-          },
-        ]}
-        link={[
-          {
-            rel: "icon",
-            type: "image/png",
-            href: "/fav.webp",
-          },
-        ]}
-      />
-      {justHelmet ? null : (
-        <Box className="header-page-content" sx={headerPageSX}>
-          <Box component="div">
-            <Typography className="title">{title}</Typography>
-            <BreadCrumbs breadcrumbs={breadcrumbData} className="breadcrumb" />
-          </Box>
+export const HeaderPage = memo<IHeaderPage>(
+  ({
+    title,
+    button,
+    justHelmet,
+    localNavigate,
+    breadcrumbData,
+    otherComponent,
+  }) => {
+    const navigate = useNavigate();
+    return (
+      <>
+        <Helmet
+          title={"jewlery"}
+          htmlAttributes={{ lang: "en" }}
+          meta={[
+            {
+              name: "jewlery",
+              content: "jewlery",
+            },
+          ]}
+          link={[
+            {
+              rel: "icon",
+              type: "image/png",
+              href: "/fav.webp",
+            },
+          ]}
+        />
+        {justHelmet ? null : (
+          <Box className="header-page-content" sx={headerPageSX}>
+            <Box component="div">
+              <Typography className="title">{title}</Typography>
+              <BreadCrumbs
+                breadcrumbs={breadcrumbData}
+                className="breadcrumb"
+              />
+            </Box>
 
-          <Box component="div" className="feature-box">
-            {button?.props && (
-              <Box
-                onClick={() =>
-                  localNavigate
-                    ? localNavigateHandler(button.link ?? "")
-                    : navigate(button.link ?? "")
-                }
-              >
-                <CustomButton {...button?.props} />
-              </Box>
-            )}
+            <Box component="div" className="feature-box">
+              {button?.props && (
+                <Box
+                  onClick={() =>
+                    localNavigate
+                      ? localNavigateHandler(button.link ?? "")
+                      : navigate(button.link ?? "")
+                  }
+                >
+                  <CustomButton {...button?.props} />
+                </Box>
+              )}
 
-            {otherComponent}
+              {otherComponent}
+            </Box>
           </Box>
-        </Box>
-      )}
-    </>
-  );
-};
+        )}
+      </>
+    );
+  }
+);
 
 const headerPageSX: SxProps<Theme> = {
   pb: SPACE_MD,

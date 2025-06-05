@@ -1,4 +1,4 @@
-import { useContext, type FC } from "react";
+import { memo, useContext, type FC } from "react";
 import { isArray } from "lodash";
 import { useFormik } from "formik";
 import { Box, Grid } from "@mui/material";
@@ -164,87 +164,82 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
   );
 };
 
-const InputItems = ({
-  type,
-  props,
-  name,
-  formIK,
-  columnGridSize,
-  isFullWidth,
-}: TAny) => {
-  let result;
+const InputItems = memo(
+  ({ type, props, name, formIK, columnGridSize, isFullWidth }: TAny) => {
+    let result;
 
-  switch (type) {
-    case "textfield":
-      result = (
-        <CustomTextfield
-          fullWidth
-          name={name}
-          errorMessage={{ text: formIK && formIK.errors[name] }}
-          onChange={formIK.handleChange}
-          value={formIK.values[name]}
-          {...props}
-        />
-      );
-      break;
+    switch (type) {
+      case "textfield":
+        result = (
+          <CustomTextfield
+            fullWidth
+            name={name}
+            errorMessage={{ text: formIK && formIK.errors[name] }}
+            onChange={formIK.handleChange}
+            value={formIK.values[name] || ""}
+            {...props}
+          />
+        );
+        break;
 
-    case "autocomplete":
-      result = (
-        <CustomAutoComplete
-          onChange={(_, newValue) => {
-            const values = isArray(newValue)
-              ? newValue?.map((item: TAny) =>
-                  typeof item === "string" ? item : item.value
-                )
-              : newValue;
-            formIK.setFieldValue(name, values);
+      case "autocomplete":
+        result = (
+          <CustomAutoComplete
+            onChange={(_, newValue) => {
+              const values = isArray(newValue)
+                ? newValue?.map((item: TAny) =>
+                    typeof item === "string" ? item : item.value
+                  )
+                : newValue;
+              formIK.setFieldValue(name, values);
+            }}
+            value={formIK.values[name]}
+            errorMessage={
+              formIK && formIK.errors[name]
+                ? {
+                    text: formIK && formIK.errors[name],
+                  }
+                : props?.errorMessage
+            }
+            {...(props ?? { options: [] })}
+          />
+        );
+        break;
+
+      case "select":
+        result = (
+          <CustomSelect
+            name={name}
+            value={(formIK && formIK.values[name]) ?? ""}
+            onChange={formIK && formIK.handleChange}
+            errorMessage={
+              formIK && formIK.errors[name]
+                ? {
+                    text: formIK && formIK.errors[name],
+                  }
+                : props?.errorMessage
+            }
+            {...(props ?? { items: [] })}
+          />
+        );
+        break;
+
+      default:
+        break;
+    }
+    return (
+      <>
+        <Grid
+          size={{
+            md: isFullWidth ? 12 : columnGridSize ?? 5.9,
+            lg: isFullWidth ? 12 : columnGridSize ?? 5.9,
+            sm: 12,
+            xs: 12,
           }}
-          value={formIK.values[name]}
-          errorMessage={
-            formIK && formIK.errors[name]
-              ? {
-                  text: formIK && formIK.errors[name],
-                }
-              : props?.errorMessage
-          }
-          {...(props ?? { options: [] })}
-        />
-      );
-      break;
-
-    case "select":
-      result = (
-        <CustomSelect
-          name={name}
-          value={(formIK && formIK.values[name]) ?? ""}
-          onChange={formIK && formIK.handleChange}
-          errorMessage={
-            formIK && formIK.errors[name]
-              ? {
-                  text: formIK && formIK.errors[name],
-                }
-              : props?.errorMessage
-          }
-          {...(props ?? { items: [] })}
-        />
-      );
-      break;
-
-    default:
-      break;
+        >
+          {result}
+        </Grid>
+      </>
+    );
   }
-  return (
-    <>
-      <Grid
-        size={{
-          md: isFullWidth ? 12 : columnGridSize ?? 5.9,
-          lg: isFullWidth ? 12 : columnGridSize ?? 5.9,
-          sm: 12,
-          xs: 12,
-        }}
-      >
-        {result}
-      </Grid>
-    </>
-  );
-};
+);

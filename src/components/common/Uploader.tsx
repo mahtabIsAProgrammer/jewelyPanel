@@ -1,5 +1,5 @@
 import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
-import { useEffect, useRef, useState, type FC } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { CustomLabel } from "../controllers/CustomLabel";
 import { cameraIcon, deleteIcon } from "../others/SvgComponents";
 import { ErrorMessage } from "../controllers/CustomTextfield";
@@ -20,85 +20,84 @@ export interface IUploader {
   type: "file" | "profile";
 }
 
-export const Uploader: FC<IUploader> = ({
-  customLabel,
-  required,
-  errorMessage,
-  onChange,
-  value,
-  type,
-}) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState<string>("");
-  console.log("🚀 ~ preview:", preview);
+export const Uploader = memo<IUploader>(
+  ({ customLabel, required, errorMessage, onChange, value, type }) => {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [preview, setPreview] = useState<string>("");
+    console.log("🚀 ~ preview:", preview);
 
-  useEffect(() => {
-    if (value && (value instanceof Blob || value instanceof File)) {
-      const url = URL.createObjectURL(value);
-      setPreview(url);
+    useEffect(() => {
+      if (value && (value instanceof Blob || (value as TAny) instanceof File)) {
+        const url = URL.createObjectURL(value);
+        setPreview(url);
 
-      return () => URL.revokeObjectURL(url);
-    } else {
-      setPreview("");
-    }
-  }, [value]);
+        return () => URL.revokeObjectURL(url);
+      } else {
+        setPreview("");
+      }
+    }, [value]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    onChange?.(file || null);
-  };
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      onChange?.(file || null);
+    };
 
-  const handleReset = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onChange?.(null);
-  };
+    const handleReset = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onChange?.(null);
+    };
 
-  return (
-    <Grid sx={UploaderSX(type)}>
-      <CustomLabel customLabel={customLabel} required={required} />
-      <Grid className="uploader-container">
-        <Box
-          className="image-container"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          {preview ? (
-            <Box component="div" onClick={handleReset} className="reset-button">
-              {deleteIcon(COLOR_WHITE)}
-            </Box>
-          ) : (
-            ""
-          )}
-          {type == "file" ? (
-            <CustomImageBox className="image" src={preview} />
-          ) : (
-            <CustomAvatar src={preview} alt="Profile" className="image" />
-          )}
+    return (
+      <Grid sx={UploaderSX(type)}>
+        <CustomLabel customLabel={customLabel} required={required} />
+        <Grid className="uploader-container">
+          <Box
+            className="image-container"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            {preview ? (
+              <Box
+                component="div"
+                onClick={handleReset}
+                className="reset-button"
+              >
+                {deleteIcon(COLOR_WHITE)}
+              </Box>
+            ) : (
+              ""
+            )}
+            {type == "file" ? (
+              <CustomImageBox className="image" src={preview} />
+            ) : (
+              <CustomAvatar src={preview} alt="Profile" className="image" />
+            )}
 
-          <Box className="hover-overlay">{cameraIcon()}</Box>
-        </Box>
+            <Box className="hover-overlay">{cameraIcon()}</Box>
+          </Box>
 
-        <Typography variant="body2" color="text.secondary" textAlign="center">
-          {preview ? "Image Uploaded!" : "Please upload your image"}
-        </Typography>
+          <Typography variant="body2" color="text.secondary" textAlign="center">
+            {preview ? "Image Uploaded!" : "Please upload your image"}
+          </Typography>
 
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          hidden
-          onChange={handleFileChange}
-        />
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            hidden
+            onChange={handleFileChange}
+          />
+        </Grid>
+        {errorMessage && (
+          <ErrorMessage
+            text={errorMessage?.text || ""}
+            type={errorMessage?.type || "error"}
+            disabled={false}
+          />
+        )}
       </Grid>
-      {errorMessage && (
-        <ErrorMessage
-          text={errorMessage?.text || ""}
-          type={errorMessage?.type || "error"}
-          disabled={false}
-        />
-      )}
-    </Grid>
-  );
-};
+    );
+  }
+);
 
 const UploaderSX = (type: IUploader["type"]): SxProps<Theme> => ({
   minWidth: "300px",

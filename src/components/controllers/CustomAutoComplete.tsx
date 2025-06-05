@@ -8,7 +8,7 @@ import {
   Box,
 } from "@mui/material";
 import { memo } from "react";
-import { filter, isArray } from "lodash";
+import { filter } from "lodash";
 
 import { CustomTextfield } from "./CustomTextfield";
 import {
@@ -26,7 +26,6 @@ import {
   COLOR_TEXT,
   COLOR_WHITE,
 } from "../../helpers/constants/colors";
-import { CustomChip } from "./CustomChip";
 import { STYLE_AUTOCOMPLETE_ITEMS } from "../../helpers/constants/material";
 
 export interface ICustomAutoComplete
@@ -70,30 +69,18 @@ const filterOptions = (
   return filtered;
 };
 
-const renderValue = (
-  value: (string | IOption)[] | string | IOption,
-  getItemProps: TAny
-) => {
-  const safeArray = isArray(value) ? value : [value];
+// const renderValue = (
+//   value: (string | IOption)[] | string | IOption,
+//   getItemProps: TAny
+// ) => {
+//   const safeArray = isArray(value) ? value : [value];
 
-  return safeArray.map((option: IOption | string, index: number) => {
-    const { key, ...itemProps } = getItemProps({ index });
+//   return safeArray.map((option: IOption | string, index: number) => {
+//     const { key, ...itemProps } = getItemProps({ index });
 
-    return (
-      <CustomChip
-        color="primary"
-        sx={{ marginRight: `${SPACE_XS} !important` }}
-        label={
-          typeof option === "object" && "label" in option
-            ? option.label
-            : option
-        }
-        key={key}
-        {...itemProps}
-      />
-    );
-  });
-};
+//     return option.label;
+//   });
+// };
 
 export const CustomAutoComplete = memo<ICustomAutoComplete>(
   ({ errorMessage, options, customLabel, required, ...props }) => {
@@ -113,25 +100,10 @@ export const CustomAutoComplete = memo<ICustomAutoComplete>(
           filterOptions={(options: IOption[], params) =>
             filterOptions(options, params)
           }
-          renderValue={(value, getTagProps) => renderValue(value, getTagProps)}
-          renderInput={({
-            id,
-            size,
-            disabled,
-            fullWidth,
-            inputProps,
-            InputProps: { endAdornment, ref },
-          }) => (
+          // renderValue={(value, getTagProps) => renderValue(value, getTagProps)}
+          renderInput={(params) => (
             <CustomTextfield
-              {...{
-                id,
-                size,
-                disabled,
-                fullWidth,
-                inputProps,
-                InputProps: { endAdornment, ref },
-                InputLabelProps: { required: false },
-              }}
+              {...params}
               isAutocomplete
               required={required}
               customLabel={customLabel}

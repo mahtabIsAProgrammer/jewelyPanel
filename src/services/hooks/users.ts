@@ -62,7 +62,7 @@ export const useUpdateUser = (id: string) => {
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => deleteUser(id),
+    mutationFn: (id: string) => deleteUser(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["users-search"],

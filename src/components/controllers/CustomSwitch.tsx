@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Switch, Typography, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -64,15 +64,13 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export const CustomSwitch: React.FC<CustomSwitchProps> = ({
-  checked,
-  onChange,
-  label,
-}) => {
-  return (
-    <Stack direction="row" spacing={1} alignItems="center">
-      {label && <Typography>{label}</Typography>}
-      <MaterialUISwitch checked={checked} onChange={onChange} />
-    </Stack>
-  );
-};
+export const CustomSwitch = memo<CustomSwitchProps>(
+  ({ checked, onChange, label }) => {
+    return (
+      <Stack direction="row" spacing={1} alignItems="center">
+        {label && <Typography>{label}</Typography>}
+        <MaterialUISwitch checked={checked} onChange={onChange} />
+      </Stack>
+    );
+  }
+);

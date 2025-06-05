@@ -16,7 +16,6 @@ import { routes } from "../../routes";
 import { Loading } from "../common/Loading";
 import { FONT_FAMILY } from "../../helpers/constants/static";
 import {
-  FONT_SMALL_TEXT,
   FONT_WEIGHT_BLOD,
   FONT_WEIGHT_REGULAR,
 } from "../../helpers/constants/fonts";
@@ -70,7 +69,7 @@ const MainLayout: FC = () => {
               direction: "ltr",
               backgroundColor: COLOR_WHITE,
               color: COLOR_TEXT,
-              fontSize: FONT_SMALL_TEXT,
+              fontSize: "14px",
               fontStyle: "normal",
               fontWeight: FONT_WEIGHT_BLOD,
               lineHeight: "normal",

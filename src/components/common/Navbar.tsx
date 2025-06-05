@@ -1,4 +1,4 @@
-import { useContext, useState, type FC } from "react";
+import { memo, useContext, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 
 import { navbarSX } from "../../helpers/styles/common/navbar";
@@ -6,7 +6,7 @@ import { MainContext } from "../../helpers/others/mainContext";
 import { CustomAvatar } from "../controllers/CustomImage";
 import { CustomSwitch } from "../controllers/CustomSwitch";
 
-export const Navbar: FC = () => {
+export const Navbar = memo(() => {
   const { theme, changeTheme } = useContext(MainContext);
   const [checked, setChecked] = useState<boolean>(false);
 
@@ -17,7 +17,7 @@ export const Navbar: FC = () => {
     <Grid sx={navbarSX(theme)}>
       <Grid className="content">
         <Grid className="profile-info">
-          <CustomAvatar hasBorder src="" />
+          <CustomAvatar hasBorder src={userData?.imageUrl ?? ""} />
           <Typography className="title">
             {userData.firstName + " " + userData.lastName}
           </Typography>
@@ -33,4 +33,4 @@ export const Navbar: FC = () => {
       </Grid>
     </Grid>
   );
-};
+});

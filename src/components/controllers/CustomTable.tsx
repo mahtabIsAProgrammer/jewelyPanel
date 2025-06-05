@@ -10,7 +10,7 @@ import {
   type SxProps,
   TableContainer,
 } from "@mui/material";
-import { memo, useCallback, useContext, type FC } from "react";
+import { memo, useCallback, useContext } from "react";
 
 import { NoData } from "../common/NoOption";
 import { SPACE_LG } from "../../helpers/constants/spaces";
@@ -24,19 +24,15 @@ interface ICustomTable<T = TAny> {
   isLoading: boolean;
 }
 
-export const CustomTable: FC<ICustomTable> = ({
-  headerCells,
-  valueRows,
-  isLoading,
-}) => {
-  const { theme } = useContext(MainContext);
-  return (
-    <TableContainer component={Paper} sx={tableContainerSX(theme)}>
-      <Table stickyHeader>
+export const CustomTable = memo<ICustomTable>(
+  ({ headerCells, valueRows, isLoading }) => {
+    const { theme } = useContext(MainContext);
+    return (
+      <TableContainer component={Paper} sx={tableContainerSX(theme)}>
         {valueRows?.length === 0 ? (
           <NoData />
         ) : (
-          <>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 {headerCells.map(({ label, align }, index) => (
@@ -79,12 +75,12 @@ export const CustomTable: FC<ICustomTable> = ({
                     </TableRow>
                   ))}
             </TableBody>
-          </>
+          </Table>
         )}
-      </Table>
-    </TableContainer>
-  );
-};
+      </TableContainer>
+    );
+  }
+);
 
 interface ICustomTableCell {
   row: TAny;

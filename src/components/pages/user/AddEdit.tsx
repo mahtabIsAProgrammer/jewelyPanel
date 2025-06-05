@@ -16,7 +16,8 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
   const { data: userGetById, isLoading } = useGetUserById(id);
 
   const { lastName, email, firstName, gender, imageUrl, userName, password } =
-    (userGetById as unknown as { data: Users })?.data ?? {};
+    (userGetById as unknown as { data: Users & { password: string } })?.data ??
+    {};
 
   const { mutate: createUser } = useCreateUser();
   const { mutate: updateUser } = useUpdateUser(id || "");

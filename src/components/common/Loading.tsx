@@ -1,9 +1,9 @@
 import { Grid, Skeleton, Box } from "@mui/material";
 import { mainLayoutSX } from "../../helpers/styles/common/main";
 import { MainContext } from "../../helpers/others/mainContext";
-import { useContext } from "react";
+import { memo, useContext } from "react";
 
-export const Loading = () => {
+export const Loading = memo(() => {
   const { theme } = useContext(MainContext);
   return (
     <Grid container sx={mainLayoutSX(theme, "none")}>
@@ -20,7 +20,7 @@ export const Loading = () => {
       </Grid>
     </Grid>
   );
-};
+});
 
 export const LoadingSidebar = () => {
   return <></>;
