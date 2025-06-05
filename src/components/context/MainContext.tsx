@@ -24,9 +24,13 @@ export const MainContextProvider: FC<IMainContextProvider> = ({ children }) => {
     setTheme((prevMode) => (prevMode === "light" ? "dark" : "light"));
   };
 
-  const changeTheme = (theme: TTheme) => {
-    setTheme(theme);
-  };
+  const changeTheme = useCallback(
+    (thm: TTheme) => {
+      console.log("🚀 ~ theme:", theme);
+      setTheme(thm);
+    },
+    [theme]
+  );
 
   const value: ProviderProps<IMainContext>["value"] = useMemo(
     () => ({
@@ -36,7 +40,7 @@ export const MainContextProvider: FC<IMainContextProvider> = ({ children }) => {
       sidebarSize,
       changeSidebarSize,
     }),
-    [changeSidebarSize, sidebarSize, theme]
+    [changeSidebarSize, changeTheme, sidebarSize, theme]
   );
 
   return <MainContext.Provider value={value}>{children}</MainContext.Provider>;

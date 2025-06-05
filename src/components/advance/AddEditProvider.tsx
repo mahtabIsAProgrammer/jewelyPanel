@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { useContext, type FC } from "react";
 import { isArray } from "lodash";
 import { useFormik } from "formik";
 import { Box, Grid } from "@mui/material";
@@ -16,6 +16,7 @@ import { CustomButton } from "../controllers/CustomButton";
 import { Uploader, type IUploader } from "../common/Uploader";
 import { addEditPrivderSX } from "../../helpers/styles/advance";
 import { CustomSelect, type ICustomSelect } from "../controllers/CustomSelect";
+import { MainContext } from "../../helpers/others/mainContext";
 
 interface IInputs {
   columnGridSize?: TColumnGridSize;
@@ -71,6 +72,8 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
   inputs,
   isEdit,
 }) => {
+  const { theme } = useContext(MainContext);
+
   const formIK = useFormik({
     initialValues: inputs?.form.initialValues,
     enableReinitialize: true,
@@ -85,7 +88,7 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
   });
 
   return (
-    <Grid sx={addEditPrivderSX}>
+    <Grid sx={addEditPrivderSX(theme)}>
       <HeaderPage
         title={isEdit ? "Edit " + title : "Add " + title}
         breadcrumbData={breadcrumbs}

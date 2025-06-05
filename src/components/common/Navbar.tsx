@@ -1,4 +1,4 @@
-import { useContext, type FC } from "react";
+import { useContext, useState, type FC } from "react";
 import { Grid, Typography } from "@mui/material";
 
 import { navbarSX } from "../../helpers/styles/common/navbar";
@@ -8,9 +8,7 @@ import { CustomSwitch } from "../controllers/CustomSwitch";
 
 export const Navbar: FC = () => {
   const { theme, changeTheme } = useContext(MainContext);
-
-  const user = localStorage.getItem("user");
-  console.log("🚀 ~ user:", user);
+  const [checked, setChecked] = useState<boolean>(false);
 
   return (
     <Grid sx={navbarSX(theme)}>
@@ -20,8 +18,12 @@ export const Navbar: FC = () => {
           <Typography>Name</Typography>
         </Grid>
         <CustomSwitch
-          checked={theme == "light"}
-          onChange={(e) => changeTheme(e.target.checked ? "light" : "dark")}
+          checked={!checked}
+          onChange={(e) => {
+            const isChecked = e.target.checked;
+            setChecked(!isChecked);
+            changeTheme(!isChecked ? "dark" : "light");
+          }}
         />
       </Grid>
     </Grid>

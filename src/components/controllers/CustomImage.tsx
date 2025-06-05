@@ -196,6 +196,7 @@ const customImageBoxSX = (
   hasBorder: ICustomImageBox["hasBorder"],
   variant: ICustomImageBox["variant"]
 ): SxProps<Theme> => ({
+  borderRadius: "8px",
   "&.image-box.non-opacity,&.skeleton-custom-image.non-opacity": {
     opacity: "0 !important",
   },

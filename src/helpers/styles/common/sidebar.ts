@@ -12,18 +12,19 @@ import {
   COLOR_PRIMARY,
   COLOR_MUTED_TEXT,
   COLOR_SIDEBAR_HOVER,
+  COLOR_BLACK,
 } from "../../constants/colors";
 import { sidebar_size } from "../../constants/static";
 import { SPACE_SM, SPACE_XS } from "../../constants/spaces";
 
-export const sidebarSX: SxProps<Theme> = {
+export const sidebarSX = (theme: TTheme): SxProps<Theme> => ({
   width: sidebar_size,
   height: "100vh",
-
   p: SPACE_SM,
   display: "flex",
   flexDirection: "column",
   gap: SPACE_XS,
+  backgroundColor: theme === "light" ? COLOR_WHITE : COLOR_BLACK,
   "& .logo": {
     mt: "10px",
     width: "100%",
@@ -63,7 +64,8 @@ export const sidebarSX: SxProps<Theme> = {
         fontWeight: FONT_WEIGHT_MEDUIM,
       },
       "&:hover": {
-        backgroundColor: COLOR_SIDEBAR_HOVER,
+        backgroundColor:
+          theme == "light" ? COLOR_SIDEBAR_HOVER : COLOR_PRIMARY + 30,
       },
       "&.active": {
         backgroundColor: COLOR_PRIMARY,
@@ -74,4 +76,4 @@ export const sidebarSX: SxProps<Theme> = {
       },
     },
   },
-};
+});

@@ -1,4 +1,4 @@
-import { type FC, Suspense, useEffect } from "react";
+import { type FC, Suspense, useContext, useEffect } from "react";
 
 import { SnackbarProvider } from "notistack";
 import { useLocation, useRoutes } from "react-router-dom";
@@ -26,15 +26,16 @@ import {
   COLOR_WHITE,
 } from "../../helpers/constants/colors";
 import { errorAlertICON, successAlertICON } from "../others/SvgComponents";
-import { ProtectedLayout } from "./ProtectedLayout";
+import { MainContext } from "../../helpers/others/mainContext";
 
 const MainLayout: FC = () => {
   const children = useRoutes(routes);
+  const { theme } = useContext(MainContext);
 
   const { pathname } = useLocation();
 
   const themeMUI = createTheme({
-    palette: { primary: { main: COLOR_PRIMARY } },
+    palette: { primary: { main: COLOR_PRIMARY }, mode: theme },
     typography: {
       fontFamily: FONT_FAMILY,
       allVariants: { color: COLOR_TEXT, fontWeight: FONT_WEIGHT_REGULAR },

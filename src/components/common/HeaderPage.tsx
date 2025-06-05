@@ -5,7 +5,6 @@ import type { JSX } from "@emotion/react/jsx-runtime";
 import { Box, Typography, type SxProps, type Theme } from "@mui/material";
 
 import { BreadCrumbs } from "./Breadcrumbs";
-import { COLOR_WHITE } from "../../helpers/constants/colors";
 import { localNavigateHandler } from "../../helpers/utils/handlers";
 import { SPACE_MD, SPACE_SM } from "../../helpers/constants/spaces";
 import { CustomButton, type TCustomButton } from "../controllers/CustomButton";
@@ -82,7 +81,6 @@ const headerPageSX: SxProps<Theme> = {
   alignItems: "center",
   marginBottom: "20px",
   borderRadius: "12px",
-  backgroundColor: COLOR_WHITE,
   justifyContent: "space-between",
   "& .title": {
     fontSize: FONT_BODY,

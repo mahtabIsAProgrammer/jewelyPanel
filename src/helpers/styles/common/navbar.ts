@@ -2,7 +2,7 @@ import type { SxProps, Theme } from "@mui/material";
 
 import { SPACE_LG, SPACE_XS } from "../../constants/spaces";
 import { HEADER_BAR_SIZE } from "../../constants/static";
-import { COLOR_PRIMARY, COLOR_WHITE } from "../../constants/colors";
+import { COLOR_BLACK, COLOR_WHITE } from "../../constants/colors";
 
 export const navbarSX = (theme: string): SxProps<Theme> => ({
   p: SPACE_LG,
@@ -11,7 +11,7 @@ export const navbarSX = (theme: string): SxProps<Theme> => ({
   alignItems: "center",
   height: HEADER_BAR_SIZE,
   justifyContent: "space-between",
-  backgroundColor: theme === "light" ? COLOR_WHITE : COLOR_PRIMARY,
+  backgroundColor: theme === "light" ? COLOR_WHITE : COLOR_BLACK,
   "& .content": {
     width: "100%",
     display: "flex",

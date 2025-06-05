@@ -17,7 +17,11 @@ import {
   FONT_SMALL_TEXT,
   FONT_WEIGHT_MEDUIM,
 } from "../../helpers/constants/fonts";
-import { COLOR_PRIMARY, COLOR_TEXT } from "../../helpers/constants/colors";
+import {
+  COLOR_BORDER,
+  COLOR_PRIMARY,
+  COLOR_TEXT,
+} from "../../helpers/constants/colors";
 import { CustomLabel } from "./CustomLabel";
 import { SPACE_MD, SPACE_SM } from "../../helpers/constants/spaces";
 import { ERROR_MESSAGE_STYLE } from "../../helpers/constants/material";
@@ -154,6 +158,9 @@ const textfieldSX = (
     fontSize: FONT_SMALL_TEXT,
     borderRadius: "12px",
     fontWeight: FONT_WEIGHT_MEDUIM,
+    "& fieldset": {
+      borderColor: COLOR_BORDER,
+    },
     "&.Mui-focused": {
       backgroundColor: `${COLOR_PRIMARY}10 !important`,
     },

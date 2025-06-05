@@ -4,7 +4,11 @@ import { CustomLabel } from "../controllers/CustomLabel";
 import { cameraIcon, deleteIcon } from "../others/SvgComponents";
 import { ErrorMessage } from "../controllers/CustomTextfield";
 import { SPACE_LG } from "../../helpers/constants/spaces";
-import { COLOR_RED, COLOR_WHITE } from "../../helpers/constants/colors";
+import {
+  COLOR_BORDER,
+  COLOR_RED,
+  COLOR_WHITE,
+} from "../../helpers/constants/colors";
 import { CustomAvatar, CustomImageBox } from "../controllers/CustomImage";
 
 export interface IUploader {
@@ -115,7 +119,7 @@ const UploaderSX = (type: IUploader["type"]): SxProps<Theme> => ({
     rowGap: SPACE_LG,
     padding: SPACE_LG,
     borderRadius: "12px",
-    border: "1px solid #c4c4c4",
+    border: "1px solid" + COLOR_BORDER,
     alignItems: "center",
     "& .image-container": {
       position: "relative",

@@ -10,11 +10,13 @@ import {
   type SxProps,
   TableContainer,
 } from "@mui/material";
-import { memo, useCallback, type FC } from "react";
+import { memo, useCallback, useContext, type FC } from "react";
 
 import { NoData } from "../common/NoOption";
 import { SPACE_LG } from "../../helpers/constants/spaces";
 import { FONT_BODY, FONT_WEIGHT_BLOD } from "../../helpers/constants/fonts";
+import { COLOR_BORDER } from "../../helpers/constants/colors";
+import { MainContext } from "../../helpers/others/mainContext";
 
 interface ICustomTable<T = TAny> {
   headerCells: IHeaderCell<T>[];
@@ -27,8 +29,9 @@ export const CustomTable: FC<ICustomTable> = ({
   valueRows,
   isLoading,
 }) => {
+  const { theme } = useContext(MainContext);
   return (
-    <TableContainer component={Paper} sx={tableContainerSX}>
+    <TableContainer component={Paper} sx={tableContainerSX(theme)}>
       <Table stickyHeader>
         {valueRows?.length === 0 ? (
           <NoData />
@@ -104,16 +107,18 @@ const CustomTableCell = memo<ICustomTableCell>(
   }
 );
 
-const tableContainerSX: SxProps<Theme> = {
+const tableContainerSX = (theme: TTheme): SxProps<Theme> => ({
   width: "100%",
   mb: SPACE_LG,
   borderRadius: "12px",
+  backgroundColor: "transparent",
 
   "& .MuiTable-root": {
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    pb: SPACE_LG,
+    borderRadius: "14px",
+    border: theme == "light" ? "" : `1px solid` + COLOR_BORDER,
     "& .MuiTableHead-root": {
       width: "100%",
       display: "flex",
@@ -135,6 +140,7 @@ const tableContainerSX: SxProps<Theme> = {
       width: "100%",
       display: "flex",
       "& .MuiTableCell-root": {
+        backgroundColor: "transparent",
         width: "100%",
         display: "flex",
         color: "#686868",
@@ -146,4 +152,4 @@ const tableContainerSX: SxProps<Theme> = {
       },
     },
   },
-};
+});

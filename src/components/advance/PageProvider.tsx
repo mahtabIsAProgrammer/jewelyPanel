@@ -1,6 +1,6 @@
 import { Box, MenuItem } from "@mui/material";
 import { pageProviderSX } from "../../helpers/styles/advance";
-import { useState, type ChangeEvent, type FC } from "react";
+import { useContext, useState, type ChangeEvent, type FC } from "react";
 import { CustomTextfield } from "../controllers/CustomTextfield";
 import { CustomTable } from "../controllers/CustomTable";
 import { HeaderPage } from "../common/HeaderPage";
@@ -8,6 +8,7 @@ import { addICON } from "../others/SvgComponents";
 import type { JSX } from "@emotion/react/jsx-runtime";
 import { debounce } from "lodash";
 import { DEBOUNCE_SEARCH_TIME } from "../../helpers/constants/static";
+import { MainContext } from "../../helpers/others/mainContext";
 
 interface IPageProvider {
   title: string;
@@ -40,6 +41,8 @@ export const PageProvider: FC<IPageProvider> = ({
   otherComponentHeader,
   isLoading,
 }) => {
+  const { theme } = useContext(MainContext);
+
   const [searchValue, setSearchValue] = useState("");
   const [filterValue, setFilterValue] = useState("");
 
@@ -56,7 +59,7 @@ export const PageProvider: FC<IPageProvider> = ({
   }, DEBOUNCE_SEARCH_TIME);
 
   return (
-    <Box sx={pageProviderSX}>
+    <Box sx={pageProviderSX(theme)}>
       <HeaderPage
         title={title}
         localNavigate={localNavigate}
