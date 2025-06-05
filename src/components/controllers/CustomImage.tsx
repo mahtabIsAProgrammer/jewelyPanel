@@ -36,7 +36,7 @@ type ICustomImages = Omit<
   onLoad?: ReactEventHandler<HTMLDivElement> | undefined;
   sx?: SxProps<Theme>;
 };
-interface ICustomImageBox extends BoxProps {
+interface ICustomImageBox extends BoxProps<"img"> {
   sx?: SxProps<Theme>;
   onClick?: (e: TAny) => void;
   src?: string;

@@ -67,8 +67,9 @@ export const CustomTable: FC<ICustomTable> = ({
                   ))
                 : valueRows?.map((row, rowIndex) => (
                     <TableRow key={rowIndex} hover>
-                      {headerCells.map(({ id, ComponentRow, align }) => (
+                      {headerCells.map(({ id, ComponentRow, align }, index) => (
                         <CustomTableCell
+                          key={index}
                           id={id}
                           row={row}
                           align={align}

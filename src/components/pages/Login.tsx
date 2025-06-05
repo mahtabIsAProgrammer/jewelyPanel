@@ -12,7 +12,6 @@ import { LoginValidation } from "../../helpers/utils/validations/login";
 
 const Login: FC = () => {
   const navigate = useNavigate();
-  console.log("login page loaded");
 
   const { mutateAsync: loginUser, isPending } = useLogin();
 
@@ -24,21 +23,24 @@ const Login: FC = () => {
     validationSchema: LoginValidation(),
     onSubmit: async (values) => {
       try {
-        const { data } = await loginUser(values);
-        console.log("🚀 ~ onSubmit: ~ data:", data);
+        const res = await loginUser(values);
 
-        localStorage.setItem("token", data.data.token);
-        localStorage.setItem("user", JSON.stringify(data.data.user));
+        console.log("🚀 ~ Login response:", res);
 
-        successAlert({
-          title: "Login was Successful",
-        });
-        console.log("Login successful, navigating...");
+        const token = res?.data?.token;
+        const user = res?.data?.user;
+
+        if (!token || !user) {
+          throw new Error("Invalid login response");
+        }
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        successAlert({ title: "Login was Successful" });
         navigate("/");
       } catch (err) {
-        errorAlert({
-          title: "Problem has occurred on the server side!",
-        });
+        errorAlert({ title: "Login failed. Check credentials." });
         console.error("Login error:", err);
       }
     },

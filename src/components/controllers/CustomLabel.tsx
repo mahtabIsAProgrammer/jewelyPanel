@@ -1,4 +1,4 @@
-import { Grid, Typography, type SxProps, type Theme } from "@mui/material";
+import { Box, Grid, Typography, type SxProps, type Theme } from "@mui/material";
 
 import { COLOR_TEXT } from "../../helpers/constants/colors";
 import { SPACE_SM, SPACE_XS } from "../../helpers/constants/spaces";
@@ -30,13 +30,13 @@ export const CustomLabel = ({
           >
             {customLabel}
             {required && (
-              <Typography
-                variant="body1"
+              <Box
+                component="span"
                 className="required-icon"
                 sx={STYLE_REQUIRED_ICON(disabled)}
               >
                 *
-              </Typography>
+              </Box>
             )}
           </Typography>
         )}

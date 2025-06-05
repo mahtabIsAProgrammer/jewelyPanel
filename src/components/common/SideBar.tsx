@@ -29,8 +29,9 @@ export const Sidebar: FC = () => {
         </Grid>
       </Grid>
       <Grid className="lists">
-        {map(routes, ({ name, url, icon }) => (
+        {map(routes, ({ name, url, icon }, index) => (
           <NavLink
+            key={index}
             className={location.pathname == url ? "links active" : "links"}
             to={url}
           >

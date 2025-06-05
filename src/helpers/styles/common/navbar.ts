@@ -1,8 +1,9 @@
 import type { SxProps, Theme } from "@mui/material";
 
-import { SPACE_LG, SPACE_XS } from "../../constants/spaces";
+import { SPACE_LG, SPACE_SM } from "../../constants/spaces";
 import { HEADER_BAR_SIZE } from "../../constants/static";
 import { COLOR_BLACK, COLOR_WHITE } from "../../constants/colors";
+import { FONT_WEIGHT_BLOD } from "../../constants/fonts";
 
 export const navbarSX = (theme: string): SxProps<Theme> => ({
   p: SPACE_LG,
@@ -19,7 +20,10 @@ export const navbarSX = (theme: string): SxProps<Theme> => ({
     "& .profile-info": {
       display: "flex",
       alignItems: "center",
-      gap: SPACE_XS,
+      gap: SPACE_SM,
+      "& .title": {
+        fontWeight: FONT_WEIGHT_BLOD,
+      },
     },
   },
 });

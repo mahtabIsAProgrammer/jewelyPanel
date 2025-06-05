@@ -10,12 +10,17 @@ export const Navbar: FC = () => {
   const { theme, changeTheme } = useContext(MainContext);
   const [checked, setChecked] = useState<boolean>(false);
 
+  const userJsonData = localStorage.getItem("user");
+  const userData = JSON.parse(userJsonData || "");
+
   return (
     <Grid sx={navbarSX(theme)}>
       <Grid className="content">
         <Grid className="profile-info">
           <CustomAvatar hasBorder src="" />
-          <Typography>Name</Typography>
+          <Typography className="title">
+            {userData.firstName + " " + userData.lastName}
+          </Typography>
         </Grid>
         <CustomSwitch
           checked={!checked}

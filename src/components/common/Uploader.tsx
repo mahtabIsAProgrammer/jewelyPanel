@@ -30,14 +30,10 @@ export const Uploader: FC<IUploader> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string>("");
+  console.log("🚀 ~ preview:", preview);
 
   useEffect(() => {
-    if (
-      value &&
-      typeof value === "object" &&
-      "type" in value &&
-      "size" in value
-    ) {
+    if (value && (value instanceof Blob || value instanceof File)) {
       const url = URL.createObjectURL(value);
       setPreview(url);
 
@@ -74,10 +70,8 @@ export const Uploader: FC<IUploader> = ({
           )}
           {type == "file" ? (
             <CustomImageBox className="image" src={preview} />
-          ) : type == "profile" ? (
-            <CustomAvatar src={preview} alt="Profile" className="image" />
           ) : (
-            ""
+            <CustomAvatar src={preview} alt="Profile" className="image" />
           )}
 
           <Box className="hover-overlay">{cameraIcon()}</Box>
@@ -155,7 +149,7 @@ const UploaderSX = (type: IUploader["type"]): SxProps<Theme> => ({
         left: 0,
         width: "100%",
         height: "100%",
-        borderRadius: type == "profile" ? "50%" : "",
+        borderRadius: type == "profile" ? "50%" : "8px",
         bgcolor: "rgba(0, 0, 0, 0.4)",
         display: "flex",
         justifyContent: "center",

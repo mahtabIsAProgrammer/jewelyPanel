@@ -8,12 +8,13 @@ import {
 import { FONT_SMALL_TEXT } from "../../helpers/constants/fonts";
 import { COLOR_MUTED_TEXT, COLOR_WHITE } from "../../helpers/constants/colors";
 import { SPACE_MD, SPACE_SM } from "../../helpers/constants/spaces";
+import { memo } from "react";
 
 export interface IChipProps extends ChipProps {
   className?: string;
   lng?: string;
 }
-export const CustomChip = ({ ...props }: IChipProps) => {
+export const CustomChip = memo<IChipProps>(({ ...props }) => {
   const { className } = props;
 
   return (
@@ -26,7 +27,7 @@ export const CustomChip = ({ ...props }: IChipProps) => {
       />
     </Stack>
   );
-};
+});
 
 const customShipSX: SxProps<Theme> = {
   padding: "0px !important",
