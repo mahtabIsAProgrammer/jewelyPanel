@@ -126,7 +126,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
         side: {
           uploader: {
             name: "image",
-            props: { type: "file", customLabel: "Image" },
+            props: { type: "file", customLabel: "Image", model: "products" },
           },
         },
         form: {

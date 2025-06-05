@@ -8,6 +8,7 @@ import { useUserSearch } from "../../../services/hooks/users";
 import { CustomImageBox } from "../../controllers/CustomImage";
 import { COLOR_SECEONDRY } from "../../../helpers/constants/colors";
 import { ACTIONS_TABLE_STYLE } from "../../../helpers/constants/material";
+import { handleImageUrl } from "../../../helpers/utils/handlers";
 
 const List: FC = () => {
   const navigate = useNavigate();
@@ -27,11 +28,11 @@ const List: FC = () => {
           id: "imageUrl",
           label: "image",
           align: "center",
-          ComponentRow: () => {
+          ComponentRow: ({ row }: TAny) => {
             return (
               <CustomImageBox
-                sx={{ width: "60px", height: "60px" }}
-                src={"photo_2025-05-27_16-25-57.jpg"}
+                sx={{ width: "60px", height: "60px", objectFit: "cover" }}
+                src={handleImageUrl(row.imageUrl, true)}
               />
             );
           },

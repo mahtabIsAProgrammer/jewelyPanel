@@ -147,7 +147,7 @@ export const AddEditProvider: FC<IAddEditProvider> = ({
                 onChange={(file) =>
                   formIK.setFieldValue(
                     (inputs?.side?.uploader as TAny).name,
-                    file?.name
+                    file
                   )
                 }
                 errorMessage={

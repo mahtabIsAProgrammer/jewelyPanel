@@ -10,6 +10,9 @@ import {
   COLOR_WHITE,
 } from "../../helpers/constants/colors";
 import { CustomAvatar, CustomImageBox } from "../controllers/CustomImage";
+import { handleImageUrl } from "../../helpers/utils/handlers";
+import axios from "axios";
+import { API_URL } from "../../helpers/constants/static";
 
 export interface IUploader {
   customLabel: string;
@@ -18,30 +21,57 @@ export interface IUploader {
   onChange?: (file: File | null) => void;
   value?: File | null;
   type: "file" | "profile";
+  model: "users" | "blogs" | "products" | "categories";
 }
 
 export const Uploader = memo<IUploader>(
-  ({ customLabel, required, errorMessage, onChange, value, type }) => {
+  ({ customLabel, required, errorMessage, onChange, value, type, model }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
+
     const [preview, setPreview] = useState<string>("");
     console.log("🚀 ~ preview:", preview);
 
     useEffect(() => {
-      if (value && (value instanceof Blob || (value as TAny) instanceof File)) {
-        const url = URL.createObjectURL(value);
-        setPreview(url);
+      if (value instanceof File || value instanceof Blob) {
+        const objectUrl = URL.createObjectURL(value);
+        setPreview(objectUrl);
+        return () => URL.revokeObjectURL(objectUrl);
+      }
 
-        return () => URL.revokeObjectURL(url);
-      } else {
-        setPreview("");
+      if (typeof value === "string") {
+        setPreview(handleImageUrl(value));
       }
     }, [value]);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      onChange?.(file || null);
-    };
+      if (!file) return;
 
+      const localUrl = URL.createObjectURL(file);
+      setPreview(localUrl);
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const response = await axios.post(
+          `${API_URL}/data/${model}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        const uploadedUrl = response.data.imageUrl;
+        onChange?.(uploadedUrl);
+      } catch (error) {
+        console.error("Image upload failed", error);
+        console.error("Upload failed 😢. Please try again.");
+        onChange?.(null);
+      }
+    };
     const handleReset = (e: React.MouseEvent) => {
       e.stopPropagation();
       onChange?.(null);
@@ -119,6 +149,10 @@ const UploaderSX = (type: IUploader["type"]): SxProps<Theme> => ({
       width: 120,
       height: 120,
       borderRadius: "50%",
+      "& .image-avatar": {
+        width: "120px",
+        height: "120px",
+      },
       // overflow: "hidden",
       cursor: "pointer",
       "&:hover .hover-overlay": {

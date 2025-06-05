@@ -82,6 +82,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           uploader: {
             name: "imageUrl",
             props: {
+              model: "users",
               type: "profile",
               customLabel: "Upload Profile",
             },

@@ -6,6 +6,9 @@ import {
   type UseMutationResult,
 } from "@tanstack/react-query";
 import type { AlertColor } from "@mui/material";
+import { API_URL } from "../constants/static";
+import emptyImage from "../../assets/images/empty-image.webp";
+import emptyImageUser from "../../assets/images/empty-image-user.webp";
 
 interface UseMutationWithAlertOptions<TData, TError, TVariables>
   extends UseMutationOptions<TData, TError, TVariables> {
@@ -60,4 +63,19 @@ export const useMutationWithAlert = <
 export const localNavigateHandler = (path: string) => {
   if (!path.startsWith("/")) location.pathname = location.pathname + "/" + path;
   else location.assign(path);
+};
+
+export const handleImageUrl = (imagePath?: string, isUser?: boolean) => {
+  if (!imagePath) return isUser ? emptyImageUser : emptyImage;
+
+  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+    return imagePath;
+  }
+  if (!imagePath.startsWith("/")) imagePath = `/${imagePath}`;
+
+  if (!imagePath.includes("/")) {
+    return `${API_URL}${imagePath}`;
+  }
+
+  return `${API_URL}${imagePath.startsWith("/") ? "" : "/"}${imagePath}`;
 };
