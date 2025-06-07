@@ -7,7 +7,7 @@ import { mainLayoutSX } from "../../helpers/styles/common/main";
 import { LoadingSideBar, Loading } from "../common/Loading";
 import { Navbar } from "../common/Navbar";
 import { ProtectedLayout } from "./ProtectedLayout";
-import Sidebar from "../../components/common/SideBar_TEMP";
+import Sidebar from "../../components/common/Sidebar";
 
 export const DashboardLayout: FC = () => {
   const { theme, sidebarSize } = useContext(MainContext);
