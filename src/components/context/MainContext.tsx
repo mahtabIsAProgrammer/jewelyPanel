@@ -24,13 +24,9 @@ export const MainContextProvider: FC<IMainContextProvider> = ({ children }) => {
     setTheme((prevMode) => (prevMode === "light" ? "dark" : "light"));
   };
 
-  const changeTheme = useCallback(
-    (thm: TTheme) => {
-      console.log("🚀 ~ theme:", theme);
-      setTheme(thm);
-    },
-    [theme]
-  );
+  const changeTheme = useCallback((thm: TTheme) => {
+    setTheme(thm);
+  }, []);
 
   const value: ProviderProps<IMainContext>["value"] = useMemo(
     () => ({

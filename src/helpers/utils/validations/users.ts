@@ -6,5 +6,6 @@ export const validationUsers = () => {
     firstName: string().trim().required("the input is required"),
     lastName: string().trim().required("the input is required"),
     userName: string().trim().required("the input is required"),
+    password: string().trim().required("the input is required"),
   });
 };

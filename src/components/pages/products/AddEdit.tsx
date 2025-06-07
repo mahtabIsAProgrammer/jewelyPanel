@@ -22,15 +22,15 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
   const { data: getProductById, isLoading } = useGetProductById(id);
 
   const {
-    brand,
-    categoryId,
-    color,
-    imageUrl,
-    material,
     name,
-    price,
     size,
-    style,
+    rate,
+    color,
+    brand,
+    price,
+    material,
+    imageUrl,
+    categoryId,
   } = (getProductById as unknown as { data: Products })?.data ?? {};
 
   const { data: categorySearch } = useCategoriesSearch();
@@ -46,6 +46,7 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
     finalValues.price = finalValues.price || null;
     finalValues.size = finalValues.size || null;
     finalValues.style = finalValues.style || null;
+    finalValues.rate = finalValues.rate || null;
 
     if (isEdit)
       UpdateProduct(finalValues, {
@@ -111,7 +112,20 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           },
           { type: "textfield", name: "brand", props: { customLabel: "Brand" } },
           { type: "textfield", name: "color", props: { customLabel: "color" } },
-          { type: "textfield", name: "style", props: { customLabel: "style" } },
+          {
+            type: "select",
+            name: "rate",
+            props: {
+              customLabel: "rate",
+              items: [
+                { value: 1, label: "1" },
+                { value: 2, label: "2" },
+                { value: 3, label: "3" },
+                { value: 4, label: "4" },
+                { value: 5, label: "5" },
+              ],
+            },
+          },
           {
             type: "textfield",
             name: "size",
@@ -134,12 +148,12 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
             brand: brand || null,
             categoryId: categoryId || null,
             color: color || null,
-            image: imageUrl || null,
+            imageUrl: imageUrl || null,
             material: material || null,
             name: name || null,
             price: price || null,
             size: size || null,
-            style: style || null,
+            rate: rate || null,
           },
           validations: validationProducts,
           onSubmit: handleSubmit,

@@ -77,12 +77,13 @@ const AddEdit: FC<IAddEditPage> = ({ isEdit }) => {
           {
             type: "textfield",
             name: "title",
-            props: { customLabel: "title" },
+            props: { customLabel: "title", required: true },
           },
           {
             type: "autocomplete",
             name: "authorId",
             props: {
+              required: true,
               customLabel: "author",
               options: map(userSearch, ({ firstName, lastName, id }) => ({
                 value: id,

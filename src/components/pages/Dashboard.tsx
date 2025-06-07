@@ -6,6 +6,7 @@ export const Dashboard: FC = () => {
   return (
     <>
       <HeaderPage title="dashboard" breadcrumbData={[]} justHelmet />
+      Dashboard
     </>
   );
 };

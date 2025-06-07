@@ -38,7 +38,7 @@ const List: FC = () => {
             const { data: userSearch } = useUserSearch();
 
             const { firstName, lastName } =
-              userSearch?.find((item: TAny) => item?.id == row?.authorId) ?? {};
+              userSearch?.find((item: TAny) => item?.id == row?.userId) ?? {};
 
             return firstName + " " + lastName;
           },

@@ -13,6 +13,7 @@ interface Products {
   name?: string | null;
   size?: string | null;
   price?: number | null;
+  rate?: number | null;
   imageUrl?: string | null;
   color?: string | null;
   style?: string | null;

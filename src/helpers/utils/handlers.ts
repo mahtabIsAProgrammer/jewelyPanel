@@ -6,7 +6,9 @@ import {
   type UseMutationResult,
 } from "@tanstack/react-query";
 import type { AlertColor } from "@mui/material";
+
 import { API_URL } from "../constants/static";
+
 import emptyImage from "../../assets/images/empty-image.webp";
 import emptyImageUser from "../../assets/images/empty-image-user.webp";
 
