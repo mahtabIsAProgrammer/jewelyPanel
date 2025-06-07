@@ -6,8 +6,8 @@ import { Grid } from "@mui/material";
 import { mainLayoutSX } from "../../helpers/styles/common/main";
 import { LoadingSideBar, Loading } from "../common/Loading";
 import { Navbar } from "../common/Navbar";
-import { Sidebar } from "../common/Sidebar";
 import { ProtectedLayout } from "./ProtectedLayout";
+import { Sidebar } from "../common/Sidebar";
 
 export const DashboardLayout: FC = () => {
   const { theme, sidebarSize } = useContext(MainContext);
