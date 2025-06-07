@@ -1,4 +1,4 @@
-import { memo, useContext } from "react";
+import { useContext, type FC } from "react";
 import { map } from "lodash";
 import { Grid, Typography } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
@@ -17,7 +17,7 @@ import { sidebarSX } from "../../helpers/styles/common/sidebar";
 import { CustomIcon, CustomImageBox } from "../controllers/CustomImage";
 import { MainContext } from "../../helpers/others/mainContext";
 
-export const Sidebar = memo(() => {
+const Sidebar: FC = () => {
   const { theme } = useContext(MainContext);
   const location = useLocation();
   return (
@@ -44,7 +44,9 @@ export const Sidebar = memo(() => {
       </Grid>
     </Grid>
   );
-});
+};
+
+export default Sidebar;
 
 const routes = [
   {
