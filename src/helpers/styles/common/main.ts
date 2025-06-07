@@ -18,7 +18,10 @@ export const mainLayoutSX = (
   "& .content-box": {
     backgroundColor:
       theme === "light" ? COLOR_BACKGROUND : COLOR_DARK_BACKGROUND,
-    width: `calc(100% - ${SIDE_BAR_SIZE[sidebarSize]})`,
+    width: {
+      xs: "calc(100% - 60px)",
+      md: `calc(100% - ${SIDE_BAR_SIZE[sidebarSize]})`,
+    },
     overflow: "auto",
     transition: ".2s all",
   },

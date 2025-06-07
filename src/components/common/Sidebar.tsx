@@ -20,6 +20,7 @@ import { MainContext } from "../../helpers/others/mainContext";
 const Sidebar: FC = () => {
   const { theme } = useContext(MainContext);
   const location = useLocation();
+
   return (
     <Grid sx={sidebarSX(theme)}>
       <Grid className="logo">

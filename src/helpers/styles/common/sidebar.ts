@@ -18,12 +18,12 @@ import { sidebar_size } from "../../constants/static";
 import { SPACE_SM, SPACE_XS } from "../../constants/spaces";
 
 export const sidebarSX = (theme: TTheme): SxProps<Theme> => ({
-  width: sidebar_size,
-  height: "100vh",
+  width: { xs: "60px", md: `${sidebar_size} !important` },
   p: SPACE_SM,
+  gap: SPACE_XS,
+  height: "100vh",
   display: "flex",
   flexDirection: "column",
-  gap: SPACE_XS,
   backgroundColor: theme === "light" ? COLOR_WHITE : COLOR_BLACK,
   "& .logo": {
     mt: "10px",
@@ -36,8 +36,8 @@ export const sidebarSX = (theme: TTheme): SxProps<Theme> => ({
       height: "45px",
     },
     "& .texts": {
-      display: "flex",
       flexDirection: "column",
+      display: { xs: "none", md: "flex" },
       "& .title": {
         fontSize: FONT_HEADING_MEDIUM,
         fontWeight: FONT_WEIGHT_BLOD,
@@ -60,6 +60,7 @@ export const sidebarSX = (theme: TTheme): SxProps<Theme> => ({
       borderRadius: "8px",
       justifyContent: "space-between",
       "& .text": {
+        display: { xs: "none", md: "flex" },
         fontSize: FONT_BODY,
         fontWeight: FONT_WEIGHT_MEDUIM,
       },

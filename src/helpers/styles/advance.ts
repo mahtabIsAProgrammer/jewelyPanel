@@ -25,6 +25,7 @@ export const addEditPrivderSX = (theme: TTheme): SxProps<Theme> => ({
     "& .form-container": {
       display: "flex",
       gap: SPACE_LG,
+      flexDirection: { xs: "column", md: "row" },
       "& .grid-container": {
         display: "flex",
         width: "100%",
@@ -34,6 +35,7 @@ export const addEditPrivderSX = (theme: TTheme): SxProps<Theme> => ({
           width: "100%",
           display: "flex",
           flexWrap: "wrap",
+
           justifyContent: "space-between",
         },
       },
