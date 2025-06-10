@@ -12,9 +12,6 @@ import {
 } from "@mui/material/styles";
 import { HelmetProvider } from "react-helmet-async";
 
-import { routes } from "../../routes";
-import { Loading } from "../common/Loading";
-import { FONT_FAMILY } from "../../helpers/constants/static";
 import {
   FONT_WEIGHT_BLOD,
   FONT_WEIGHT_REGULAR,
@@ -24,8 +21,12 @@ import {
   COLOR_TEXT,
   COLOR_WHITE,
 } from "../../helpers/constants/colors";
-import { errorAlertICON, successAlertICON } from "../others/SvgComponents";
+import { routes } from "../../routes";
+import { Loading } from "../common/Loading";
+import { FONT_FAMILY } from "../../helpers/constants/static";
+import { MainContextProvider } from "../context/MainContext";
 import { MainContext } from "../../helpers/others/mainContext";
+import { errorAlertICON, successAlertICON } from "../others/SvgComponents";
 
 const MainLayout: FC = () => {
   const children = useRoutes(routes);
@@ -48,40 +49,42 @@ const MainLayout: FC = () => {
   }, [pathname]);
 
   return (
-    <ThemeProvider theme={themeMUI}>
-      <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
-        <HelmetProvider>
-          <SnackbarProvider
-            iconVariant={{
-              success: (
-                <IconButton className="alert-icon">
-                  {successAlertICON()}
-                </IconButton>
-              ),
+    <MainContextProvider>
+      <ThemeProvider theme={themeMUI}>
+        <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
+          <HelmetProvider>
+            <SnackbarProvider
+              iconVariant={{
+                success: (
+                  <IconButton className="alert-icon">
+                    {successAlertICON()}
+                  </IconButton>
+                ),
 
-              error: (
-                <IconButton className="alert-icon">
-                  {errorAlertICON()}
-                </IconButton>
-              ),
-            }}
-            style={{
-              direction: "ltr",
-              backgroundColor: COLOR_WHITE,
-              color: COLOR_TEXT,
-              fontSize: "14px",
-              fontStyle: "normal",
-              fontWeight: FONT_WEIGHT_BLOD,
-              lineHeight: "normal",
-              borderRadius: "12px",
-              boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
-            }}
-          >
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-          </SnackbarProvider>
-        </HelmetProvider>
-      </MaterialCssVarsProvider>
-    </ThemeProvider>
+                error: (
+                  <IconButton className="alert-icon">
+                    {errorAlertICON()}
+                  </IconButton>
+                ),
+              }}
+              style={{
+                direction: "ltr",
+                backgroundColor: COLOR_WHITE,
+                color: COLOR_TEXT,
+                fontSize: "14px",
+                fontStyle: "normal",
+                fontWeight: FONT_WEIGHT_BLOD,
+                lineHeight: "normal",
+                borderRadius: "12px",
+                boxShadow: "0px 8px 16px 0px rgba(145, 158, 171, 0.16)",
+              }}
+            >
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+            </SnackbarProvider>
+          </HelmetProvider>
+        </MaterialCssVarsProvider>
+      </ThemeProvider>
+    </MainContextProvider>
   );
 };
 

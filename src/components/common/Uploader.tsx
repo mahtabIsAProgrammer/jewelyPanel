@@ -103,7 +103,7 @@ export const Uploader = memo<IUploader>(
             <Box className="hover-overlay">{cameraIcon()}</Box>
           </Box>
 
-          <Typography variant="body2" color="text.secondary" textAlign="center">
+          <Typography variant="body2" textAlign="center">
             {preview ? "Image Uploaded!" : "Please upload your image"}
           </Typography>
 

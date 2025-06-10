@@ -25,8 +25,6 @@ const Login: FC = () => {
       try {
         const res = await loginUser(values);
 
-        console.log("🚀 ~ Login response:", res);
-
         const token = res?.data?.token;
         const user = res?.data?.user;
 

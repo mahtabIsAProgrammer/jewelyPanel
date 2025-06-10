@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from "react";
+import { memo, useContext, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 
 import { CustomAvatar } from "../controllers/CustomImage";
@@ -27,10 +27,6 @@ export const Navbar = memo(() => {
   const { imageUrl, lastName, firstName } =
     (userById as unknown as { data: Users & { password: string } })?.data ?? {};
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
-
   return (
     <Grid sx={navbarSX(theme)}>
       <Grid className="content">
@@ -41,10 +37,10 @@ export const Navbar = memo(() => {
           </Typography>
         </Grid>
         <CustomSwitch
-          checked={!checked}
+          checked={checked}
           onChange={(e) => {
             const isChecked = e.target.checked;
-            setChecked(!isChecked);
+            setChecked(isChecked);
             changeTheme(isChecked ? "dark" : "light");
           }}
         />
