@@ -49,6 +49,9 @@ export const CustomDialog = memo<ICustomDialog>(
 
 const dialogSX: SxProps<Theme> = {
   width: "100%",
+  "& .MuiBackdrop-root": {
+    backgroundColor: "rgb(0,0,0,0.2)",
+  },
   "& .MuiPaper-root": {
     py: SPACE_LG,
     px: { xs: SPACE_MD, md: SPACE_2XL },

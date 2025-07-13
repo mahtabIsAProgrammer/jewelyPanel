@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 import { mainLayoutSX } from "../../helpers/styles/common/main";
 import { LoadingSideBar, Loading } from "../common/Loading";
 import { Navbar } from "../common/Navbar";
-import { ProtectedLayout } from "./ProtectedLayout";
+// import { ProtectedLayout } from "./ProtectedLayout";
 import Sidebar from "../../components/common/Sidebar";
 
 export const DashboardLayout: FC = () => {
@@ -22,19 +22,19 @@ export const DashboardLayout: FC = () => {
   // }
 
   return (
-    <ProtectedLayout>
-      <Grid sx={mainLayoutSX(theme, sidebarSize)}>
-        {isLoadingSidebar ? <LoadingSideBar /> : <Sidebar />}
-        <Grid className="content-box">
-          <Navbar />
-          <Grid className="pages-box">
-            <Grid className="items">
-              <Suspense fallback={<Loading />}>{content}</Suspense>
-            </Grid>
+    // <ProtectedLayout>
+    <Grid sx={mainLayoutSX(theme, sidebarSize)}>
+      {isLoadingSidebar ? <LoadingSideBar /> : <Sidebar />}
+      <Grid className="content-box">
+        <Navbar />
+        <Grid className="pages-box">
+          <Grid className="items">
+            <Suspense fallback={<Loading />}>{content}</Suspense>
           </Grid>
-          m
         </Grid>
+        m
       </Grid>
-    </ProtectedLayout>
+    </Grid>
+    // </ProtectedLayout>
   );
 };

@@ -33,7 +33,7 @@ export const Navbar = memo(() => {
         <Grid className="profile-info">
           <CustomAvatar hasBorder src={handleImageUrl(imageUrl || "")} />
           <Typography className="title">
-            {firstName + " " + lastName}
+            {firstName + " " + lastName || "______"}
           </Typography>
         </Grid>
         <CustomSwitch
